@@ -236,4 +236,10 @@ public class TeamManagerController implements Initializable {
                     }
         });
     }
+    
+    @FXML
+    private void handleResume()
+    {
+        
+    }
 }
