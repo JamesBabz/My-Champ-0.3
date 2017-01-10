@@ -91,6 +91,11 @@ public class ChampModel
         teams.add(team);
         setTeamNames();
     }
+    
+    public void loadTeam(Team team)
+    {
+        teams.add(team);
+    }
 
     /**
      * Returns ArrayList of all the teams
@@ -115,7 +120,7 @@ public class ChampModel
     /**
      * Sets the team names
      */
-    private void setTeamNames()
+    public void setTeamNames()
     {
         teamNames.clear();
         for (Team team : teams)
