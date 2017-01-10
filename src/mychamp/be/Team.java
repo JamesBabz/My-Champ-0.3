@@ -26,9 +26,17 @@ public class Team implements Serializable {
     /**
      * The default constructor for generating a new team.
      *
+     * @param id
      * @param name A team name, this name must be unique.
+     * @param played
+     * @param wins
+     * @param draws
+     * @param losses
+     * @param goalAgainst
+     * @param goalFor
+     * @param point
      */
-    public Team(String name)
+    public Team(int id, String name, int played, int wins, int draws, int losses, int goalFor, int goalAgainst, int point)
     {
         this.point = new SimpleIntegerProperty();
         this.goalAgainst = new SimpleIntegerProperty();
@@ -40,13 +48,13 @@ public class Team implements Serializable {
         this.name = new SimpleStringProperty();
         this.id = new SimpleIntegerProperty();
         this.name.set(name);
-        this.played.set(0);
-        this.wins.set(0);
-        this.draws.set(0);
-        this.losses.set(0);
-        this.goalFor.set(0);
-        this.goalAgainst.set(0);
-        this.point.set(0);
+        this.played.set(played);
+        this.wins.set(wins);
+        this.draws.set(draws);
+        this.losses.set(losses);
+        this.goalFor.set(goalFor);
+        this.goalAgainst.set(goalAgainst);
+        this.point.set(point);
 
     }
 

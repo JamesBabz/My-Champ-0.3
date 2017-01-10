@@ -80,17 +80,18 @@ public class TeamManagerController implements Initializable {
         {
             System.out.println(ex);
         }
+        model.getTeamNames();
         updateValidInteractions();
     }
 
     private void loadData() throws IOException, ClassNotFoundException
     {
-        ArrayList<Team> teams = teamManager.loadTeamData();
-        for (Team team : teams)
+        for (Team team : teamManager.loadTeamData())
         {
             model.loadTeam(team);
         }
-        model.setTeamNames();
+      model.setTeamNames();
+        
     }
 
     @FXML
