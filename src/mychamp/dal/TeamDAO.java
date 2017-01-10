@@ -1,14 +1,17 @@
 package mychamp.dal;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import mychamp.be.Team;
+
+
 
 /**
  * Read & Write binary data to a file.
@@ -18,43 +21,74 @@ import mychamp.be.Team;
  */
 public class TeamDAO
 {
-    /**
-     * Writes the given teams data as binary into the given fileName.
-     * This fileName should contain the .dat extension.
-     * @param teams The arraylist of teams to be saved as binary data.
-     * @param fileName The fileName in which to save the data.
-     * @throws IOException 
-     */
-    public void writeObjectData(ArrayList<Team> teams, String fileName) throws IOException
+    protected final String fileName;
+    
+    public TeamDAO(String fileName)
     {
-        try (FileOutputStream fos = new FileOutputStream(fileName))
+       this.fileName = fileName+".txtdat";
+    }
+    
+    public void addTeam(Team team) throws IOException
+    {
+        try (BufferedWriter bw
+                = new BufferedWriter(
+                        new FileWriter(fileName, true)))
         {
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(teams);
+            bw.append(team.getId() + "," + team.getName() +"," + team.getPlayed() 
+                    + "," + team.getWins() + "," + team.getDraws() + "," + team.getLosses() 
+                    + "," + team.getGoalFor() + "," + team.getGoalAgainst() + "," + team.getPoint());
+            bw.newLine();
         }
     }
 
-    /**
-     * Reads the binary data from a file.
-     * Note: The binary data being read must be an ArrayList of teams.
-     * @param fileName The file name to read the data from.
-     * Note: This file name must contain the .dat extension. e.g. Teams.dat.
-     * @return Returns an array list of teams collected from the binary data file.
-     * @throws FileNotFoundException
-     * @throws IOException
-     * @throws ClassNotFoundException 
-     */
-    public ArrayList<Team> readObjectData(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException
+
+    public List<Team> getAll() throws IOException
     {
-        ArrayList<Team> teamList;
+        List<Team> teamList = new ArrayList();
 
-        try (FileInputStream fis = new FileInputStream(fileName))
+        try (BufferedReader br
+                = new BufferedReader(
+                        new FileReader(fileName)))
         {
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            ObjectInputStream ois = new ObjectInputStream(bis);
-            teamList = (ArrayList<Team>) ois.readObject();
+            Scanner scanner = new Scanner(br);
+            while (scanner.hasNext())
+            {
+                String line = scanner.nextLine();
+                String[] fields = line.split(",");
+                teamList.add(
+                        new Team(
+                                Integer.parseInt(fields[0].trim()),
+                                fields[1].trim(), 
+                                Integer.parseInt(fields[2].trim()),
+                                Integer.parseInt(fields[3].trim()),
+                                Integer.parseInt(fields[4].trim()),
+                                Integer.parseInt(fields[5].trim()),
+                                Integer.parseInt(fields[6].trim()),
+                                Integer.parseInt(fields[7].trim()),
+                                Integer.parseInt(fields[8].trim())
+                        ));
+            }
         }
-
         return teamList;
     }
+
+    public void saveAll(List<Team> teams) throws IOException
+    {
+    RandomAccessFile raf = new RandomAccessFile(fileName, "rw");
+        raf.setLength(0);
+        try (BufferedWriter bw
+                = new BufferedWriter(
+                        new FileWriter(fileName, true)))
+        {
+            for (Team team : teams)
+            {
+
+                bw.append(team.getId() + "," + team.getName() +"," + team.getPlayed() 
+                    + "," + team.getWins() + "," + team.getDraws() + "," + team.getLosses() 
+                    + "," + team.getGoalFor() + "," + team.getGoalAgainst() + "," + team.getPoint());
+                bw.newLine();
+            }
+        }
+    }
+ 
 }
