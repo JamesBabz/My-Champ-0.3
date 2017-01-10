@@ -1,5 +1,6 @@
 package mychamp.gui.model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -12,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mychamp.be.Group;
 import mychamp.be.Team;
+import mychamp.bll.TeamManager;
 import mychamp.dal.TeamDAO;
 
 /**
@@ -25,6 +27,7 @@ public class ChampModel
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
     private final TeamDAO teamDAO;
+    private final TeamManager teamManager;
     private Team editTeam;
     private Group group;
     private int[] firstMatch;
@@ -50,6 +53,7 @@ public class ChampModel
      */
     private ChampModel()
     {
+        this.teamManager = new TeamManager();
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
@@ -235,4 +239,8 @@ public class ChampModel
         return test;
     }
 
+    public ArrayList<Team> getTeamData() throws IOException, FileNotFoundException, ClassNotFoundException
+    {
+        return teamDAO.readObjectData("TeamData.dat");
+    }
 }
