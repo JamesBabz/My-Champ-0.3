@@ -12,8 +12,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class TeamManager
-{
+public class TeamManager {
+
     public TeamDAO teamDAO;
     public ChampModel model;
 
@@ -28,22 +28,26 @@ public class TeamManager
 
     /**
      * Loads the data currently stored in TeamData.dat
+     *
+     * @return
      * @throws IOException
      * @throws FileNotFoundException
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
-    public void loadTeamData() throws IOException, FileNotFoundException, ClassNotFoundException
+    public ArrayList<Team> loadTeamData() throws IOException, FileNotFoundException, ClassNotFoundException
     {
-        model.getTeams().clear();
+        ArrayList<Team> teams = new ArrayList<>();
         for (Team team : teamDAO.readObjectData("TeamData.dat"))
         {
-            model.addTeam(team.getName());
+            teams.add(team);
         }
+        return teams;
     }
 
     /**
      * Saves the current team data into TeamData.dat
-     * @throws IOException 
+     *
+     * @throws IOException
      */
     public void saveTeamData() throws IOException
     {

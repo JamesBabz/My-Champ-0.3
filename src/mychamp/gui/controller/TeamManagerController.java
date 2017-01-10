@@ -2,6 +2,7 @@ package mychamp.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import mychamp.be.Team;
 import mychamp.bll.TeamManager;
 import mychamp.gui.model.ChampModel;
 
@@ -28,8 +30,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class TeamManagerController implements Initializable
-{
+public class TeamManagerController implements Initializable {
+
     private final static int MIN_TEAMS = 12;
     private final static int MAX_TEAMS = 16;
     private final ChampModel model;
@@ -65,23 +67,30 @@ public class TeamManagerController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+
         btnEdit.setDisable(true);
         btnRemove.setDisable(true);
         btnStart.setDisable(true);
         listTeams.setItems(model.getTeamNames());
         try
         {
-            teamManager.loadTeamData();
+            loadData();
         }
-        catch (IOException ex)
+        catch (IOException | ClassNotFoundException ex)
         {
-            Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
         updateValidInteractions();
+    }
+
+    private void loadData() throws IOException, ClassNotFoundException
+    {
+        ArrayList<Team> teams = teamManager.loadTeamData();
+        for (Team team : teams)
+        {
+            model.loadTeam(team);
+        }
+        model.setTeamNames();
     }
 
     @FXML
@@ -185,8 +194,7 @@ public class TeamManagerController implements Initializable
      */
     private void observableListListener(ObservableList list)
     {
-        list.addListener(new ListChangeListener()
-        {
+        list.addListener(new ListChangeListener() {
             @Override
             public void onChanged(ListChangeListener.Change change)
             {
@@ -212,19 +220,20 @@ public class TeamManagerController implements Initializable
      */
     private void updateValidInteractions()
     {
-        listTeams.getSelectionModel().selectedItemProperty().addListener((selected, oldValue, newValue) ->
-        {
-            if (selected.getValue() == null)
-            {
-                btnEdit.setDisable(true);
-                btnRemove.setDisable(true);
-            }
-            else
-            {
-                selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
-                btnEdit.setDisable(false);
-                btnRemove.setDisable(false);
-            }
+        listTeams.getSelectionModel().selectedItemProperty().addListener((selected, oldValue, newValue)
+                -> 
+                {
+                    if (selected.getValue() == null)
+                    {
+                        btnEdit.setDisable(true);
+                        btnRemove.setDisable(true);
+                    }
+                    else
+                    {
+                        selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
+                        btnEdit.setDisable(false);
+                        btnRemove.setDisable(false);
+                    }
         });
     }
 }
