@@ -17,6 +17,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="btnStart" layoutX="480.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleStart" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: lightgreen;" text="Start" />
+      <Button fx:id="btnStart" layoutX="371.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleStart" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: lightgreen;" text="New" />
+      <Button fx:id="btnResume" layoutX="480.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleResume" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: #FFFF66;" text="Resume" />
    </children>
 </AnchorPane>
