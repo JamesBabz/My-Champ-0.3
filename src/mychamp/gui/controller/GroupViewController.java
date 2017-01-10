@@ -178,15 +178,6 @@ public class GroupViewController implements Initializable
         openNextRound("group D");
     }
 
-    @FXML
-    private void update()
-    {
-        tableA.refresh();
-        tableB.refresh();
-        tableC.refresh();
-        tableD.refresh();
-    }
-
     /**
      * Populates the four tables with the required data to represent a team.
      */
