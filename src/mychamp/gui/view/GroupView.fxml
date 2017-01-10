@@ -29,7 +29,6 @@
                   <TableColumn fx:id="colPointsA" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
               </columns>
             </TableView>
-            <Button fx:id="update" mnemonicParsing="false" onAction="#update" text="Button" />
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewA" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
                   <Insets left="645.0" top="2.0" />

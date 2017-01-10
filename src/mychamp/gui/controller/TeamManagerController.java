@@ -30,7 +30,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class TeamManagerController implements Initializable {
+public class TeamManagerController implements Initializable
+{
 
     private final static int MIN_TEAMS = 12;
     private final static int MAX_TEAMS = 16;
@@ -50,6 +51,8 @@ public class TeamManagerController implements Initializable {
     private Button btnStart;
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Button btnResume;
 
     /**
      * The default constructor for this controller class.
@@ -80,17 +83,8 @@ public class TeamManagerController implements Initializable {
         {
             System.out.println(ex);
         }
+        model.getTeamNames();
         updateValidInteractions();
-    }
-
-    private void loadData() throws IOException, ClassNotFoundException
-    {
-        ArrayList<Team> teams = teamManager.loadTeamData();
-        for (Team team : teams)
-        {
-            model.loadTeam(team);
-        }
-        model.setTeamNames();
     }
 
     @FXML
@@ -104,7 +98,6 @@ public class TeamManagerController implements Initializable {
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @FXML
@@ -165,15 +158,6 @@ public class TeamManagerController implements Initializable {
     @FXML
     private void handleStart()
     {
-        try
-        {
-            teamManager.saveTeamData();
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
         Stage primaryStage = (Stage) listTeams.getScene().getWindow();
         primaryStage.close();
 
@@ -186,6 +170,28 @@ public class TeamManagerController implements Initializable {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    @FXML
+    private void handleResume()
+    {
+        
+    }
+
+    /**
+     * Loads the required team data from the autogenrated file.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void loadData() throws IOException, ClassNotFoundException
+    {
+        for (Team team : teamManager.loadTeamData())
+        {
+            model.loadTeam(team);
+        }
+        model.setTeamNames();
+
+    }
 
     /**
      * Listens to changes in a given observable list.
@@ -194,23 +200,20 @@ public class TeamManagerController implements Initializable {
      */
     private void observableListListener(ObservableList list)
     {
-        list.addListener(new ListChangeListener() {
-            @Override
-            public void onChanged(ListChangeListener.Change change)
+        list.addListener((ListChangeListener.Change change) ->
+        {
+            int amount = list.size();
+            if (amount >= MIN_TEAMS)
             {
-                int amount = list.size();
-                if (amount >= MIN_TEAMS)
-                {
-                    btnStart.setDisable(false);
-                }
-                if (amount == MAX_TEAMS)
-                {
-                    btnAdd.setDisable(true);
-                }
-                else if (amount < MAX_TEAMS)
-                {
-                    btnAdd.setDisable(false);
-                }
+                btnStart.setDisable(false);
+            }
+            if (amount == MAX_TEAMS)
+            {
+                btnAdd.setDisable(true);
+            }
+            else if (amount < MAX_TEAMS)
+            {
+                btnAdd.setDisable(false);
             }
         });
     }
@@ -220,20 +223,19 @@ public class TeamManagerController implements Initializable {
      */
     private void updateValidInteractions()
     {
-        listTeams.getSelectionModel().selectedItemProperty().addListener((selected, oldValue, newValue)
-                -> 
-                {
-                    if (selected.getValue() == null)
-                    {
-                        btnEdit.setDisable(true);
-                        btnRemove.setDisable(true);
-                    }
-                    else
-                    {
-                        selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
-                        btnEdit.setDisable(false);
-                        btnRemove.setDisable(false);
-                    }
+        listTeams.getSelectionModel().selectedItemProperty().addListener((selected, oldValue, newValue) ->
+        {
+            if (selected.getValue() == null)
+            {
+                btnEdit.setDisable(true);
+                btnRemove.setDisable(true);
+            }
+            else
+            {
+                selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
+                btnEdit.setDisable(false);
+                btnRemove.setDisable(false);
+            }
         });
     }
 }

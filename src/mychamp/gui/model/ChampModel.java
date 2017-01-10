@@ -2,6 +2,8 @@ package mychamp.gui.model;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +36,7 @@ public class ChampModel
 
     /**
      * A singleton pattern to retrieve model data.
+     *
      * @return Returns the initialized model.
      */
     public static ChampModel getInstance()
@@ -53,16 +56,18 @@ public class ChampModel
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
-        teamDAO = new TeamDAO();
+        teamDAO = new TeamDAO("TeamData");
 
     }
 
     /**
      * Generates and opens a new view.
-     * @param pane The pane to get the window owner of. (Typically the current pane)
+     *
+     * @param pane The pane to get the window owner of. (Typically the current
+     * pane)
      * @param viewName
      * @param title
-     * @throws IOException 
+     * @throws IOException
      */
     public void openNewView(Pane pane, String viewName, String title) throws IOException
     {
@@ -78,6 +83,17 @@ public class ChampModel
         newStage.setTitle(title);
 
         newStage.show();
+        newStage.setOnCloseRequest(value ->
+        {
+            try
+            {
+                teamDAO.saveTeamData(teams);
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(ChampModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 
     /**
@@ -87,11 +103,11 @@ public class ChampModel
      */
     public void addTeam(String name)
     {
-        Team team = new Team(name);
+        Team team = new Team(1, name, 0, 0, 0, 0, 0, 0, 0);
         teams.add(team);
         setTeamNames();
     }
-    
+
     public void loadTeam(Team team)
     {
         teams.add(team);
@@ -131,6 +147,7 @@ public class ChampModel
 
     /**
      * Removes a team from the list by a given index.
+     *
      * @param teamIndex The index of the team.
      */
     public void removeTeam(int teamIndex)
@@ -141,6 +158,7 @@ public class ChampModel
 
     /**
      * Edits a team by it's given index.
+     *
      * @param teamIndex The index of the team to be edited.
      */
     public void setEditTeam(int teamIndex)
@@ -157,6 +175,7 @@ public class ChampModel
 
     /**
      * Gets the recently edited team.
+     *
      * @return Returns a team representing the most recent edited team.
      */
     public Team getEditTeam()
@@ -166,22 +185,23 @@ public class ChampModel
 
     /**
      * Edits the name of the current editable team.
+     *
      * @param name The new name of the team.
      */
     public void editTeam(String name)
     {
         int index = teams.indexOf(editTeam);
-        teams.set(index, new Team(name));
+        teams.set(index, new Team(1, name, 0, 0, 0, 0, 0, 0, 0));
         editTeam = null;
         setTeamNames();
     }
 
     /**
-     * 
+     *
      * @param home1Id
      * @param away1Id
      * @param home2Id
-     * @param away2Id 
+     * @param away2Id
      */
     public void setRoundTeams(int home1Id, int away1Id, int home2Id, int away2Id)
     {
@@ -196,8 +216,8 @@ public class ChampModel
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public int[] getFirstMatch()
     {
@@ -205,8 +225,8 @@ public class ChampModel
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public int[] getSecondMatch()
     {
@@ -214,8 +234,8 @@ public class ChampModel
     }
 
     /**
-     * 
-     * @param group 
+     *
+     * @param group
      */
     public void setGroup(Group group)
     {
@@ -223,8 +243,8 @@ public class ChampModel
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public Group getGroup()
     {
@@ -232,8 +252,8 @@ public class ChampModel
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public ObservableList<String> getTest()
     {

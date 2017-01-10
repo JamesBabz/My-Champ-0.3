@@ -1,8 +1,8 @@
 package mychamp.bll;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import mychamp.be.Team;
 import mychamp.dal.TeamDAO;
 import mychamp.gui.model.ChampModel;
@@ -22,26 +22,17 @@ public class TeamManager {
      */
     public TeamManager()
     {
-        teamDAO = new TeamDAO();
+        teamDAO = new TeamDAO("TeamData");
         model = ChampModel.getInstance();
     }
 
     /**
      * Loads the data currently stored in TeamData.dat
-     *
-     * @return
-     * @throws IOException
-     * @throws FileNotFoundException
-     * @throws ClassNotFoundException
      */
-    public ArrayList<Team> loadTeamData() throws IOException, FileNotFoundException, ClassNotFoundException
+    public List<Team> loadTeamData() throws IOException
     {
-        ArrayList<Team> teams = new ArrayList<>();
-        for (Team team : teamDAO.readObjectData("TeamData.dat"))
-        {
-            teams.add(team);
-        }
-        return teams;
+      return teamDAO.getTeamData();
+      
     }
 
     /**
@@ -56,7 +47,7 @@ public class TeamManager {
         {
             teamsToSave.add(team);
         }
-        teamDAO.writeObjectData(teamsToSave, "TeamData.dat");
+        teamDAO.saveTeamData(teamsToSave);
     }
 
 }
