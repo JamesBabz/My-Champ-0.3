@@ -1,24 +1,27 @@
 package mychamp.be;
 
 import java.io.Serializable;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class Team implements Serializable
-{
+public class Team implements Serializable {
+    private final IntegerProperty id;
+    private final StringProperty name;
+    private final IntegerProperty played;
+    private final IntegerProperty wins;
+    private final IntegerProperty draws;
+    private final IntegerProperty losses;
+    private final IntegerProperty goalFor;
+    private final IntegerProperty goalAgainst;
+    private final IntegerProperty point;
 
-    int id;
-    String name;
-    int played;
-    int wins;
-    int draws;
-    int losses;
-    int goalFor;
-    int goalAgainst;
-    int point;
 
     /**
      * The default constructor for generating a new team.
@@ -27,26 +30,26 @@ public class Team implements Serializable
      */
     public Team(String name)
     {
-        this.name = name;
-        this.played = 0;
-        this.wins = 0;
-        this.draws = 0;
-        this.losses = 0;
-        this.goalFor = 0;
-        this.goalAgainst = 0;
-        this.point = 0;
+        this.point = new SimpleIntegerProperty();
+        this.goalAgainst = new SimpleIntegerProperty();
+        this.goalFor = new SimpleIntegerProperty();
+        this.losses = new SimpleIntegerProperty();
+        this.draws = new SimpleIntegerProperty();
+        this.wins = new SimpleIntegerProperty();
+        this.played = new SimpleIntegerProperty();
+        this.name = new SimpleStringProperty();
+        this.id = new SimpleIntegerProperty();
+        this.name.set(name);
+        this.played.set(0);
+        this.wins.set(0);
+        this.draws.set(0);
+        this.losses.set(0);
+        this.goalFor.set(0);
+        this.goalAgainst.set(0);
+        this.point.set(0);
 
     }
 
-    /**
-     * Gets the team's Id represented by an integer.
-     *
-     * @return Returns the id.
-     */
-    public int getId()
-    {
-        return id;
-    }
 
     /**
      * Sets the team's Id.
@@ -55,71 +58,93 @@ public class Team implements Serializable
      *
      * @param id The new ID for this team.
      */
-    public void setId(int id)
+//    public void setId(int id)
+//    {
+//        this.id = id;
+//    }
+
+        /**
+     * Gets the team's Id represented by an integer.
+     *
+     * @return Returns the id.
+     */
+    public int getId()
     {
-        this.id = id;
+        return id.get();
     }
 
-    /**
-     * Gets the name of this team.
-     *
-     * @return Returns the team's name.
-     */
-    public String getName()
+    public void setId(int value)
     {
-        return name;
+        id.set(value);
+    }
+    
+        /**
+     *
+     * @return
+     */
+    public int getGoalAgainst()
+    {
+        return goalAgainst.get();
     }
 
-    /**
-     * Sets the name of this team.
+        /**
      *
-     * @param name The name of the team represented by a String.
+     * @param goalAgainst
      */
-    public void setName(String name)
+    public void setGoalAgainst(int value)
     {
-        this.name = name;
+        goalAgainst.set(value);
     }
 
-    /**
-     * Gets the amount of rounds played.
-     *
-     * @return Returns the amount of rounds played represented by an integer
-     * value.
-     */
-    public int getPlayed()
+    public IntegerProperty goalAgainstProperty()
     {
-        return played;
+        return goalAgainst;
     }
 
-    /**
-     * Sets the amount of rounds played.
-     *
-     * @param played An integer representing the amount of rounds played.
-     */
-    public void setPlayed(int played)
+    public int getGoalFor()
     {
-        this.played = played;
+        return goalFor.get();
     }
 
-    /**
-     * Gets the amount of wins this team has.
+        /**
      *
-     * @return Returns the amount of wins this team has, represented by an
-     * integer.
+     * @param goalFor
      */
-    public int getWins()
+    public void setGoalFor(int value)
     {
-        return wins;
+        goalFor.set(value);
     }
 
-    /**
-     * Sets the amount of wins this team has.
-     *
-     * @param wins The amount of wins, represented by an integer value.
-     */
-    public void setWins(int wins)
+    public IntegerProperty goalForProperty()
     {
-        this.wins = wins;
+        return goalFor;
+    }
+
+    
+    /**
+     * Gets the amount of losses rounds this team has.
+     *
+     * @return Returns the amount of losses rounds this team has, represented by
+     * an integer.
+     */
+    public int getLosses()
+    {
+        return losses.get();
+    }
+
+        /**
+     * Sets the amount of losses this team has.
+     *
+     * @param losses The amount of losses.
+     */
+    public void setLosses(int value)
+    {
+        losses.set(value);
+    }
+
+    public IntegerProperty lossesProperty()
+    {
+        return losses;
     }
 
     /**
@@ -130,74 +155,100 @@ public class Team implements Serializable
      */
     public int getDraws()
     {
-        return draws;
+        return draws.get();
     }
 
+    
     /**
      * Sets the amount of draws this team has.
      *
      * @param draws The amount of draws, represented by an integer value.
      */
-    public void setDraws(int draws)
+    public void setDraws(int value)
     {
-        this.draws = draws;
+        draws.set(value);
+    }
+
+    public IntegerProperty drawsProperty()
+    {
+        return draws;
     }
 
     /**
-     * Gets the amount of losses rounds this team has.
+     * Gets the amount of wins this team has.
      *
-     * @return Returns the amount of losses rounds this team has, represented by
-     * an integer.
+     * @return Returns the amount of wins this team has, represented by an
+     * integer.
      */
-    public int getLosses()
+    public int getWins()
     {
-        return losses;
+        return wins.get();
     }
 
     /**
-     * Sets the amount of losses this team has.
+     * Sets the amount of wins this team has.
      *
-     * @param losses The amount of losses.
+     * @param wins The amount of wins, represented by an integer value.
      */
-    public void setLosses(int losses)
+    public void setWins(int value)
     {
-        this.losses = losses;
+        wins.set(value);
+    }
+
+    public IntegerProperty winsProperty()
+    {
+        return wins;
     }
 
     /**
+     * Gets the amount of rounds played.
      *
-     * @return
+     * @return Returns the amount of rounds played represented by an integer
+     * value.
      */
-    public int getGoalFor()
+    public int getPlayed()
     {
-        return goalFor;
+        return played.get();
     }
 
     /**
+     * Sets the amount of rounds played.
      *
-     * @param goalFor
+     * @param played An integer representing the amount of rounds played.
      */
-    public void setGoalFor(int goalFor)
+    public void setPlayed(int value)
     {
-        this.goalFor = goalFor;
+        played.set(value);
+    }
+
+    public IntegerProperty playedProperty()
+    {
+        return played;
     }
 
     /**
+     * Gets the name of this team.
      *
-     * @return
+     * @return Returns the team's name.
      */
-    public int getGoalAgainst()
+    public String getName()
     {
-        return goalAgainst;
+        return name.get();
     }
 
     /**
+     * Sets the name of this team.
      *
-     * @param goalAgainst
+     * @param name The name of the team represented by a String.
      */
-    public void setGoalAgainst(int goalAgainst)
+    public void setName(String value)
     {
-        this.goalAgainst = goalAgainst;
+        name.set(value);
+    }
+
+    public StringProperty nameProperty()
+    {
+        return name;
     }
 
     /**
@@ -208,7 +259,7 @@ public class Team implements Serializable
      */
     public int getPoint()
     {
-        return point;
+        return point.get();
     }
 
     /**
@@ -216,7 +267,12 @@ public class Team implements Serializable
      */
     public void setPoint()
     {
-        this.point = getWins() * 3 + getDraws();
+        point.set(wins.get()*3+draws.get());
+    }
+
+    public IntegerProperty pointProperty()
+    {
+        return point;
     }
 
 }

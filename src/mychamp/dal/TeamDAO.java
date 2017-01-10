@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mychamp.be.Team;
 
 /**
@@ -25,12 +27,16 @@ public class TeamDAO
      * @param fileName The fileName in which to save the data.
      * @throws IOException 
      */
-    public void writeObjectData(ArrayList<Team> teams, String fileName) throws IOException
+    public void writeObjectData(ArrayList<Team> teams, String fileName)
     {
         try (FileOutputStream fos = new FileOutputStream(fileName))
         {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(teams);
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(TeamDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
