@@ -53,7 +53,7 @@ public class ChampModel
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
-        teamDAO = new TeamDAO();
+        teamDAO = new TeamDAO("TeamData");
 
     }
 
@@ -87,7 +87,7 @@ public class ChampModel
      */
     public void addTeam(String name)
     {
-        Team team = new Team(name);
+        Team team = new Team(1, name, 0, 0, 0, 0, 0, 0, 0);
         teams.add(team);
         setTeamNames();
     }
@@ -171,7 +171,7 @@ public class ChampModel
     public void editTeam(String name)
     {
         int index = teams.indexOf(editTeam);
-        teams.set(index, new Team(name));
+        teams.set(index, new Team(1, name, 0, 0, 0, 0, 0, 0, 0));
         editTeam = null;
         setTeamNames();
     }
