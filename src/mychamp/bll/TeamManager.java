@@ -31,7 +31,7 @@ public class TeamManager {
      */
     public List<Team> loadTeamData() throws IOException
     {
-      return teamDAO.getAll();
+      return teamDAO.getTeamData();
       
     }
 
@@ -47,7 +47,7 @@ public class TeamManager {
         {
             teamsToSave.add(team);
         }
-        teamDAO.saveAll(teamsToSave);
+        teamDAO.saveTeamData(teamsToSave);
     }
 
 }
