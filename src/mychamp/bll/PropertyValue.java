@@ -9,9 +9,9 @@ public enum PropertyValue
 {
     NAME("name"),
     PLAYED("played"),
-    WON("won"),
-    DRAW("draw"),
-    LOST("lost"),
+    WON("wins"),
+    DRAW("draws"),
+    LOST("losses"),
     GF("goalFor"),
     GA("goalAgainst"),
     POINTS("point");
