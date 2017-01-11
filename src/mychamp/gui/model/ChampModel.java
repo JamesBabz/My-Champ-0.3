@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import mychamp.be.Group;
 import mychamp.be.Team;
 import mychamp.dal.TeamDAO;
+import mychamp.be.Match;
 
 /**
  *
@@ -26,11 +27,13 @@ public class ChampModel
     private final ArrayList<Team> teams;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
+    private final ArrayList<Match> matches;
     private final TeamDAO teamDAO;
     private Team editTeam;
     private Group group;
     private int[] firstMatch;
     private int[] secondMatch;
+    private boolean isResumed;
 
     private static ChampModel instance;
 
@@ -53,10 +56,14 @@ public class ChampModel
      */
     private ChampModel()
     {
+      
+        this.isResumed = false;
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
+        matches = new ArrayList<>();
         teamDAO = new TeamDAO("TeamData");
+        
 
     }
 
@@ -251,13 +258,22 @@ public class ChampModel
         return group;
     }
 
-    /**
-     *
-     * @return
-     */
-    public ObservableList<String> getTest()
+
+    public boolean getResumed()
     {
-        return test;
+        return isResumed;
     }
+    
+    public void setResumed(boolean resume)
+    {
+        isResumed = resume;
+    }
+    
+    public void addMatch(Team ht, Team at, int hs, int as)
+    {
+        Match match = new Match(ht, at, hs, as);
+        matches.add(match);
+    }
+ 
 
 }

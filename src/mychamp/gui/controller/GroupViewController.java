@@ -14,12 +14,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import mychamp.be.Group;
 import mychamp.be.Team;
@@ -32,8 +35,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class GroupViewController implements Initializable
-{
+public class GroupViewController implements Initializable {
+
     ChampModel model;
 
 //    private final static String[] cellValues = new String[]{"name",""};
@@ -127,8 +130,6 @@ public class GroupViewController implements Initializable
 
     @FXML
     private AnchorPane anchorPane;
-    @FXML
-    private Button update;
 
     /**
      * Initializes the controller class.
@@ -144,6 +145,7 @@ public class GroupViewController implements Initializable
         setTeamIds();
 
         populateTables();
+
     }
 
     @FXML
@@ -263,7 +265,8 @@ public class GroupViewController implements Initializable
             if (currentGroup == 3)
             {
                 currentGroup = 0;
-            } else
+            }
+            else
             {
                 currentGroup++;
             }
@@ -280,7 +283,8 @@ public class GroupViewController implements Initializable
         try
         {
             model.openNewView(anchorPane, "NextRoundView", title);
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -357,7 +361,20 @@ public class GroupViewController implements Initializable
         for (TableColumn clmn : tableList)
         {
             clmn.setCellValueFactory(new PropertyValueFactory<>(PropertyValue.values()[x].toString()));
+            if (x == 0)
+            {
+
+                clmn.setCellFactory(TextFieldTableCell.forTableColumn());
+            }
             x++;
         }
     }
+
+    @FXML
+    private void handleEditCommit(CellEditEvent<Team, String> event)
+    {
+        ((Team) event.getTableView().getItems().get(
+                event.getTablePosition().getRow())).setName(event.getNewValue());
+    }
+
 }
