@@ -30,6 +30,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import mychamp.be.Group;
 import mychamp.be.Team;
 import mychamp.bll.PropertyValue;
@@ -47,6 +48,7 @@ public class GroupViewController implements Initializable {
 
 //    private final static String[] cellValues = new String[]{"name",""};
     private ArrayList<Team> teams;
+    private ArrayList<Group> groups;
     private ObservableList<Team> groupATeams;
     private ObservableList<Team> groupBTeams;
     private ObservableList<Team> groupCTeams;
@@ -144,6 +146,8 @@ public class GroupViewController implements Initializable {
     private Button btnNxtRndC;
     @FXML
     private Button btnNxtRndD;
+    @FXML
+    private Button btnGoToFinals;
 
     /**
      * Initializes the controller class.
@@ -156,6 +160,7 @@ public class GroupViewController implements Initializable {
 
         model = ChampModel.getInstance();
         teams = model.getTeams();
+        groups = new ArrayList<>();
         groupInit();
         setTeamIds();
         sortingListener();
@@ -248,6 +253,11 @@ public class GroupViewController implements Initializable {
         groupB = new Group("B", groupBTeams);
         groupC = new Group("C", groupCTeams);
         groupD = new Group("D", groupDTeams);
+        
+        groups.add(groupA);
+        groups.add(groupB);
+        groups.add(groupC);
+        groups.add(groupD);
     }
 
     /**
@@ -402,7 +412,7 @@ public class GroupViewController implements Initializable {
             x++;
         }
     }
-
+    
     @FXML
     private void handleEditCommit(CellEditEvent<Team, String> event)
     {
@@ -410,28 +420,40 @@ public class GroupViewController implements Initializable {
                 event.getTablePosition().getRow())).setName(event.getNewValue());
     }
 
-    private void groupIsDoneListener()
+private void groupIsDoneListener()
     {
-        groupA.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-                -> 
-                {
-                    btnNxtRndA.setDisable(true);
-        });
-        groupB.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-                -> 
-                {
-                    btnNxtRndB.setDisable(true);
-        });
-        groupC.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-                -> 
-                {
-                    btnNxtRndC.setDisable(true);
-        });
-        groupD.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
-                -> 
-                {
-                    btnNxtRndD.setDisable(true);
-        });
+        for (Group group : groups)
+        {
+            group.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+                    -> 
+                    {
+                        Button btn;
+                        if (group.equals(groupA))
+                        {
+                            btn = btnNxtRndA;
+                        }
+                        else if (group.equals(groupB))
+                        {
+                            btn = btnNxtRndB;
+                        }
+                        else if (group.equals(groupC))
+                        {
+                            btn = btnNxtRndC;
+                        }
+                        else if (group.equals(groupD))
+                        {
+                            btn = btnNxtRndD;
+                        }else
+                        {
+                            btn = null;
+                        }
+                        btn.setDisable(true);
+                        if (btnNxtRndA.isDisabled() && btnNxtRndB.isDisabled() && btnNxtRndC.isDisabled() && btnNxtRndD.isDisabled())
+                        {
+                                btnGoToFinals.setDisable(false);
+                        }
+            });
+        }
     }
 
     private void sortingListener()
@@ -442,13 +464,6 @@ public class GroupViewController implements Initializable {
         sortGroup("D");
     }
 
-    @FXML
-    private void update()
-    {
-        Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
-        comparator = comparator.reversed();
-        FXCollections.sort(groupATeams, comparator);
-    }
 
     private void sortGroup(String groupTeamsString)
     {
@@ -485,6 +500,39 @@ public class GroupViewController implements Initializable {
                     FXCollections.sort(groupTeams, comparator);
                 }
             });
+        }
+    }
+
+    public void getQuarterFinalTeams()
+    {
+        
+        model.setQuarterFinalTeams(tableA.getItems().get(0));
+        model.setQuarterFinalTeams(tableA.getItems().get(1));
+        
+        model.setQuarterFinalTeams(tableB.getItems().get(0));
+        model.setQuarterFinalTeams(tableB.getItems().get(1));
+        
+        model.setQuarterFinalTeams(tableC.getItems().get(0));
+        model.setQuarterFinalTeams(tableC.getItems().get(1));
+        
+        model.setQuarterFinalTeams(tableD.getItems().get(0));
+        model.setQuarterFinalTeams(tableD.getItems().get(1));
+        
+        
+    }
+
+    @FXML
+    private void goToFinals(ActionEvent event)
+    {
+           Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
+        primaryStage.close();
+
+        try
+        {
+            model.openNewView(anchorPane, "FinalsView", "");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
