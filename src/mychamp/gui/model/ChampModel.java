@@ -17,6 +17,7 @@ import mychamp.be.Team;
 import mychamp.dal.TeamDAO;
 import mychamp.be.Match;
 
+
 /**
  *
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
@@ -25,6 +26,7 @@ import mychamp.be.Match;
 public class ChampModel
 {
     private final ArrayList<Team> teams;
+    private final ArrayList<Team> teamsToQuarter;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
     private final ArrayList<Match> matches;
@@ -63,6 +65,7 @@ public class ChampModel
         teams = new ArrayList<>();
         matches = new ArrayList<>();
         teamDAO = new TeamDAO("TeamData");
+        teamsToQuarter = new ArrayList<>();
         
 
     }
@@ -273,6 +276,20 @@ public class ChampModel
     {
         Match match = new Match(ht, at, hs, as);
         matches.add(match);
+    }
+
+    public ArrayList<Team> getTeamsToQuarter()
+    {
+        return teamsToQuarter;
+    }
+    
+
+    
+
+    public void setQuarterFinalTeams(Team team)
+    {
+        teamsToQuarter.add(team);
+        
     }
  
 
