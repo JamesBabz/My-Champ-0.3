@@ -10,14 +10,15 @@
    <children>
       <ListView fx:id="listTeams" layoutX="12.0" layoutY="53.0" prefHeight="295.0" prefWidth="577.0" />
       <Button fx:id="btnAdd" layoutX="14.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleAddTeam" prefHeight="27.0" prefWidth="106.0" text="Add Team" />
-      <Button fx:id="btnRemove" layoutX="232.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleRemoveTeam" text="Remove Team" />
+      <Button fx:id="btnRemove" layoutX="232.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleRemoveTeam" prefHeight="27.0" prefWidth="106.0" text="Remove Team" />
       <Button fx:id="btnEdit" layoutX="123.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleEditTeam" prefHeight="27.0" prefWidth="106.0" text="Edit Team" />
       <Label layoutX="171.0" layoutY="14.0" text=" Tournament Management System">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Button fx:id="btnStart" layoutX="371.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleStart" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: lightgreen;" text="New" />
+      <Button fx:id="btnStart" layoutX="371.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleStart" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: lightgreen;" text="Start" />
       <Button fx:id="btnResume" layoutX="480.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleResume" prefHeight="27.0" prefWidth="106.0" style="-fx-background-color: #FFFF66;" text="Resume" />
+      <Button fx:id="btnNew" layoutX="455.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleNewTournament" prefHeight="27.0" prefWidth="131.0" text="New Tournament" />
    </children>
 </AnchorPane>
