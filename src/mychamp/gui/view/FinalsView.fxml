@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="407.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.view.FinalsViewController">
+<AnchorPane id="AnchorPane" prefHeight="407.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.controller.FinalsViewController">
    <children>
       <TableView id="quarterFinalA" fx:id="quarterFinalA" layoutX="32.0" layoutY="34.0" prefHeight="70.0" prefWidth="204.0">
         <columns>
