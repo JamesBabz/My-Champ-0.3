@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -130,6 +130,14 @@ public class GroupViewController implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Button btnNxtRndA;
+    @FXML
+    private Button btnNxtRndB;
+    @FXML
+    private Button btnNxtRndC;
+    @FXML
+    private Button btnNxtRndD;
 
     /**
      * Initializes the controller class.
@@ -145,6 +153,8 @@ public class GroupViewController implements Initializable {
         setTeamIds();
 
         populateTables();
+        groupIsDoneListener();
+        
 
     }
 
@@ -246,7 +256,7 @@ public class GroupViewController implements Initializable {
         {
             Collections.shuffle(teams);
         }
-        
+
         int currentGroup = 0;
         for (Team team : teams)
         {
@@ -380,6 +390,26 @@ public class GroupViewController implements Initializable {
     {
         ((Team) event.getTableView().getItems().get(
                 event.getTablePosition().getRow())).setName(event.getNewValue());
+    }
+
+    private void groupIsDoneListener()
+    {
+        groupA.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
+        {
+            btnNxtRndA.setDisable(true);
+        });
+        groupB.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
+        {
+            btnNxtRndB.setDisable(true);
+        });
+        groupC.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
+        {
+            btnNxtRndC.setDisable(true);
+        });
+        groupD.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
+        {
+            btnNxtRndD.setDisable(true);
+        });
     }
 
 }
