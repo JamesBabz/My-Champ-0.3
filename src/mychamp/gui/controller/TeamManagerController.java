@@ -77,6 +77,7 @@ public class TeamManagerController implements Initializable
         btnEdit.setDisable(true);
         btnRemove.setDisable(true);
         btnStart.setDisable(true);
+        btnResume.setDisable(true);
         listTeams.setItems(model.getTeamNames());
 
         try
@@ -164,6 +165,7 @@ public class TeamManagerController implements Initializable
     @FXML
     private void handleResume()
     {
+
         model.setResumed(true);
         openGroupView();
     }
@@ -193,11 +195,23 @@ public class TeamManagerController implements Initializable
      */
     private void loadData() throws IOException, ClassNotFoundException
     {
+        boolean isSuccesfull = false;
+        int x = 0;
         for (Team team : teamManager.loadTeamData())
         {
             model.loadTeam(team);
+            isSuccesfull = true;
+            x++;
         }
         model.setTeamNames();
+
+        if (isSuccesfull && x >= MIN_TEAMS)
+        {
+            btnStart.setDisable(true);
+            btnAdd.setDisable(true);
+            listTeams.setDisable(true);
+            btnResume.setDisable(false);
+        }  
 
     }
 
@@ -222,6 +236,7 @@ public class TeamManagerController implements Initializable
                     } else if (amount < MAX_TEAMS)
                     {
                         btnAdd.setDisable(false);
+
                     }
         });
     }
@@ -238,6 +253,7 @@ public class TeamManagerController implements Initializable
                     {
                         btnEdit.setDisable(true);
                         btnRemove.setDisable(true);
+                        btnResume.setDisable(true);
                     } else
                     {
                         selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
@@ -250,24 +266,24 @@ public class TeamManagerController implements Initializable
     @FXML
     private void handleNewTournament()
     {
-       
-        
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("New Tournament");
-            alert.setContentText("If you start a new tournament, the old one will be deleted");
 
-            Optional<ButtonType> result = alert.showAndWait();
-            
-            if (result.get() == ButtonType.OK)
-            {
-                model.getTeams().clear();
-                model.getTeamNames().clear();
-                btnResume.setDisable(true);
-            } else
-            {
-                // ... user chose CANCEL or closed the dialog
-            }
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("New Tournament");
+        alert.setContentText("If you start a new tournament, the old one will be deleted");
 
-        
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK)
+        {
+            model.getTeams().clear();
+            model.getTeamNames().clear();
+            btnResume.setDisable(true);
+            listTeams.setDisable(false);
+
+        } else
+        {
+            // ... user chose CANCEL or closed the dialog
+        }
+
     }
 }
