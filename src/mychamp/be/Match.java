@@ -9,13 +9,14 @@ package mychamp.be;
  *
  * @author James
  */
-public class Match {
-    
+public class Match
+{
+
     Team homeTeam;
     Team awayTeam;
     int homeScore;
     int awayScre;
-    
+
     public Match(Team homeTeam, Team awayTeam, int homeScore, int awayScore)
     {
         this.homeTeam = homeTeam;
@@ -63,7 +64,5 @@ public class Match {
     {
         this.awayScre = awayScre;
     }
-    
-    
-    
+
 }
