@@ -241,7 +241,12 @@ public class GroupViewController implements Initializable {
      */
     private void addTeamsToGroups(ArrayList<Team> teams)
     {
-        Collections.shuffle(teams);
+        if (!model.getResumed())
+
+        {
+            Collections.shuffle(teams);
+        }
+        
         int currentGroup = 0;
         for (Team team : teams)
         {
