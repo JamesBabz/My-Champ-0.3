@@ -99,9 +99,9 @@ public class Team implements Serializable {
      *
      * @param goalAgainst
      */
-    public void setGoalAgainst(int value)
+    public void setGoalAgainst(int goalAgainst)
     {
-        goalAgainst.set(value);
+        this.goalAgainst.set(goalAgainst);
     }
 
     public IntegerProperty goalAgainstProperty()
@@ -118,9 +118,9 @@ public class Team implements Serializable {
      *
      * @param goalFor
      */
-    public void setGoalFor(int value)
+    public void setGoalFor(int goalFor)
     {
-        goalFor.set(value);
+        this.goalFor.set(goalFor);
     }
 
     public IntegerProperty goalForProperty()
@@ -145,9 +145,9 @@ public class Team implements Serializable {
      *
      * @param losses The amount of losses.
      */
-    public void setLosses(int value)
+    public void setLosses(int losses)
     {
-        losses.set(value);
+        this.losses.set(losses);
     }
 
     public IntegerProperty lossesProperty()
@@ -172,9 +172,9 @@ public class Team implements Serializable {
      *
      * @param draws The amount of draws, represented by an integer value.
      */
-    public void setDraws(int value)
+    public void setDraws(int draws)
     {
-        draws.set(value);
+        this.draws.set(draws);
     }
 
     public IntegerProperty drawsProperty()
@@ -198,9 +198,9 @@ public class Team implements Serializable {
      *
      * @param wins The amount of wins, represented by an integer value.
      */
-    public void setWins(int value)
+    public void setWins(int wins)
     {
-        wins.set(value);
+        this.wins.set(wins);
     }
 
     public IntegerProperty winsProperty()
@@ -224,9 +224,9 @@ public class Team implements Serializable {
      *
      * @param played An integer representing the amount of rounds played.
      */
-    public void setPlayed(int value)
+    public void setPlayed(int played)
     {
-        played.set(value);
+        this.played.set(played);
     }
 
     public IntegerProperty playedProperty()
@@ -249,9 +249,9 @@ public class Team implements Serializable {
      *
      * @param name The name of the team represented by a String.
      */
-    public void setName(String value)
+    public void setName(String name)
     {
-        name.set(value);
+        this.name.set(name);
     }
 
     public StringProperty nameProperty()

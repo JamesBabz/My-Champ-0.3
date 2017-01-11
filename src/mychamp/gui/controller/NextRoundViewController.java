@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mychamp.be.Group;
+import mychamp.be.Match;
 import mychamp.be.Team;
 import mychamp.gui.model.ChampModel;
 
@@ -164,6 +165,7 @@ public class NextRoundViewController implements Initializable
      */
     private void setMatch(Team homeTeam, Team awayTeam, int homeScore, int awayScore)
     {
+        model.addMatch(homeTeam, awayTeam, homeScore, awayScore);
         homeTeam.setPlayed(homeTeam.getPlayed() + 1);
         awayTeam.setPlayed(awayTeam.getPlayed() + 1);
 
@@ -196,7 +198,7 @@ public class NextRoundViewController implements Initializable
         int x = 0;
         for (Team team : teamsInGroup)
         {
-            if (team.getPlayed() == group.getCurrentRound())
+            if (team.getPlayed() >= group.getCurrentRound())
             {
                 x++;
             }
