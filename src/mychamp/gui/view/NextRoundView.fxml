@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="235.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.controller.NextRoundViewController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="235.0" prefWidth="393.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.controller.NextRoundViewController">
    <children>
       <Label fx:id="lblRoundNumb" layoutX="161.0" layoutY="14.0" text="What round" />
       <Label fx:id="lblHome1" layoutX="31.0" layoutY="72.0" text="Home team" />
@@ -18,10 +15,10 @@
       <Label fx:id="lblAway1" layoutX="299.0" layoutY="72.0" text="Away team" />
       <Label fx:id="lblAway2" layoutX="299.0" layoutY="145.0" text="Away team" />
       <TextField fx:id="txtHome1" layoutX="124.0" layoutY="67.0" prefHeight="27.0" prefWidth="46.0" />
+      <TextField fx:id="txtAway1" layoutX="226.0" layoutY="67.0" prefHeight="27.0" prefWidth="46.0" />      
       <TextField fx:id="txtHome2" layoutX="124.0" layoutY="140.0" prefHeight="27.0" prefWidth="46.0" />
-      <TextField fx:id="txtAway1" layoutX="226.0" layoutY="67.0" prefHeight="27.0" prefWidth="46.0" />
       <TextField fx:id="txtAway2" layoutX="226.0" layoutY="140.0" prefHeight="27.0" prefWidth="46.0" />
-      <Button fx:id="btnCancel" layoutX="109.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="27.0" prefWidth="61.0" text="Cancel" />
-      <Button layoutX="226.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="27.0" prefWidth="61.0" text="Save" />
+      <Button fx:id="btnCancel" layoutX="226.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="27.0" prefWidth="61.0" text="Cancel" />
+      <Button layoutX="109.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleSave" prefHeight="27.0" prefWidth="61.0" text="Save" />
    </children>
 </AnchorPane>
