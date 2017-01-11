@@ -9,12 +9,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -145,17 +151,29 @@ public class GroupViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+
         setCellValues();
 
         model = ChampModel.getInstance();
         teams = model.getTeams();
         groupInit();
         setTeamIds();
-
+        sortingListener();
         populateTables();
-        groupIsDoneListener();
-        
+        listeners();
 
+        Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
+        comparator = comparator.reversed();
+        FXCollections.sort(groupATeams, comparator);
+        FXCollections.sort(groupBTeams, comparator);
+        FXCollections.sort(groupCTeams, comparator);
+        FXCollections.sort(groupDTeams, comparator);
+    }
+
+    private void listeners()
+    {
+        groupIsDoneListener();
+        sortingListener();
     }
 
     @FXML
@@ -394,22 +412,79 @@ public class GroupViewController implements Initializable {
 
     private void groupIsDoneListener()
     {
-        groupA.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
-        {
-            btnNxtRndA.setDisable(true);
+        groupA.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+                -> 
+                {
+                    btnNxtRndA.setDisable(true);
         });
-        groupB.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
-        {
-            btnNxtRndB.setDisable(true);
+        groupB.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+                -> 
+                {
+                    btnNxtRndB.setDisable(true);
         });
-        groupC.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
-        {
-            btnNxtRndC.setDisable(true);
+        groupC.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+                -> 
+                {
+                    btnNxtRndC.setDisable(true);
         });
-        groupD.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) ->
-        {
-            btnNxtRndD.setDisable(true);
+        groupD.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+                -> 
+                {
+                    btnNxtRndD.setDisable(true);
         });
     }
 
+    private void sortingListener()
+    {
+        sortGroup("A");
+        sortGroup("B");
+        sortGroup("C");
+        sortGroup("D");
+    }
+
+    @FXML
+    private void update()
+    {
+        Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
+        comparator = comparator.reversed();
+        FXCollections.sort(groupATeams, comparator);
+    }
+
+    private void sortGroup(String groupTeamsString)
+    {
+        ObservableList<Team> groupTeams;
+        switch (groupTeamsString)
+        {
+            case "A":
+                groupTeams = groupATeams;
+
+                break;
+            case "B":
+                groupTeams = groupBTeams;
+
+                break;
+            case "C":
+                groupTeams = groupCTeams;
+
+                break;
+            case "D":
+                groupTeams = groupDTeams;
+
+                break;
+            default:
+                groupTeams = null;
+        }
+        for (Team team : groupTeams)
+        {
+            team.pointProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+                {
+                    Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
+                    comparator = comparator.reversed();
+                    FXCollections.sort(groupTeams, comparator);
+                }
+            });
+        }
+    }
 }
