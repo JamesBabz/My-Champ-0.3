@@ -1,5 +1,7 @@
 package mychamp.be;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 
 /**
@@ -17,6 +19,12 @@ public class Group
     int[] awayTeams2;
     int currentRound;
     private ObservableList<Team> teams;
+    private final BooleanProperty isDone;
+
+    
+    
+
+    
 
     /**
      * The default constructor for creating a group.
@@ -26,6 +34,7 @@ public class Group
      */
     public Group(String name, int teams)
     {
+        this.isDone = new SimpleBooleanProperty();
         this.currentRound = 1;
         this.name = name;
         this.teamsInGroup = teams;
@@ -41,6 +50,7 @@ public class Group
      */
     public Group(String name, ObservableList<Team> teams)
     {
+        this.isDone = new SimpleBooleanProperty();
         this.currentRound = 1;
         this.name = name;
 //        this.teamsInGroup = teams;
@@ -189,5 +199,31 @@ public class Group
     {
         return teams;
     }
+    
+//    public boolean isDone()
+//    {
+//        return isDone;
+//    }
+//
+//    public void setDone(boolean done)
+//    {
+//        this.isDone = done;
+//    }
 
+    public boolean isDone()
+    {
+        return isDone.get();
+    }
+
+    public void setDone(boolean value)
+    {
+        isDone.set(value);
+    }
+
+    public BooleanProperty isDoneProperty()
+    {
+        return isDone;
+    }
+    
+    
 }

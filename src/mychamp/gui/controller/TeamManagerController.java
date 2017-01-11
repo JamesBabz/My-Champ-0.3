@@ -2,7 +2,6 @@ package mychamp.gui.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -53,6 +52,8 @@ public class TeamManagerController implements Initializable
     private AnchorPane anchorPane;
     @FXML
     private Button btnResume;
+    @FXML
+    private Button btnNew;
 
     /**
      * The default constructor for this controller class.
@@ -74,12 +75,13 @@ public class TeamManagerController implements Initializable
         btnEdit.setDisable(true);
         btnRemove.setDisable(true);
         btnStart.setDisable(true);
+        btnResume.setDisable(true);
         listTeams.setItems(model.getTeamNames());
+
         try
         {
             loadData();
-        }
-        catch (IOException | ClassNotFoundException ex)
+        } catch (IOException | ClassNotFoundException ex)
         {
             System.out.println(ex);
         }
@@ -93,8 +95,7 @@ public class TeamManagerController implements Initializable
         try
         {
             model.openNewView(anchorPane, "TeamNameView", "New team");
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -107,8 +108,7 @@ public class TeamManagerController implements Initializable
         try
         {
             model.openNewView(anchorPane, "TeamNameView", "Edit team");
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,8 +126,7 @@ public class TeamManagerController implements Initializable
         if (result.get() == ButtonType.OK)
         {
             model.removeTeam(selectedTeamIndex);
-        }
-        else
+        } else
         {
             // ... user chose CANCEL or closed the dialog
         }
@@ -158,23 +157,32 @@ public class TeamManagerController implements Initializable
     @FXML
     private void handleStart()
     {
+        openGroupView();
+    }
+
+    @FXML
+    private void handleResume()
+    {
+
+        model.setResumed(true);
+        openGroupView();
+    }
+
+    /*
+    * This method will open the GroupView 
+     */
+    private void openGroupView()
+    {
         Stage primaryStage = (Stage) listTeams.getScene().getWindow();
         primaryStage.close();
 
         try
         {
             model.openNewView(anchorPane, "GroupView", "");
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    @FXML
-    private void handleResume()
-    {
-        
     }
 
     /**
@@ -185,11 +193,23 @@ public class TeamManagerController implements Initializable
      */
     private void loadData() throws IOException, ClassNotFoundException
     {
+        boolean isSuccesfull = false;
+        int x = 0;
         for (Team team : teamManager.loadTeamData())
         {
             model.loadTeam(team);
+            isSuccesfull = true;
+            x++;
         }
         model.setTeamNames();
+
+        if (isSuccesfull && x >= MIN_TEAMS)
+        {
+            btnStart.setDisable(true);
+            btnAdd.setDisable(true);
+            listTeams.setDisable(true);
+            btnResume.setDisable(false);
+        }  
 
     }
 
@@ -200,21 +220,22 @@ public class TeamManagerController implements Initializable
      */
     private void observableListListener(ObservableList list)
     {
-        list.addListener((ListChangeListener.Change change) ->
-        {
-            int amount = list.size();
-            if (amount >= MIN_TEAMS)
-            {
-                btnStart.setDisable(false);
-            }
-            if (amount == MAX_TEAMS)
-            {
-                btnAdd.setDisable(true);
-            }
-            else if (amount < MAX_TEAMS)
-            {
-                btnAdd.setDisable(false);
-            }
+        list.addListener((ListChangeListener.Change change)
+                -> 
+                {
+                    int amount = list.size();
+                    if (amount >= MIN_TEAMS)
+                    {
+                        btnStart.setDisable(false);
+                    }
+                    if (amount == MAX_TEAMS)
+                    {
+                        btnAdd.setDisable(true);
+                    } else if (amount < MAX_TEAMS)
+                    {
+                        btnAdd.setDisable(false);
+
+                    }
         });
     }
 
@@ -223,19 +244,44 @@ public class TeamManagerController implements Initializable
      */
     private void updateValidInteractions()
     {
-        listTeams.getSelectionModel().selectedItemProperty().addListener((selected, oldValue, newValue) ->
-        {
-            if (selected.getValue() == null)
-            {
-                btnEdit.setDisable(true);
-                btnRemove.setDisable(true);
-            }
-            else
-            {
-                selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
-                btnEdit.setDisable(false);
-                btnRemove.setDisable(false);
-            }
+        listTeams.getSelectionModel().selectedItemProperty().addListener((selected, oldValue, newValue)
+                -> 
+                {
+                    if (selected.getValue() == null)
+                    {
+                        btnEdit.setDisable(true);
+                        btnRemove.setDisable(true);
+                        btnResume.setDisable(true);
+                    } else
+                    {
+                        selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
+                        btnEdit.setDisable(false);
+                        btnRemove.setDisable(false);
+                    }
         });
+    }
+
+    @FXML
+    private void handleNewTournament()
+    {
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("New Tournament");
+        alert.setContentText("If you start a new tournament, the old one will be deleted");
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK)
+        {
+            model.getTeams().clear();
+            model.getTeamNames().clear();
+            btnResume.setDisable(true);
+            listTeams.setDisable(false);
+
+        } else
+        {
+            // ... user chose CANCEL or closed the dialog
+        }
+
     }
 }

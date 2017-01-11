@@ -9,18 +9,28 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import mychamp.be.Group;
 import mychamp.be.Team;
 import mychamp.bll.PropertyValue;
@@ -32,12 +42,13 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class GroupViewController implements Initializable
-{
+public class GroupViewController implements Initializable {
+
     ChampModel model;
 
 //    private final static String[] cellValues = new String[]{"name",""};
     private ArrayList<Team> teams;
+    private ArrayList<Group> groups;
     private ObservableList<Team> groupATeams;
     private ObservableList<Team> groupBTeams;
     private ObservableList<Team> groupCTeams;
@@ -128,7 +139,15 @@ public class GroupViewController implements Initializable
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button update;
+    private Button btnNxtRndA;
+    @FXML
+    private Button btnNxtRndB;
+    @FXML
+    private Button btnNxtRndC;
+    @FXML
+    private Button btnNxtRndD;
+    @FXML
+    private Button btnGoToFinals;
 
     /**
      * Initializes the controller class.
@@ -136,14 +155,30 @@ public class GroupViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+
         setCellValues();
 
         model = ChampModel.getInstance();
         teams = model.getTeams();
+        groups = new ArrayList<>();
         groupInit();
         setTeamIds();
-
+        sortingListener();
         populateTables();
+        listeners();
+
+        Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
+        comparator = comparator.reversed();
+        FXCollections.sort(groupATeams, comparator);
+        FXCollections.sort(groupBTeams, comparator);
+        FXCollections.sort(groupCTeams, comparator);
+        FXCollections.sort(groupDTeams, comparator);
+    }
+
+    private void listeners()
+    {
+        groupIsDoneListener();
+        sortingListener();
     }
 
     @FXML
@@ -218,6 +253,11 @@ public class GroupViewController implements Initializable
         groupB = new Group("B", groupBTeams);
         groupC = new Group("C", groupCTeams);
         groupD = new Group("D", groupDTeams);
+        
+        groups.add(groupA);
+        groups.add(groupB);
+        groups.add(groupC);
+        groups.add(groupD);
     }
 
     /**
@@ -239,7 +279,12 @@ public class GroupViewController implements Initializable
      */
     private void addTeamsToGroups(ArrayList<Team> teams)
     {
-        Collections.shuffle(teams);
+        if (!model.getResumed())
+
+        {
+            Collections.shuffle(teams);
+        }
+
         int currentGroup = 0;
         for (Team team : teams)
         {
@@ -263,7 +308,8 @@ public class GroupViewController implements Initializable
             if (currentGroup == 3)
             {
                 currentGroup = 0;
-            } else
+            }
+            else
             {
                 currentGroup++;
             }
@@ -280,7 +326,8 @@ public class GroupViewController implements Initializable
         try
         {
             model.openNewView(anchorPane, "NextRoundView", title);
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -357,7 +404,135 @@ public class GroupViewController implements Initializable
         for (TableColumn clmn : tableList)
         {
             clmn.setCellValueFactory(new PropertyValueFactory<>(PropertyValue.values()[x].toString()));
+            if (x == 0)
+            {
+
+                clmn.setCellFactory(TextFieldTableCell.forTableColumn());
+            }
             x++;
+        }
+    }
+    
+    @FXML
+    private void handleEditCommit(CellEditEvent<Team, String> event)
+    {
+        ((Team) event.getTableView().getItems().get(
+                event.getTablePosition().getRow())).setName(event.getNewValue());
+    }
+
+private void groupIsDoneListener()
+    {
+        for (Group group : groups)
+        {
+            group.isDoneProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue)
+                    -> 
+                    {
+                        Button btn;
+                        if (group.equals(groupA))
+                        {
+                            btn = btnNxtRndA;
+                        }
+                        else if (group.equals(groupB))
+                        {
+                            btn = btnNxtRndB;
+                        }
+                        else if (group.equals(groupC))
+                        {
+                            btn = btnNxtRndC;
+                        }
+                        else if (group.equals(groupD))
+                        {
+                            btn = btnNxtRndD;
+                        }else
+                        {
+                            btn = null;
+                        }
+                        btn.setDisable(true);
+                        if (btnNxtRndA.isDisabled() && btnNxtRndB.isDisabled() && btnNxtRndC.isDisabled() && btnNxtRndD.isDisabled())
+                        {
+                                btnGoToFinals.setDisable(false);
+                        }
+            });
+        }
+    }
+
+    private void sortingListener()
+    {
+        sortGroup("A");
+        sortGroup("B");
+        sortGroup("C");
+        sortGroup("D");
+    }
+
+
+    private void sortGroup(String groupTeamsString)
+    {
+        ObservableList<Team> groupTeams;
+        switch (groupTeamsString)
+        {
+            case "A":
+                groupTeams = groupATeams;
+
+                break;
+            case "B":
+                groupTeams = groupBTeams;
+
+                break;
+            case "C":
+                groupTeams = groupCTeams;
+
+                break;
+            case "D":
+                groupTeams = groupDTeams;
+
+                break;
+            default:
+                groupTeams = null;
+        }
+        for (Team team : groupTeams)
+        {
+            team.pointProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+                {
+                    Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
+                    comparator = comparator.reversed();
+                    FXCollections.sort(groupTeams, comparator);
+                }
+            });
+        }
+    }
+
+    public void getQuarterFinalTeams()
+    {
+        
+        model.setQuarterFinalTeams(tableA.getItems().get(0));
+        model.setQuarterFinalTeams(tableA.getItems().get(1));
+        
+        model.setQuarterFinalTeams(tableB.getItems().get(0));
+        model.setQuarterFinalTeams(tableB.getItems().get(1));
+        
+        model.setQuarterFinalTeams(tableC.getItems().get(0));
+        model.setQuarterFinalTeams(tableC.getItems().get(1));
+        
+        model.setQuarterFinalTeams(tableD.getItems().get(0));
+        model.setQuarterFinalTeams(tableD.getItems().get(1));
+        
+        
+    }
+
+    @FXML
+    private void goToFinals(ActionEvent event)
+    {
+           Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
+        primaryStage.close();
+
+        try
+        {
+            model.openNewView(anchorPane, "FinalsView", "");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
