@@ -6,11 +6,16 @@
 package mychamp.gui.controller;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import mychamp.be.Team;
+import mychamp.gui.model.ChampModel;
 
 /**
  * FXML Controller class
@@ -61,13 +66,32 @@ public class FinalsViewController implements Initializable {
     private TableColumn<?, ?> QuarterTeamD;
     @FXML
     private TableColumn<?, ?> QuarterScoreD;
+    @FXML
+    private AnchorPane anchorPane;
+    @FXML
+    private Button btnQuarter;
+    @FXML
+    private Button btnSemi;
+    @FXML
+    private Button btnFinal;
 
+    
+    ChampModel model;
+    
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    public void initialize(URL url, ResourceBundle rb) 
+    {
+      model.getTeamsToQuarter();
     }    
+    
+    private void createQuarterFinals()
+    {
+     
+    }
+    
+            
     
 }
