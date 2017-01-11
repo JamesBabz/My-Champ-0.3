@@ -31,6 +31,7 @@ public class ChampModel
     private Group group;
     private int[] firstMatch;
     private int[] secondMatch;
+    private boolean isResumed;
 
     private static ChampModel instance;
 
@@ -53,6 +54,7 @@ public class ChampModel
      */
     private ChampModel()
     {
+        this.isResumed = false;
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
@@ -259,5 +261,17 @@ public class ChampModel
     {
         return test;
     }
+    
+    public boolean getResumed()
+    {
+        return isResumed;
+    }
+    
+    public void setResumed(boolean resume)
+    {
+        isResumed = resume;
+    }
+    
+ 
 
 }
