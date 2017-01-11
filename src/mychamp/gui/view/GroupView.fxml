@@ -29,7 +29,7 @@
                   <TableColumn fx:id="colPointsA" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
               </columns>
             </TableView>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewA" prefHeight="17.0" prefWidth="104.0" text="Next Round">
+            <Button fx:id="btnNxtRndA" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewA" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
                   <Insets left="645.0" top="2.0" />
                </VBox.margin>
@@ -51,7 +51,7 @@
                   <TableColumn fx:id="colPointsB" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
                </columns>
             </TableView>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewB" prefHeight="17.0" prefWidth="104.0" text="Next Round">
+            <Button fx:id="btnNxtRndB" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewB" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
                   <Insets left="645.0" top="2.0" />
                </VBox.margin>
@@ -73,7 +73,7 @@
                   <TableColumn fx:id="colPointsC" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
                </columns>
             </TableView>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewC" prefHeight="17.0" prefWidth="104.0" text="Next Round">
+            <Button fx:id="btnNxtRndC" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewC" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
                   <Insets left="645.0" top="2.0" />
                </VBox.margin>
@@ -95,7 +95,7 @@
                   <TableColumn fx:id="colPointsD" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
                </columns>
             </TableView>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewD" prefHeight="17.0" prefWidth="104.0" text="Next Round">
+            <Button fx:id="btnNxtRndD" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewD" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
                   <Insets left="645.0" top="2.0" />
                </VBox.margin>

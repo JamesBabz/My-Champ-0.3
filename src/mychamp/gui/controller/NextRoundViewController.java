@@ -22,8 +22,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class NextRoundViewController implements Initializable
-{
+public class NextRoundViewController implements Initializable {
+
     Team homeTeam1;
     Team awayTeam1;
     Team homeTeam2;
@@ -66,7 +66,7 @@ public class NextRoundViewController implements Initializable
         setLabelName(model);
         setLabelRound();
     }
-    
+
     @FXML
     private void handleSave()
     {
@@ -158,10 +158,11 @@ public class NextRoundViewController implements Initializable
 
     /**
      * Sets a new match between two teams.
+     *
      * @param homeTeam The home team.
      * @param awayTeam The away team.
      * @param homeScore The score of the home team.
-     * @param awayScore  The score of the away team.
+     * @param awayScore The score of the away team.
      */
     private void setMatch(Team homeTeam, Team awayTeam, int homeScore, int awayScore)
     {
@@ -196,16 +197,36 @@ public class NextRoundViewController implements Initializable
 
         ObservableList<Team> teamsInGroup = group.getTeams();
         int x = 0;
-        for (Team team : teamsInGroup)
+        if (group.getTeamsInGroup() == 4)
         {
-            if (team.getPlayed() >= group.getCurrentRound())
+            for (Team team : teamsInGroup)
             {
-                x++;
+                if (team.getPlayed() == group.getCurrentRound())
+                {
+                    x++;
+                }
+            }
+            if (x == teamsInGroup.size())
+            {
+                group.setCurrentRound(group.getCurrentRound() + 1);
             }
         }
-        if (x == teamsInGroup.size() || teamsInGroup.size() == 3 && x == 2)
+        else if (group.getTeamsInGroup() == 3)
         {
-            group.setCurrentRound(group.getCurrentRound() + 1);
+
+            for (Team team : teamsInGroup)
+            {
+                x = x + team.getPlayed();
+            }
+            if(x/2 == group.getCurrentRound())
+            {
+                group.setCurrentRound(group.getCurrentRound()+1);
+            }
+        }
+        if(group.getCurrentRound() == group.getHomeTeams1().length+1)
+        {
+            System.out.println("DONE");
+            group.setDone(true);
         }
 
     }
