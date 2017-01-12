@@ -33,8 +33,8 @@ public class ChampModel
     private final TeamDAO teamDAO;
     private Team editTeam;
     private Group group;
-    private int[] firstMatch;
-    private int[] secondMatch;
+    private Match firstMatch;
+    private Match secondMatch;
     private boolean isResumed;
 
     private static ChampModel instance;
@@ -206,39 +206,20 @@ public class ChampModel
         setTeamNames();
     }
 
-    /**
-     *
-     * @param home1Id
-     * @param away1Id
-     * @param home2Id
-     * @param away2Id
-     */
-    public void setRoundTeams(int home1Id, int away1Id, int home2Id, int away2Id)
+    
+    public void setRoundMatches(Match fMatch, Match sMatch)
     {
-        firstMatch = new int[]
-        {
-            home1Id, away1Id
-        };
-        secondMatch = new int[]
-        {
-            home2Id, away2Id
-        };
+        this.firstMatch = fMatch;
+        this.secondMatch = sMatch;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int[] getFirstMatch()
+    
+    public Match getFirstMatch()
     {
         return firstMatch;
     }
-
-    /**
-     *
-     * @return
-     */
-    public int[] getSecondMatch()
+    
+    public Match getSecondMatch()
     {
         return secondMatch;
     }
@@ -270,12 +251,6 @@ public class ChampModel
     public void setResumed(boolean resume)
     {
         isResumed = resume;
-    }
-    
-    public void addMatch(Team ht, Team at, int hs, int as)
-    {
-        Match match = new Match(ht, at, hs, as);
-        matches.add(match);
     }
 
     public ArrayList<Team> getTeamsToQuarter()
