@@ -68,5 +68,6 @@
       <Button fx:id="btnQuarter" layoutX="544.0" layoutY="368.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Quarter" />
       <Button fx:id="btnSemi" layoutX="636.0" layoutY="368.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Semi" />
       <Button fx:id="btnFinal" layoutX="728.0" layoutY="368.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Final" />
+      <Button layoutX="330.0" layoutY="11.0" mnemonicParsing="false" onAction="#firstQFinal" text="Button" />
    </children>
 </AnchorPane>
