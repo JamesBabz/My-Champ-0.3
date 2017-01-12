@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mychamp.be.Group;
+import mychamp.be.Match;
 import mychamp.be.Team;
 import mychamp.gui.model.ChampModel;
 
@@ -29,6 +30,9 @@ public class NextRoundViewController implements Initializable {
     Team awayTeam1;
     Team homeTeam2;
     Team awayTeam2;
+
+    Match firstMatch;
+    Match secondMatch;
 
     ChampModel model;
     Group group;
@@ -71,19 +75,20 @@ public class NextRoundViewController implements Initializable {
     @FXML
     private void handleSave()
     {
+
         int homeScore = 0;
         int awayScore = 0;
         if (!"".equals(txtHome1.getText()) && !"".equals(txtAway1.getText()))
         {
             homeScore = Integer.parseInt(txtHome1.getText());
             awayScore = Integer.parseInt(txtAway1.getText());
-            setMatch(homeTeam1, awayTeam1, homeScore, awayScore);
+            setMatch(firstMatch, homeScore, awayScore);
         }
         if (!"".equals(txtHome2.getText()) && !"".equals(txtAway2.getText()))
         {
             homeScore = Integer.parseInt(txtHome2.getText());
             awayScore = Integer.parseInt(txtAway2.getText());
-            setMatch(homeTeam2, awayTeam2, homeScore, awayScore);
+            setMatch(secondMatch, homeScore, awayScore);
         }
         closeWindow();
     }
@@ -109,42 +114,23 @@ public class NextRoundViewController implements Initializable {
      */
     private void setLabelName(ChampModel model)
     {
-        ArrayList<Team> teams = model.getTeams();
-        for (Team team : teams)
+
+        firstMatch = model.getFirstMatch();
+        secondMatch = model.getSecondMatch();
+
+        lblHome1.setText(firstMatch.getHomeTeam().getName());
+        lblAway1.setText(firstMatch.getAwayTeam().getName());
+        if (secondMatch != null)
         {
-            if (team.getId() == model.getFirstMatch()[0])
-            {
-                homeTeam1 = team;
-                lblHome1.setText(team.getName());
-            }
-            else if (team.getId() == model.getFirstMatch()[1])
-            {
-                awayTeam1 = team;
-                lblAway1.setText(team.getName());
-            }
-
-            if (model.getSecondMatch()[0] != 0)
-            {
-                if (team.getId() == model.getSecondMatch()[0])
-                {
-                    homeTeam2 = team;
-                    lblHome2.setText(team.getName());
-                }
-                else if (team.getId() == model.getSecondMatch()[1])
-                {
-                    awayTeam2 = team;
-                    lblAway2.setText(team.getName());
-
-                }
-
-            }
-            else
-            {
-                lblHome2.setDisable(true);
-                lblAway2.setDisable(true);
-                txtHome2.setDisable(true);
-                txtAway2.setDisable(true);
-            }
+            lblHome2.setText(secondMatch.getHomeTeam().getName());
+            lblAway2.setText(secondMatch.getAwayTeam().getName());
+        }
+        else
+        {
+            lblHome2.setDisable(true);
+            lblAway2.setDisable(true);
+            txtHome2.setDisable(true);
+            txtAway2.setDisable(true);
         }
     }
 
@@ -165,9 +151,14 @@ public class NextRoundViewController implements Initializable {
      * @param homeScore The score of the home team.
      * @param awayScore The score of the away team.
      */
-    private void setMatch(Team homeTeam, Team awayTeam, int homeScore, int awayScore)
+    private void setMatch(Match match, int homeScore, int awayScore)
     {
-        model.addMatch(homeTeam, awayTeam, homeScore, awayScore);
+        match.setHomeScore(homeScore);
+        match.setAwayScore(awayScore);
+
+        Team homeTeam = match.getHomeTeam();
+        Team awayTeam = match.getAwayTeam();
+
         homeTeam.setPlayed(homeTeam.getPlayed() + 1);
         awayTeam.setPlayed(awayTeam.getPlayed() + 1);
 
@@ -219,23 +210,21 @@ public class NextRoundViewController implements Initializable {
             {
                 x = x + team.getPlayed();
             }
-            if(x/2 == group.getCurrentRound())
+            if (x / 2 == group.getCurrentRound())
             {
-                group.setCurrentRound(group.getCurrentRound()+1);
+                group.setCurrentRound(group.getCurrentRound() + 1);
             }
         }
-        if(group.getCurrentRound() == group.getHomeTeams1().length+1)
+        if (group.getCurrentRound() == group.getHomeTeams1().length + 1)
         {
-            System.out.println("DONE");
             group.setDone(true);
         }
-
     }
-    
+
     @FXML
     private void macros(KeyEvent key)
     {
-        if(KeyCode.ENTER == key.getCode())
+        if (KeyCode.ENTER == key.getCode())
         {
             handleSave();
         }
