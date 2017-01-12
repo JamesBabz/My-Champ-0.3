@@ -2,9 +2,11 @@ package mychamp.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -69,6 +71,31 @@ public class NextRoundViewController implements Initializable {
         group = model.getGroup();
         setLabelName(model);
         setLabelRound();
+        
+        
+        processAllowedTextInputs();
+        
+    }
+
+    private void processAllowedTextInputs()
+    {
+        for (Node node : anchorPane.getChildren())
+        {
+            if (node instanceof TextField)
+            {
+                ((TextField) node).textProperty().addListener((listener, oldVal, newVal) -> 
+                {
+                    if (!Pattern.matches("[0-9]+", newVal))
+                    {
+                        if (oldVal != null && !newVal.isEmpty())
+                            ((TextField) node).setText(oldVal);
+                        else
+                            ((TextField) node).setText("");
+                        
+                    }                    
+                });
+            }
+        }
     }
 
     @FXML
@@ -113,7 +140,6 @@ public class NextRoundViewController implements Initializable {
      */
     private void setLabelName(ChampModel model)
     {
-
         firstMatch = model.getFirstMatch();
         secondMatch = model.getSecondMatch();
 
