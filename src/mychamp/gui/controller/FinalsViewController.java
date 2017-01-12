@@ -135,6 +135,7 @@ public class FinalsViewController implements Initializable
         QuarterTeamC.setCellValueFactory(new PropertyValueFactory<>("name"));
         QuarterTeamD.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
+    
 
     private void populateTables()
     {
