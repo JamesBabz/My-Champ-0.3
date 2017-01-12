@@ -25,7 +25,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class NextRoundViewController implements Initializable {
+public class NextRoundViewController implements Initializable
+{
 
     Match firstMatch;
     Match secondMatch;
@@ -85,8 +86,7 @@ public class NextRoundViewController implements Initializable {
                                 if (oldVal != null && !newVal.isEmpty())
                                 {
                                     ((TextField) node).setText(oldVal);
-                                }
-                                else
+                                } else
                                 {
                                     ((TextField) node).setText("");
                                 }
@@ -129,7 +129,13 @@ public class NextRoundViewController implements Initializable {
      */
     private void setLabelRound()
     {
-        lblRoundNumb.setText("Round: " + group.getCurrentRound());
+        if (group.getCurrentRound() == 10)
+        {
+            lblRoundNumb.setText("Quarter-Final");
+        } else
+        {
+            lblRoundNumb.setText("Round: " + group.getCurrentRound());
+        }
     }
 
     /**
@@ -149,8 +155,7 @@ public class NextRoundViewController implements Initializable {
         {
             secondHomeTeam = secondMatch.getHomeTeam();
             secondAwayTeam = secondMatch.getAwayTeam();
-        }
-        else
+        } else
         {
             secondHomeTeam = null;
             secondAwayTeam = null;
@@ -162,8 +167,7 @@ public class NextRoundViewController implements Initializable {
         {
             lblHome2.setText(secondHomeTeam.getName());
             lblAway2.setText(secondAwayTeam.getName());
-        }
-        else
+        } else
         {
             lblHome2.setDisable(true);
             lblAway2.setDisable(true);
@@ -182,8 +186,7 @@ public class NextRoundViewController implements Initializable {
         {
             txtHome1.setText("0");
             txtAway1.setText("3");
-        }
-        else if (firstAwayTeam.getIsDeleted().get())
+        } else if (firstAwayTeam.getIsDeleted().get())
         {
             txtHome1.setText("3");
             txtAway1.setText("0");
@@ -202,8 +205,7 @@ public class NextRoundViewController implements Initializable {
             {
                 txtHome2.setText("0");
                 txtAway2.setText("3");
-            }
-            else if (secondAwayTeam.getIsDeleted().get())
+            } else if (secondAwayTeam.getIsDeleted().get())
             {
                 txtHome2.setText("3");
                 txtAway2.setText("0");
@@ -243,13 +245,11 @@ public class NextRoundViewController implements Initializable {
         {
             homeTeam.setWins(homeTeam.getWins() + 1);
             awayTeam.setLosses(awayTeam.getLosses() + 1);
-        }
-        else if (homeScore < awayScore)
+        } else if (homeScore < awayScore)
         {
             awayTeam.setWins(awayTeam.getWins() + 1);
             homeTeam.setLosses(homeTeam.getLosses() + 1);
-        }
-        else
+        } else
         {
             homeTeam.setDraws(homeTeam.getDraws() + 1);
             awayTeam.setDraws(awayTeam.getDraws() + 1);
@@ -279,8 +279,7 @@ public class NextRoundViewController implements Initializable {
             {
                 group.setCurrentRound(group.getCurrentRound() + 1);
             }
-        }
-        else if (group.getTeamsInGroup() == 3)
+        } else if (group.getTeamsInGroup() == 3)
         {
 
             for (Team team : teamsInGroup)
@@ -291,8 +290,7 @@ public class NextRoundViewController implements Initializable {
             {
                 group.setCurrentRound(group.getCurrentRound() + 1);
             }
-        }
-        else if (group.getTeamsInGroup() != 2)
+        } else if (group.getTeamsInGroup() != 2)
         {
             if (group.getCurrentRound() == group.getHomeTeams1().length + 1)
             {
