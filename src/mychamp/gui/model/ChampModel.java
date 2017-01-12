@@ -16,6 +16,7 @@ import mychamp.be.Group;
 import mychamp.be.Team;
 import mychamp.dal.TeamDAO;
 import mychamp.be.Match;
+import mychamp.dal.RoundDAO;
 
 /**
  *
@@ -25,6 +26,7 @@ import mychamp.be.Match;
 public class ChampModel {
 
     private final ArrayList<Team> teams;
+    private ArrayList<Group> groups;
     private final ArrayList<Team> teamsToQuarter;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
@@ -33,6 +35,7 @@ public class ChampModel {
     private final ArrayList<Match> matchesC;
     private final ArrayList<Match> matchesD;
     private final TeamDAO teamDAO;
+    private final RoundDAO roundDAO;
     private Team editTeam;
     private Group group;
     private Match firstMatch;
@@ -65,11 +68,14 @@ public class ChampModel {
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
+        matches = new ArrayList<>();
+        groups = new ArrayList<>();
         matchesA = new ArrayList<>();
         matchesB = new ArrayList<>();
         matchesC = new ArrayList<>();
         matchesD = new ArrayList<>();
         teamDAO = new TeamDAO("TeamData");
+        roundDAO = new RoundDAO("RoundData");
         teamsToQuarter = new ArrayList<>();
 
     }
@@ -97,17 +103,17 @@ public class ChampModel {
         newStage.setTitle(title);
 
         newStage.show();
-        newStage.setOnCloseRequest(value
-                -> 
-                {
-                    try
-                    {
-                        teamDAO.saveTeamData(teams);
-                    }
-                    catch (IOException ex)
-                    {
-                        Logger.getLogger(ChampModel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+        newStage.setOnCloseRequest(value -> 
+        {
+            try
+            {
+                teamDAO.saveTeamData(teams);
+                roundDAO.saveRoundData(groups);
+            }
+            catch (IOException ex)
+            {
+                Logger.getLogger(ChampModel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
 
@@ -243,6 +249,16 @@ public class ChampModel {
     public Group getGroup()
     {
         return group;
+    }
+    
+    public ArrayList<Group> getGroups()
+    {
+        return this.groups;
+    }
+    
+    public void setGroups(ArrayList<Group> groups)
+    {
+        this.groups = groups;
     }
 
     public boolean getResumed()
