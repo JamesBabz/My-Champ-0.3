@@ -502,7 +502,7 @@ public class GroupViewController implements Initializable {
         }
     }
 
-    public void getQuarterFinalTeams()
+    public void setQuarterFinalTeams()
     {
 
         model.setQuarterFinalTeams(tableA.getItems().get(0));
@@ -522,8 +522,10 @@ public class GroupViewController implements Initializable {
     @FXML
     private void goToFinals(ActionEvent event)
     {
+        setQuarterFinalTeams();
         Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
         primaryStage.close();
+        
 
         try
         {
