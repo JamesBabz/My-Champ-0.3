@@ -15,14 +15,12 @@ public class Match
     Team homeTeam;
     Team awayTeam;
     int homeScore;
-    int awayScre;
+    int awayScore;
 
-    public Match(Team homeTeam, Team awayTeam, int homeScore, int awayScore)
+    public Match(int round, Team homeTeam, Team awayTeam)
     {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.homeScore = homeScore;
-        this.awayScre = awayScore;
     }
 
     public Team getHomeTeam()
@@ -57,12 +55,12 @@ public class Match
 
     public int getAwayScre()
     {
-        return awayScre;
+        return awayScore;
     }
 
-    public void setAwayScre(int awayScre)
+    public void setAwayScore(int awayScore)
     {
-        this.awayScre = awayScre;
+        this.awayScore = awayScore;
     }
 
 }

@@ -8,6 +8,7 @@ package mychamp.gui.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ResourceBundle;
@@ -32,6 +33,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mychamp.be.Group;
+import mychamp.be.Match;
 import mychamp.be.Team;
 import mychamp.bll.PropertyValue;
 import mychamp.gui.model.ChampModel;
@@ -48,16 +50,21 @@ public class GroupViewController implements Initializable {
 
 //    private final static String[] cellValues = new String[]{"name",""};
     private ArrayList<Team> teams;
-    private ArrayList<Group> groups;
     private ObservableList<Team> groupATeams;
     private ObservableList<Team> groupBTeams;
     private ObservableList<Team> groupCTeams;
     private ObservableList<Team> groupDTeams;
 
+    private ArrayList<Group> groups;
     private Group groupA;
     private Group groupB;
     private Group groupC;
     private Group groupD;
+
+    private ArrayList<Match> matchesA;
+    private ArrayList<Match> matchesB;
+    private ArrayList<Match> matchesC;
+    private ArrayList<Match> matchesD;
 
     @FXML
     private TableView<Team> tableA;
@@ -162,9 +169,11 @@ public class GroupViewController implements Initializable {
         teams = model.getTeams();
         groups = new ArrayList<>();
         groupInit();
+        setMatches();
         setTeamIds();
         sortingListener();
         populateTables();
+
         listeners();
 
         Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
@@ -253,7 +262,7 @@ public class GroupViewController implements Initializable {
         groupB = new Group("B", groupBTeams);
         groupC = new Group("C", groupCTeams);
         groupD = new Group("D", groupDTeams);
-        
+
         groups.add(groupA);
         groups.add(groupB);
         groups.add(groupC);
@@ -342,53 +351,47 @@ public class GroupViewController implements Initializable {
     {
         Group group;
         ObservableList<Team> groupTeams;
+        ArrayList<Match> matches;
         int currRound;
         switch (groupName)
         {
             case "A":
                 group = groupA;
                 groupTeams = groupATeams;
+                matches = matchesA;
                 break;
             case "B":
                 group = groupB;
                 groupTeams = groupBTeams;
+                matches = matchesB;
                 break;
             case "C":
                 group = groupC;
                 groupTeams = groupCTeams;
+                matches = matchesC;
                 break;
             case "D":
                 group = groupD;
                 groupTeams = groupDTeams;
+                matches = matchesD;
                 break;
             default:
                 group = null;
                 groupTeams = null;
+                matches = null;
                 break;
         }
-        currRound = group.getCurrentRound() - 1;
-        Team home1;
-        int home1Id;
-        Team away1;
-        int away1Id;
-        Team home2;
-        int home2Id = 0;
-        Team away2;
-        int away2Id = 0;
+        currRound = group.getCurrentRound();
 
-        home1 = groupTeams.get(group.getHomeTeams1()[currRound] - 1);
-        away1 = groupTeams.get(group.getAwayTeams1()[currRound] - 1);
-        home1Id = home1.getId();
-        away1Id = away1.getId();
-
-        if (group.getAwayTeams2() != null)
+        if (groupTeams.size() == 4)
         {
-            home2 = groupTeams.get(group.getHomeTeams2()[currRound] - 1);
-            away2 = groupTeams.get(group.getAwayTeams2()[currRound] - 1);
-            home2Id = home2.getId();
-            away2Id = away2.getId();
+            model.setRoundMatches(matches.get(currRound*2-2), matches.get(currRound*2-1));
         }
-        model.setRoundTeams(home1Id, away1Id, home2Id, away2Id);
+        else if (groupTeams.size() == 3)
+        {
+            model.setRoundMatches(matches.get(currRound-1), null);
+        }
+
     }
 
     /**
@@ -412,7 +415,7 @@ public class GroupViewController implements Initializable {
             x++;
         }
     }
-    
+
     @FXML
     private void handleEditCommit(CellEditEvent<Team, String> event)
     {
@@ -420,7 +423,7 @@ public class GroupViewController implements Initializable {
                 event.getTablePosition().getRow())).setName(event.getNewValue());
     }
 
-private void groupIsDoneListener()
+    private void groupIsDoneListener()
     {
         for (Group group : groups)
         {
@@ -443,14 +446,15 @@ private void groupIsDoneListener()
                         else if (group.equals(groupD))
                         {
                             btn = btnNxtRndD;
-                        }else
+                        }
+                        else
                         {
                             btn = null;
                         }
                         btn.setDisable(true);
                         if (btnNxtRndA.isDisabled() && btnNxtRndB.isDisabled() && btnNxtRndC.isDisabled() && btnNxtRndD.isDisabled())
                         {
-                                btnGoToFinals.setDisable(false);
+                            btnGoToFinals.setDisable(false);
                         }
             });
         }
@@ -463,7 +467,6 @@ private void groupIsDoneListener()
         sortGroup("C");
         sortGroup("D");
     }
-
 
     private void sortGroup(String groupTeamsString)
     {
@@ -505,34 +508,106 @@ private void groupIsDoneListener()
 
     public void getQuarterFinalTeams()
     {
-        
+
         model.setQuarterFinalTeams(tableA.getItems().get(0));
         model.setQuarterFinalTeams(tableA.getItems().get(1));
-        
+
         model.setQuarterFinalTeams(tableB.getItems().get(0));
         model.setQuarterFinalTeams(tableB.getItems().get(1));
-        
+
         model.setQuarterFinalTeams(tableC.getItems().get(0));
         model.setQuarterFinalTeams(tableC.getItems().get(1));
-        
+
         model.setQuarterFinalTeams(tableD.getItems().get(0));
         model.setQuarterFinalTeams(tableD.getItems().get(1));
-        
-        
+
     }
 
     @FXML
     private void goToFinals(ActionEvent event)
     {
-           Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
+        Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
         primaryStage.close();
 
         try
         {
             model.openNewView(anchorPane, "FinalsView", "");
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void setMatches()
+    {
+        matchesA = new ArrayList<>();
+        matchesB = new ArrayList<>();
+        matchesC = new ArrayList<>();
+        matchesD = new ArrayList<>();
+
+        setMatchArray("A");
+        setMatchArray("B");
+        setMatchArray("C");
+        setMatchArray("D");
+    }
+
+    private void setMatchArray(String groupString)
+    {
+        ObservableList<Team> teams;
+        ArrayList<Match> matchArray;
+        Team hTeam;
+        Team aTeam;
+        Group group;
+        switch (groupString)
+        {
+            case "A":
+                group = groupA;
+                teams = groupATeams;
+                matchArray = matchesA;
+                break;
+            case "B":
+                group = groupB;
+                teams = groupBTeams;
+                matchArray = matchesB;
+                break;
+            case "C":
+                group = groupC;
+                teams = groupCTeams;
+                matchArray = matchesC;
+                break;
+            case "D":
+                group = groupD;
+                teams = groupDTeams;
+                matchArray = matchesD;
+                break;
+            default:
+                group = null;
+                teams = null;
+                matchArray = null;
+        }
+        if (teams.size() == 4)
+        {
+            group.groupPlay(4);
+            for (int i = 0; i < group.getHomeTeams1().length; i++)
+            {
+                hTeam = teams.get(group.getHomeTeams1()[i] - 1);
+                aTeam = teams.get(group.getAwayTeams1()[i] - 1);
+                matchArray.add(new Match(i, hTeam, aTeam));
+                hTeam = teams.get(group.getHomeTeams2()[i] - 1);
+                aTeam = teams.get(group.getAwayTeams2()[i] - 1);
+                matchArray.add(new Match(i, hTeam, aTeam));
+            }
+        }
+        else if (teams.size() == 3)
+        {
+            group.groupPlay(3);
+            for (int i = 0; i < group.getHomeTeams1().length; i++)
+            {
+                hTeam = teams.get(group.getHomeTeams1()[i] - 1);
+                aTeam = teams.get(group.getAwayTeams1()[i] - 1);
+                matchArray.add(new Match(i, hTeam, aTeam));
+            }
         }
     }
 }

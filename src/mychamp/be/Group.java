@@ -56,14 +56,14 @@ public class Group
 //        this.teamsInGroup = teams;
         this.teams = teams;
         this.teamsInGroup = teams.size();
-        groupPlay(teamsInGroup);
+//        groupPlay(teamsInGroup);
     }
 
     /**
      *
      * @param teams
      */
-    private void groupPlay(int teams)
+    public void groupPlay(int teams)
     {
         switch (teams)
         {
