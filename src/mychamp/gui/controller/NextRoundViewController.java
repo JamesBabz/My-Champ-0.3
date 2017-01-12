@@ -25,12 +25,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class NextRoundViewController implements Initializable {
-
-    Team homeTeam1;
-    Team awayTeam1;
-    Team homeTeam2;
-    Team awayTeam2;
+public class NextRoundViewController implements Initializable
+{
 
     Match firstMatch;
     Match secondMatch;
@@ -71,10 +67,9 @@ public class NextRoundViewController implements Initializable {
         group = model.getGroup();
         setLabelName(model);
         setLabelRound();
-        
-        
+
         processAllowedTextInputs();
-        
+
     }
 
     private void processAllowedTextInputs()
@@ -83,16 +78,20 @@ public class NextRoundViewController implements Initializable {
         {
             if (node instanceof TextField)
             {
-                ((TextField) node).textProperty().addListener((listener, oldVal, newVal) -> 
-                {
-                    if (!Pattern.matches("[0-9]+", newVal))
-                    {
-                        if (oldVal != null && !newVal.isEmpty())
-                            ((TextField) node).setText(oldVal);
-                        else
-                            ((TextField) node).setText("");
-                        
-                    }                    
+                ((TextField) node).textProperty().addListener((listener, oldVal, newVal)
+                        -> 
+                        {
+                            if (!Pattern.matches("[0-9]+", newVal))
+                            {
+                                if (oldVal != null && !newVal.isEmpty())
+                                {
+                                    ((TextField) node).setText(oldVal);
+                                } else
+                                {
+                                    ((TextField) node).setText("");
+                                }
+
+                            }
                 });
             }
         }
@@ -130,7 +129,13 @@ public class NextRoundViewController implements Initializable {
      */
     private void setLabelRound()
     {
-        lblRoundNumb.setText(group.getCurrentRound() + "");
+        if (group.getCurrentRound() == 10)
+        {
+            lblRoundNumb.setText("Quarter-Final");
+        } else
+        {
+            lblRoundNumb.setText("Round: " + group.getCurrentRound());
+        }
     }
 
     /**
@@ -142,20 +147,69 @@ public class NextRoundViewController implements Initializable {
     {
         firstMatch = model.getFirstMatch();
         secondMatch = model.getSecondMatch();
-
-        lblHome1.setText(firstMatch.getHomeTeam().getName());
-        lblAway1.setText(firstMatch.getAwayTeam().getName());
+        Team firstHomeTeam = firstMatch.getHomeTeam();
+        Team firstAwayTeam = firstMatch.getAwayTeam();
+        Team secondHomeTeam;
+        Team secondAwayTeam;
         if (secondMatch != null)
         {
-            lblHome2.setText(secondMatch.getHomeTeam().getName());
-            lblAway2.setText(secondMatch.getAwayTeam().getName());
+            secondHomeTeam = secondMatch.getHomeTeam();
+            secondAwayTeam = secondMatch.getAwayTeam();
+        } else
+        {
+            secondHomeTeam = null;
+            secondAwayTeam = null;
         }
-        else
+
+        lblHome1.setText(firstHomeTeam.getName());
+        lblAway1.setText(firstAwayTeam.getName());
+        if (secondMatch != null)
+        {
+            lblHome2.setText(secondHomeTeam.getName());
+            lblAway2.setText(secondAwayTeam.getName());
+        } else
         {
             lblHome2.setDisable(true);
             lblAway2.setDisable(true);
             txtHome2.setDisable(true);
             txtAway2.setDisable(true);
+        }
+        if (firstHomeTeam.getIsDeleted().get() || firstAwayTeam.getIsDeleted().get())
+        {
+
+            lblHome1.setDisable(true);
+            lblAway1.setDisable(true);
+            txtHome1.setDisable(true);
+            txtAway1.setDisable(true);
+        }
+        if (firstHomeTeam.getIsDeleted().get())
+        {
+            txtHome1.setText("0");
+            txtAway1.setText("3");
+        } else if (firstAwayTeam.getIsDeleted().get())
+        {
+            txtHome1.setText("3");
+            txtAway1.setText("0");
+        }
+
+        if (secondMatch != null)
+        {
+            if (secondHomeTeam.getIsDeleted().get() || secondAwayTeam.getIsDeleted().get())
+            {
+                lblHome2.setDisable(true);
+                lblAway2.setDisable(true);
+                txtHome2.setDisable(true);
+                txtAway2.setDisable(true);
+            }
+            if (secondHomeTeam.getIsDeleted().get())
+            {
+                txtHome2.setText("0");
+                txtAway2.setText("3");
+            } else if (secondAwayTeam.getIsDeleted().get())
+            {
+                txtHome2.setText("3");
+                txtAway2.setText("0");
+            }
         }
     }
 
@@ -191,13 +245,11 @@ public class NextRoundViewController implements Initializable {
         {
             homeTeam.setWins(homeTeam.getWins() + 1);
             awayTeam.setLosses(awayTeam.getLosses() + 1);
-        }
-        else if (homeScore < awayScore)
+        } else if (homeScore < awayScore)
         {
             awayTeam.setWins(awayTeam.getWins() + 1);
             homeTeam.setLosses(homeTeam.getLosses() + 1);
-        }
-        else
+        } else
         {
             homeTeam.setDraws(homeTeam.getDraws() + 1);
             awayTeam.setDraws(awayTeam.getDraws() + 1);
@@ -227,8 +279,7 @@ public class NextRoundViewController implements Initializable {
             {
                 group.setCurrentRound(group.getCurrentRound() + 1);
             }
-        }
-        else if (group.getTeamsInGroup() == 3)
+        } else if (group.getTeamsInGroup() == 3)
         {
 
             for (Team team : teamsInGroup)
@@ -239,10 +290,12 @@ public class NextRoundViewController implements Initializable {
             {
                 group.setCurrentRound(group.getCurrentRound() + 1);
             }
-        }
-        if (group.getCurrentRound() == group.getHomeTeams1().length + 1)
+        } else if (group.getTeamsInGroup() != 2)
         {
-            group.setDone(true);
+            if (group.getCurrentRound() == group.getHomeTeams1().length + 1)
+            {
+                group.setDone(true);
+            }
         }
     }
 

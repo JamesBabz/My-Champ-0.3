@@ -28,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.converter.DefaultStringConverter;
 import mychamp.be.Group;
 import mychamp.be.Match;
 import mychamp.be.Team;
@@ -382,11 +383,11 @@ public class GroupViewController implements Initializable {
 
         if (groupTeams.size() == 4)
         {
-            model.setRoundMatches(matches.get(currRound*2-2), matches.get(currRound*2-1));
+            model.setRoundMatches(matches.get(currRound * 2 - 2), matches.get(currRound * 2 - 1));
         }
         else if (groupTeams.size() == 3)
         {
-            model.setRoundMatches(matches.get(currRound-1), null);
+            model.setRoundMatches(matches.get(currRound - 1), null);
         }
 
     }
@@ -406,7 +407,6 @@ public class GroupViewController implements Initializable {
             clmn.setCellValueFactory(new PropertyValueFactory<>(PropertyValue.values()[x].toString()));
             if (x == 0)
             {
-
                 clmn.setCellFactory(TextFieldTableCell.forTableColumn());
             }
             x++;
@@ -503,7 +503,7 @@ public class GroupViewController implements Initializable {
         }
     }
 
-    public void getQuarterFinalTeams()
+    public void setQuarterFinalTeams()
     {
 
         model.setQuarterFinalTeams(tableA.getItems().get(0));
@@ -523,6 +523,7 @@ public class GroupViewController implements Initializable {
     @FXML
     private void goToFinals(ActionEvent event)
     {
+        setQuarterFinalTeams();
         Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
         primaryStage.close();
 
@@ -547,6 +548,11 @@ public class GroupViewController implements Initializable {
         setMatchArray("B");
         setMatchArray("C");
         setMatchArray("D");
+
+        model.setMatchesA(matchesA);
+        model.setMatchesB(matchesB);
+        model.setMatchesC(matchesC);
+        model.setMatchesD(matchesD);
     }
 
     private void setMatchArray(String groupString)
@@ -590,10 +596,10 @@ public class GroupViewController implements Initializable {
             {
                 hTeam = teams.get(group.getHomeTeams1()[i] - 1);
                 aTeam = teams.get(group.getAwayTeams1()[i] - 1);
-                matchArray.add(new Match(i, hTeam, aTeam));
+                matchArray.add(new Match(hTeam, aTeam));
                 hTeam = teams.get(group.getHomeTeams2()[i] - 1);
                 aTeam = teams.get(group.getAwayTeams2()[i] - 1);
-                matchArray.add(new Match(i, hTeam, aTeam));
+                matchArray.add(new Match(hTeam, aTeam));
             }
         }
         else if (teams.size() == 3)
@@ -603,8 +609,48 @@ public class GroupViewController implements Initializable {
             {
                 hTeam = teams.get(group.getHomeTeams1()[i] - 1);
                 aTeam = teams.get(group.getAwayTeams1()[i] - 1);
-                matchArray.add(new Match(i, hTeam, aTeam));
+                matchArray.add(new Match(hTeam, aTeam));
             }
         }
+    }
+
+    @FXML
+    private void handleDeleteA()
+    {
+        Team toDelete = tableA.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    @FXML
+    private void handleDeleteB()
+    {
+        Team toDelete = tableB.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    @FXML
+    private void handleDeleteC()
+    {
+        Team toDelete = tableC.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    @FXML
+    private void handleDeleteD()
+    {
+        Team toDelete = tableD.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    private void handleDelete(Team toDelete)
+    {
+        toDelete.setName(toDelete.getName() + " (Deleted)");
+        toDelete.setIsDeleted(true);
+    }
+
+    @FXML
+    private void handleMatchScheduleView() throws IOException
+    {
+        model.openNewView(anchorPane, "MatchScheduleView", "Match Schedule");
     }
 }

@@ -2,74 +2,65 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="407.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.controller.FinalsViewController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="424.0" prefWidth="959.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.controller.FinalsViewController">
    <children>
-      <TableView id="quarterFinalA" fx:id="quarterFinalA" layoutX="32.0" layoutY="34.0" prefHeight="70.0" prefWidth="204.0">
+      <TableView id="quarterFinalA" fx:id="quarterFinalA" layoutX="24.0" layoutY="39.0" prefHeight="77.0" prefWidth="218.0">
         <columns>
           <TableColumn id="QuarterTeamA" fx:id="QuarterTeamA" prefWidth="162.0" text="Team" />
-            <TableColumn id="QuarterScoreA" fx:id="QuarterScoreA" prefWidth="44.0" text="Score" />
+            <TableColumn id="QuarterScoreA" fx:id="QuarterScoreA" prefWidth="52.0" text="Score" />
         </columns>
       </TableView>
-      <TableView id="quarterFinalB" fx:id="quarterFinalB" layoutX="32.0" layoutY="122.0" prefHeight="70.0" prefWidth="204.0">
+      <TableView id="quarterFinalB" fx:id="quarterFinalB" layoutX="24.0" layoutY="125.0" prefHeight="77.0" prefWidth="218.0">
          <columns>
             <TableColumn id="QuarterTeamB" fx:id="QuarterTeamB" prefWidth="162.0" text="Team" />
-            <TableColumn id="QuarterScoreB" fx:id="QuarterScoreB" prefWidth="44.0" text="Score" />
+            <TableColumn id="QuarterScoreB" fx:id="QuarterScoreB" prefWidth="52.0" text="Score" />
          </columns>
       </TableView>
-      <Label layoutX="32.0" layoutY="6.0" text="Quarter-Finals" />
-      <TableView id="SemiFinalA" fx:id="SemiFinalA" layoutX="303.0" layoutY="82.0" prefHeight="70.0" prefWidth="204.0">
+      <Label layoutX="89.0" layoutY="15.0" text="Quarter-Finals" />
+      <TableView id="SemiFinalA" fx:id="SemiFinalA" layoutX="457.0" layoutY="99.0" prefHeight="77.0" prefWidth="218.0">
          <columns>
             <TableColumn id="SemiTeamA" fx:id="SemiTeamA" prefWidth="162.0" text="Team" />
-            <TableColumn id="SemiScoreA" fx:id="SemiScoreA" prefWidth="44.0" text="Score" />
+            <TableColumn id="SemiScoreA" fx:id="SemiScoreA" prefWidth="52.0" text="Score" />
          </columns>
       </TableView>
-      <TableView id="FinalA" fx:id="FinalA" layoutX="587.0" layoutY="189.0" prefHeight="70.0" prefWidth="204.0">
+      <TableView id="FinalA" fx:id="FinalA" layoutX="741.0" layoutY="206.0" prefHeight="77.0" prefWidth="218.0">
          <columns>
             <TableColumn id="FinalTeamA" fx:id="FinalTeamA" prefWidth="162.0" text="Team" />
-            <TableColumn id="FinalScoreA" fx:id="FinalScoreA" prefWidth="44.0" text="Score" />
+            <TableColumn id="FinalScoreA" fx:id="FinalScoreA" prefWidth="52.0" text="Score" />
          </columns>
       </TableView>
-      <Label layoutX="367.0" layoutY="61.0" text="Semi-Finals" />
+      <Label layoutX="521.0" layoutY="78.0" text="Semi-Finals" />
       <Label layoutX="664.0" layoutY="166.0" text="Final" />
-      <Separator layoutX="236.0" layoutY="156.0" prefHeight="1.0" prefWidth="35.0" />
-      <Separator layoutX="236.0" layoutY="77.0" prefHeight="1.0" prefWidth="35.0" />
-      <Separator layoutX="268.0" layoutY="77.0" orientation="VERTICAL" prefHeight="80.0" prefWidth="6.0" />
-      <Separator layoutX="268.0" layoutY="121.0" prefHeight="3.0" prefWidth="35.0" />
-      <TableView id="quarterFinalC" fx:id="quarterFinalC" layoutX="31.0" layoutY="228.0" prefHeight="70.0" prefWidth="204.0">
+      <TableView id="quarterFinalC" fx:id="quarterFinalC" layoutX="24.0" layoutY="242.0" prefHeight="77.0" prefWidth="218.0">
          <columns>
             <TableColumn id="QuarterTeamC" fx:id="QuarterTeamC" prefWidth="162.0" text="Team" />
-            <TableColumn id="QuarterScoreC" fx:id="QuarterScoreC" prefWidth="44.0" text="Score" />
+            <TableColumn id="QuarterScoreC" fx:id="QuarterScoreC" prefWidth="51.0" text="Score" />
          </columns>
       </TableView>
-      <Separator layoutX="267.0" layoutY="271.0" orientation="VERTICAL" prefHeight="80.0" prefWidth="6.0" />
-      <Separator layoutX="235.0" layoutY="271.0" prefHeight="1.0" prefWidth="35.0" />
-      <TableView id="SemiFinalA" fx:id="SemiFinalB" layoutX="303.0" layoutY="276.0" prefHeight="70.0" prefWidth="204.0">
+      <TableView id="SemiFinalA" fx:id="SemiFinalB" layoutX="460.0" layoutY="295.0" prefHeight="77.0" prefWidth="218.0">
          <columns>
             <TableColumn id="SemiTeamB" fx:id="SemiTeamB" prefWidth="162.0" text="Team" />
-            <TableColumn id="SemiScoreA" fx:id="SemiScoreB" prefWidth="44.0" text="Score" />
+            <TableColumn id="SemiScoreA" fx:id="SemiScoreB" prefWidth="51.0" text="Score" />
          </columns>
       </TableView>
-      <Separator layoutX="267.0" layoutY="315.0" prefHeight="3.0" prefWidth="35.0" />
-      <TableView id="quarterFinalD" fx:id="quarterFinalD" layoutX="31.0" layoutY="316.0" prefHeight="70.0" prefWidth="204.0">
+      <TableView id="quarterFinalD" fx:id="quarterFinalD" layoutX="24.0" layoutY="330.0" prefHeight="77.0" prefWidth="218.0">
          <columns>
             <TableColumn id="QuarterTeamD" fx:id="QuarterTeamD" prefWidth="162.0" text="Team" />
-            <TableColumn id="QuarterScoreD" fx:id="QuarterScoreD" prefWidth="44.0" text="Score" />
+            <TableColumn id="QuarterScoreD" fx:id="QuarterScoreD" prefWidth="51.0" text="Score" />
          </columns>
       </TableView>
-      <Separator layoutX="235.0" layoutY="350.0" prefHeight="1.0" prefWidth="35.0" />
-      <Label layoutX="367.0" layoutY="255.0" text="Semi-Finals" />
-      <Label layoutX="32.0" layoutY="204.0" text="Quarter-Finals" />
-      <Separator layoutX="507.0" layoutY="121.0" prefHeight="1.0" prefWidth="35.0" />
-      <Separator layoutX="507.0" layoutY="315.0" prefHeight="1.0" prefWidth="35.0" />
-      <Separator layoutX="539.0" layoutY="122.0" orientation="VERTICAL" prefHeight="194.0" prefWidth="6.0" />
-      <Separator layoutX="541.0" layoutY="227.0" prefHeight="3.0" prefWidth="47.0" />
-      <Button fx:id="btnQuarter" layoutX="544.0" layoutY="368.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Quarter" />
+      <Label layoutX="521.0" layoutY="272.0" text="Semi-Finals" />
+      <Label layoutX="96.0" layoutY="217.0" text="Quarter-Finals" />
+      <Button fx:id="btnQuarter" layoutX="698.0" layoutY="385.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Quarter" />
       <Button fx:id="btnSemi" layoutX="636.0" layoutY="368.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Semi" />
       <Button fx:id="btnFinal" layoutX="728.0" layoutY="368.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Final" />
+      <Button layoutX="244.0" layoutY="39.0" mnemonicParsing="false" onAction="#firstQFinal" text="Result" />
+      <Button layoutX="244.0" layoutY="124.0" mnemonicParsing="false" onAction="#secondQFinal" text="Result" />
+      <Button layoutX="244.0" layoutY="242.0" mnemonicParsing="false" onAction="#thirdQFinal" text="Result" />
+      <Button layoutX="244.0" layoutY="330.0" mnemonicParsing="false" onAction="#fourthQFinal" text="Result" />
    </children>
 </AnchorPane>

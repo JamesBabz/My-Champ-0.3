@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -8,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="704.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.controller.GroupViewController">
+<AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="704.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mychamp.gui.controller.GroupViewController">
    <children>
       <VBox layoutX="14.0" layoutY="5.0" prefHeight="189.0" prefWidth="743.0">
          <children>
@@ -24,6 +28,13 @@
                   <TableColumn fx:id="colGAA" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="GA" />
                   <TableColumn fx:id="colPointsA" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
               </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#handleDeleteA" text="Delete" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
             </TableView>
             <Button fx:id="btnNxtRndA" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewA" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
@@ -46,6 +57,13 @@
                   <TableColumn fx:id="colGAB" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="GA" />
                   <TableColumn fx:id="colPointsB" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
                </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#handleDeleteB" text="Delete" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
             </TableView>
             <Button fx:id="btnNxtRndB" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewB" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
@@ -68,6 +86,13 @@
                   <TableColumn fx:id="colGAC" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="GA" />
                   <TableColumn fx:id="colPointsC" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
                </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#handleDeleteC" text="Delete" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
             </TableView>
             <Button fx:id="btnNxtRndC" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewC" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
@@ -90,6 +115,13 @@
                   <TableColumn fx:id="colGAD" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="GA" />
                   <TableColumn fx:id="colPointsD" editable="false" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="50.0" resizable="false" sortable="false" text="Points" />
                </columns>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#handleDeleteD" text="Delete" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
             </TableView>
             <Button fx:id="btnNxtRndD" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openNextRoundViewD" prefHeight="17.0" prefWidth="104.0" text="Next Round">
                <VBox.margin>
@@ -99,5 +131,6 @@
          </children>
       </VBox>
       <Button fx:id="btnGoToFinals" layoutX="120.0" layoutY="679.0" mnemonicParsing="false" onAction="#goToFinals" text="Go to Finals" />
+      <Button layoutX="15.0" layoutY="679.0" mnemonicParsing="false" onAction="#handleMatchScheduleView" text="Match Schedule" />
    </children>
 </AnchorPane>

@@ -19,7 +19,7 @@ public class Match implements Serializable
      * @param homeTeam
      * @param awayTeam 
      */
-    public Match(int round, Team homeTeam, Team awayTeam)
+    public Match(Team homeTeam, Team awayTeam)
     {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
