@@ -81,7 +81,7 @@ public class FinalsViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        model.getTeamsToQuarter();
+//        model.getTeamsToQuarter();
     }
 
     private void createQuarterFinals()
