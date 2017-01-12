@@ -129,7 +129,7 @@ public class NextRoundViewController implements Initializable {
      */
     private void setLabelRound()
     {
-        lblRoundNumb.setText("Round: "+group.getCurrentRound());
+        lblRoundNumb.setText("Round: " + group.getCurrentRound());
     }
 
     /**
@@ -149,7 +149,8 @@ public class NextRoundViewController implements Initializable {
         {
             secondHomeTeam = secondMatch.getHomeTeam();
             secondAwayTeam = secondMatch.getAwayTeam();
-        }else
+        }
+        else
         {
             secondHomeTeam = null;
             secondAwayTeam = null;
@@ -291,9 +292,12 @@ public class NextRoundViewController implements Initializable {
                 group.setCurrentRound(group.getCurrentRound() + 1);
             }
         }
-        if (group.getCurrentRound() == group.getHomeTeams1().length + 1)
+        else if (group.getTeamsInGroup() != 2)
         {
-            group.setDone(true);
+            if (group.getCurrentRound() == group.getHomeTeams1().length + 1)
+            {
+                group.setDone(true);
+            }
         }
     }
 

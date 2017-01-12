@@ -28,7 +28,10 @@ public class ChampModel {
     private final ArrayList<Team> teamsToQuarter;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
-    private final ArrayList<Match> matches;
+    private final ArrayList<Match> matchesA;
+    private final ArrayList<Match> matchesB;
+    private final ArrayList<Match> matchesC;
+    private final ArrayList<Match> matchesD;
     private final TeamDAO teamDAO;
     private Team editTeam;
     private Group group;
@@ -62,7 +65,10 @@ public class ChampModel {
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
-        matches = new ArrayList<>();
+        matchesA = new ArrayList<>();
+        matchesB = new ArrayList<>();
+        matchesC = new ArrayList<>();
+        matchesD = new ArrayList<>();
         teamDAO = new TeamDAO("TeamData");
         teamsToQuarter = new ArrayList<>();
 
@@ -258,6 +264,46 @@ public class ChampModel {
     {
         teamsToQuarter.add(team);
 
+    }
+
+    public ArrayList<Match> getMatchesA()
+    {
+        return matchesA;
+    }
+
+    public ArrayList<Match> getMatchesB()
+    {
+        return matchesB;
+    }
+
+    public ArrayList<Match> getMatchesC()
+    {
+        return matchesC;
+    }
+
+    public ArrayList<Match> getMatchesD()
+    {
+        return matchesD;
+    }
+
+    public void setMatchesA(ArrayList matches)
+    {
+        this.matchesA.addAll(matches);
+    }
+
+    public void setMatchesB(ArrayList matches)
+    {
+        this.matchesB.addAll(matches);
+    }
+
+    public void setMatchesC(ArrayList matches)
+    {
+        this.matchesC.addAll(matches);
+    }
+
+    public void setMatchesD(ArrayList matches)
+    {
+        this.matchesD.addAll(matches);
     }
 
 }
