@@ -22,7 +22,6 @@ public class MatchDAO
      * Writes an object to a file, in this case the object must be an arraylist
      * of Matches.
      *
-     * @param songs The matches to be saved.
      * @param fileName The name of the file to save the matches in.
      * @throws IOException
      */
@@ -42,6 +41,7 @@ public class MatchDAO
      * @param fileName The fileName to read the information from.
      * @return Returns a new array containing all the stored data.
      * @throws FileNotFoundException
+     * @throws java.lang.ClassNotFoundException
      */
     public ArrayList<Match> readObjectData(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException
     {
