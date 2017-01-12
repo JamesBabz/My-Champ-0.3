@@ -9,8 +9,8 @@ import javafx.collections.ObservableList;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class Group
-{
+public class Group {
+
     String name;
     int teamsInGroup;
     int[] homeTeams1;
@@ -20,11 +20,6 @@ public class Group
     int currentRound;
     private ObservableList<Team> teams;
     private final BooleanProperty isDone;
-
-    
-    
-
-    
 
     /**
      * The default constructor for creating a group.
@@ -199,7 +194,7 @@ public class Group
     {
         return teams;
     }
-    
+
 //    public boolean isDone()
 //    {
 //        return isDone;
@@ -209,7 +204,6 @@ public class Group
 //    {
 //        this.isDone = done;
 //    }
-
     public boolean isDone()
     {
         return isDone.get();
@@ -224,6 +218,5 @@ public class Group
     {
         return isDone;
     }
-    
-    
+
 }

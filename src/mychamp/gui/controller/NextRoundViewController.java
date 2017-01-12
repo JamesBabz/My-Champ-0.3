@@ -1,7 +1,6 @@
 package mychamp.gui.controller;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import mychamp.be.Group;
+import mychamp.be.Match;
 import mychamp.be.Team;
 import mychamp.gui.model.ChampModel;
 
@@ -224,15 +224,6 @@ public class NextRoundViewController implements Initializable {
     private void macros(KeyEvent key)
     {
         if (KeyCode.ENTER == key.getCode())
-        {
-            handleSave();
-        }
-    }
-    
-    @FXML
-    private void macros(KeyEvent key)
-    {
-        if(KeyCode.ENTER == key.getCode())
         {
             handleSave();
         }
