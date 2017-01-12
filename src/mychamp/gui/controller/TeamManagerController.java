@@ -29,8 +29,7 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class TeamManagerController implements Initializable
-{
+public class TeamManagerController implements Initializable {
 
     private final static int MIN_TEAMS = 12;
     private final static int MAX_TEAMS = 16;
@@ -81,7 +80,8 @@ public class TeamManagerController implements Initializable
         try
         {
             loadData();
-        } catch (IOException | ClassNotFoundException ex)
+        }
+        catch (IOException | ClassNotFoundException ex)
         {
             System.out.println(ex);
         }
@@ -95,7 +95,8 @@ public class TeamManagerController implements Initializable
         try
         {
             model.openNewView(anchorPane, "TeamNameView", "New team");
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -108,7 +109,8 @@ public class TeamManagerController implements Initializable
         try
         {
             model.openNewView(anchorPane, "TeamNameView", "Edit team");
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -126,7 +128,8 @@ public class TeamManagerController implements Initializable
         if (result.get() == ButtonType.OK)
         {
             model.removeTeam(selectedTeamIndex);
-        } else
+        }
+        else
         {
             // ... user chose CANCEL or closed the dialog
         }
@@ -179,7 +182,8 @@ public class TeamManagerController implements Initializable
         try
         {
             model.openNewView(anchorPane, "GroupView", "");
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -209,7 +213,7 @@ public class TeamManagerController implements Initializable
             btnAdd.setDisable(true);
             listTeams.setDisable(true);
             btnResume.setDisable(false);
-        }  
+        }
 
     }
 
@@ -231,7 +235,8 @@ public class TeamManagerController implements Initializable
                     if (amount == MAX_TEAMS)
                     {
                         btnAdd.setDisable(true);
-                    } else if (amount < MAX_TEAMS)
+                    }
+                    else if (amount < MAX_TEAMS)
                     {
                         btnAdd.setDisable(false);
 
@@ -252,7 +257,8 @@ public class TeamManagerController implements Initializable
                         btnEdit.setDisable(true);
                         btnRemove.setDisable(true);
                         btnResume.setDisable(true);
-                    } else
+                    }
+                    else
                     {
                         selectedTeamIndex = listTeams.getSelectionModel().getSelectedIndex();
                         btnEdit.setDisable(false);
@@ -278,7 +284,8 @@ public class TeamManagerController implements Initializable
             btnResume.setDisable(true);
             listTeams.setDisable(false);
 
-        } else
+        }
+        else
         {
             // ... user chose CANCEL or closed the dialog
         }

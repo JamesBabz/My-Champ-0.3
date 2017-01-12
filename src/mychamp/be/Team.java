@@ -12,6 +12,7 @@ import javafx.beans.property.StringProperty;
  * Enemark
  */
 public class Team implements Serializable {
+
     private final IntegerProperty id;
     private final StringProperty name;
     private final IntegerProperty played;
@@ -21,7 +22,6 @@ public class Team implements Serializable {
     private final IntegerProperty goalFor;
     private final IntegerProperty goalAgainst;
     private final IntegerProperty point;
-
 
     /**
      * The default constructor for generating a new team.
@@ -58,7 +58,6 @@ public class Team implements Serializable {
 
     }
 
-
     /**
      * Sets the team's Id.
      *
@@ -70,8 +69,7 @@ public class Team implements Serializable {
 //    {
 //        this.id = id;
 //    }
-
-        /**
+    /**
      * Gets the team's Id represented by an integer.
      *
      * @return Returns the id.
@@ -85,8 +83,8 @@ public class Team implements Serializable {
     {
         id.set(value);
     }
-    
-        /**
+
+    /**
      *
      * @return
      */
@@ -95,7 +93,7 @@ public class Team implements Serializable {
         return goalAgainst.get();
     }
 
-        /**
+    /**
      *
      * @param goalAgainst
      */
@@ -114,7 +112,7 @@ public class Team implements Serializable {
         return goalFor.get();
     }
 
-        /**
+    /**
      *
      * @param goalFor
      */
@@ -128,7 +126,6 @@ public class Team implements Serializable {
         return goalFor;
     }
 
-    
     /**
      * Gets the amount of losses rounds this team has.
      *
@@ -140,7 +137,7 @@ public class Team implements Serializable {
         return losses.get();
     }
 
-        /**
+    /**
      * Sets the amount of losses this team has.
      *
      * @param losses The amount of losses.
@@ -166,7 +163,6 @@ public class Team implements Serializable {
         return draws.get();
     }
 
-    
     /**
      * Sets the amount of draws this team has.
      *
@@ -275,7 +271,7 @@ public class Team implements Serializable {
      */
     public void setPoint()
     {
-        point.set(wins.get()*3+draws.get());
+        point.set(wins.get() * 3 + draws.get());
     }
 
     public IntegerProperty pointProperty()

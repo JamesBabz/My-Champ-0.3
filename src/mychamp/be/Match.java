@@ -9,8 +9,7 @@ package mychamp.be;
  *
  * @author James
  */
-public class Match
-{
+public class Match {
 
     Team homeTeam;
     Team awayTeam;
