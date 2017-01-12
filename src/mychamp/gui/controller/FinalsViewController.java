@@ -101,10 +101,9 @@ public class FinalsViewController implements Initializable
     {
 
         model = ChampModel.getInstance();
-         
+
         initArrays();
-        
-        
+
         populateTables();
         createQuarterFinals();
     }
@@ -113,7 +112,7 @@ public class FinalsViewController implements Initializable
     {
         quarterTeams = new ArrayList<>();
         quarterTeams = model.getTeamsToQuarter();
-        
+
         quarterATeams = FXCollections.observableArrayList();
         quarterBTeams = FXCollections.observableArrayList();
         quarterCTeams = FXCollections.observableArrayList();
@@ -151,7 +150,6 @@ public class FinalsViewController implements Initializable
         QuarterTeamD.setCellValueFactory(new PropertyValueFactory<>("name"));
         QuarterScoreD.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
     }
-    
 
     private void populateTables()
     {
@@ -161,16 +159,65 @@ public class FinalsViewController implements Initializable
         quarterFinalD.setItems(quarterDTeams);
     }
 
-    @FXML
-    private void firstQFinal() throws IOException
+    private void resultQuarterFinal(int qFinal) throws IOException
     {
-        Match match = new Match(quarterATeams.get(0),quarterATeams.get(1));
-        Group group = new Group("1st QFinals",2);
+        ObservableList<Team> qTeams;
+        switch (qFinal)
+        {
+            case 1:
+
+                qTeams = quarterATeams;
+
+                break;
+
+            case 2:
+                qTeams = quarterBTeams;
+
+                break;
+
+            case 3:
+                qTeams = quarterCTeams;
+
+                break;
+
+            case 4:
+                qTeams = quarterDTeams;
+                break;
+            default:
+                qTeams = null;
+        }
+        Match match = new Match(qTeams.get(0), qTeams.get(1));
+        Group group = new Group("1st QFinals", 2);
         group.setCurrentRound(10);
         model.setGroup(group);
         model.setRoundMatches(match, null);
-        model.openNewView(anchorPane, "NextRoundView", "QFinals");
+        model.openNewView(anchorPane, "NextRoundView", "");
+
+    }
+
+    @FXML
+    private void firstQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(1);
+    }
+
+    @FXML
+    private void secondQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(2);
         
+    }
+
+    @FXML
+    private void thirdQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(3);
+    }
+
+    @FXML
+    private void fourthQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(4);
     }
 
 }
