@@ -40,7 +40,8 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class GroupViewController implements Initializable {
+public class GroupViewController implements Initializable
+{
 
     ChampModel model;
 
@@ -313,8 +314,7 @@ public class GroupViewController implements Initializable {
             if (currentGroup == 3)
             {
                 currentGroup = 0;
-            }
-            else
+            } else
             {
                 currentGroup++;
             }
@@ -331,8 +331,7 @@ public class GroupViewController implements Initializable {
         try
         {
             model.openNewView(anchorPane, "NextRoundView", title);
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -381,11 +380,10 @@ public class GroupViewController implements Initializable {
 
         if (groupTeams.size() == 4)
         {
-            model.setRoundMatches(matches.get(currRound*2-2), matches.get(currRound*2-1));
-        }
-        else if (groupTeams.size() == 3)
+            model.setRoundMatches(matches.get(currRound * 2 - 2), matches.get(currRound * 2 - 1));
+        } else if (groupTeams.size() == 3)
         {
-            model.setRoundMatches(matches.get(currRound-1), null);
+            model.setRoundMatches(matches.get(currRound - 1), null);
         }
 
     }
@@ -430,20 +428,16 @@ public class GroupViewController implements Initializable {
                         if (group.equals(groupA))
                         {
                             btn = btnNxtRndA;
-                        }
-                        else if (group.equals(groupB))
+                        } else if (group.equals(groupB))
                         {
                             btn = btnNxtRndB;
-                        }
-                        else if (group.equals(groupC))
+                        } else if (group.equals(groupC))
                         {
                             btn = btnNxtRndC;
-                        }
-                        else if (group.equals(groupD))
+                        } else if (group.equals(groupD))
                         {
                             btn = btnNxtRndD;
-                        }
-                        else
+                        } else
                         {
                             btn = null;
                         }
@@ -490,7 +484,8 @@ public class GroupViewController implements Initializable {
         }
         for (Team team : groupTeams)
         {
-            team.pointProperty().addListener(new ChangeListener<Number>() {
+            team.pointProperty().addListener(new ChangeListener<Number>()
+            {
                 @Override
                 public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
                 {
@@ -529,8 +524,7 @@ public class GroupViewController implements Initializable {
         try
         {
             model.openNewView(anchorPane, "FinalsView", "");
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             Logger.getLogger(TeamManagerController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -595,8 +589,7 @@ public class GroupViewController implements Initializable {
                 aTeam = teams.get(group.getAwayTeams2()[i] - 1);
                 matchArray.add(new Match(i, hTeam, aTeam));
             }
-        }
-        else if (teams.size() == 3)
+        } else if (teams.size() == 3)
         {
             group.groupPlay(3);
             for (int i = 0; i < group.getHomeTeams1().length; i++)
