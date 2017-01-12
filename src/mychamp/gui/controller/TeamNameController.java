@@ -17,11 +17,11 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class TeamNameController implements Initializable
-{
+public class TeamNameController implements Initializable {
+
     private ChampModel model;
     private boolean isEdit;
-    
+
     @FXML
     private Button btnCancel;
     @FXML
@@ -78,7 +78,7 @@ public class TeamNameController implements Initializable
             closeWindow();
         }
     }
-    
+
     @FXML
     private void handleCancel()
     {

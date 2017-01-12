@@ -17,14 +17,13 @@ import mychamp.be.Team;
 import mychamp.dal.TeamDAO;
 import mychamp.be.Match;
 
-
 /**
  *
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class ChampModel
-{
+public class ChampModel {
+
     private final ArrayList<Team> teams;
     private final ArrayList<Team> teamsToQuarter;
     private final ObservableList<String> teamNames;
@@ -58,7 +57,7 @@ public class ChampModel
      */
     private ChampModel()
     {
-      
+
         this.isResumed = false;
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
@@ -66,7 +65,6 @@ public class ChampModel
         matches = new ArrayList<>();
         teamDAO = new TeamDAO("TeamData");
         teamsToQuarter = new ArrayList<>();
-        
 
     }
 
@@ -93,16 +91,17 @@ public class ChampModel
         newStage.setTitle(title);
 
         newStage.show();
-        newStage.setOnCloseRequest(value ->
-        {
-            try
-            {
-                teamDAO.saveTeamData(teams);
-            }
-            catch (IOException ex)
-            {
-                Logger.getLogger(ChampModel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        newStage.setOnCloseRequest(value
+                -> 
+                {
+                    try
+                    {
+                        teamDAO.saveTeamData(teams);
+                    }
+                    catch (IOException ex)
+                    {
+                        Logger.getLogger(ChampModel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         });
     }
 
@@ -206,19 +205,17 @@ public class ChampModel
         setTeamNames();
     }
 
-    
     public void setRoundMatches(Match fMatch, Match sMatch)
     {
         this.firstMatch = fMatch;
         this.secondMatch = sMatch;
     }
 
-    
     public Match getFirstMatch()
     {
         return firstMatch;
     }
-    
+
     public Match getSecondMatch()
     {
         return secondMatch;
@@ -242,12 +239,11 @@ public class ChampModel
         return group;
     }
 
-
     public boolean getResumed()
     {
         return isResumed;
     }
-    
+
     public void setResumed(boolean resume)
     {
         isResumed = resume;
@@ -257,15 +253,11 @@ public class ChampModel
     {
         return teamsToQuarter;
     }
-    
-
-    
 
     public void setQuarterFinalTeams(Team team)
     {
         teamsToQuarter.add(team);
-        
+
     }
- 
 
 }
