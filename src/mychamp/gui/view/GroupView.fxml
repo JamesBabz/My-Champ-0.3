@@ -131,5 +131,6 @@
          </children>
       </VBox>
       <Button fx:id="btnGoToFinals" layoutX="120.0" layoutY="679.0" mnemonicParsing="false" onAction="#goToFinals" text="Go to Finals" />
+      <Button layoutX="15.0" layoutY="679.0" mnemonicParsing="false" onAction="#handleMatchScheduleView" text="Match Schedule" />
    </children>
 </AnchorPane>
