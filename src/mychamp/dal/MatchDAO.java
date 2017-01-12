@@ -45,7 +45,7 @@ public class MatchDAO
      */
     public ArrayList<Match> readObjectData(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException
     {
-        ArrayList<Match> matchList = new ArrayList<>();
+        ArrayList<Match> matchList = new ArrayList<Match>();
 
         try (FileInputStream fis = new FileInputStream(fileName))
         {

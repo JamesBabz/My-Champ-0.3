@@ -13,6 +13,12 @@ public class Match implements Serializable
     int homeScore;
     int awayScore;
 
+    /**
+     * 
+     * @param round
+     * @param homeTeam
+     * @param awayTeam 
+     */
     public Match(int round, Team homeTeam, Team awayTeam)
     {
         this.homeTeam = homeTeam;
