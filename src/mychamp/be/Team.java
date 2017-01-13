@@ -343,6 +343,20 @@ public class Team implements Serializable {
     {
         return finalScore.get();
     }
+    
+   public void setQuarterScore(int qScore)
+   {
+        this.quarterScore.set(qScore);
+   }
+     public void setSemiScore(int sScore)
+   {
+        this.semiScore.set(sScore);
+   }
+     
+          public void setFinalScore(int fScore)
+   {
+        this.finalScore.set(fScore);
+   }
 
     
 }

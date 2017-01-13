@@ -38,6 +38,7 @@ public class FinalsViewController implements Initializable
     
 
     private ArrayList<Team> quarterTeams;
+    private ArrayList<Team> semiTeams;
 
     private ObservableList<Team> quarterATeams;
     private ObservableList<Team> quarterBTeams;
@@ -118,14 +119,11 @@ public class FinalsViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+     
         SemiFinalA.setDisable(true);
         SemiFinalB.setDisable(true);
         btn1ResultSemi.setDisable(true);
         btn1ResultSemi2.setDisable(true);
-        btnSemi.setDisable(true);
-        FinalA.setDisable(true);
-        btn1ResultFinal.setDisable(true);
-        btnFinal.setDisable(true);
 
         model = ChampModel.getInstance();
 
@@ -133,30 +131,27 @@ public class FinalsViewController implements Initializable
 
         populateQuarterTables();
         createQuarterFinals();
+       
         
-       
-       
-        Comparator<Team> comparator = Comparator.comparingInt(Team::getPoint);
-        comparator = comparator.reversed();
-        FXCollections.sort(quarterATeams, comparator);
-        FXCollections.sort(quarterBTeams, comparator);
-        FXCollections.sort(quarterCTeams, comparator);
-        FXCollections.sort(quarterDTeams, comparator);
-        
-       
         populateSemiTables();
-        createSemiFinals();
+        
+       
+        
     }
 
     private void initArrays()
     {
         quarterTeams = new ArrayList<>();
         quarterTeams = model.getTeamsToQuarter();
-
+        
+        semiTeams = new ArrayList<>();
+        semiTeams = model.getSemiFinalTeams();
+        
         quarterATeams = FXCollections.observableArrayList();
         quarterBTeams = FXCollections.observableArrayList();
         quarterCTeams = FXCollections.observableArrayList();
         quarterDTeams = FXCollections.observableArrayList();
+
         
         semiATeams = FXCollections.observableArrayList();
         semiBTeams = FXCollections.observableArrayList();
@@ -274,34 +269,27 @@ public class FinalsViewController implements Initializable
     private void fourthQFinal(ActionEvent event) throws IOException
     {
         resultQuarterFinal(4);
-        btnSemi.setDisable(false);
+ 
+       
         
     }
     
     @FXML
     private void createSemiFinals()
     {
-       
-        semiATeams.add(quarterATeams.get(0));
-        semiATeams.add(quarterBTeams.get(0));
+ 
+        semiATeams.add(semiTeams.get(0));
+        semiATeams.add(semiTeams.get(1));
         
-        semiBTeams.add(quarterCTeams.get(0));
-        semiBTeams.add(quarterDTeams.get(0));
-        
+        semiBTeams.add(semiTeams.get(2));
+        semiBTeams.add(semiTeams.get(3));
         
         SemiTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
-         SemiTeamB.setCellValueFactory(new PropertyValueFactory<>("name"));
-         
-         SemiFinalA.setDisable(false);
-        SemiFinalB.setDisable(false);
-        btn1ResultSemi.setDisable(false);
-        btn1ResultSemi2.setDisable(false);
+        SemiTeamB.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+        disableAndAbleBtnSemi();
         
     }
-    
-     
-
-   
      private void resultSemiFinal(int sFinal) throws IOException
     {
         ObservableList<Team> sTeams;
@@ -345,4 +333,16 @@ public class FinalsViewController implements Initializable
         
     }
   
+    private void disableAndAbleBtnSemi()
+    {
+      SemiFinalA.setDisable(false);
+        SemiFinalB.setDisable(false);
+        btn1ResultSemi.setDisable(false);
+        btn1ResultSemi2.setDisable(false);
+            btn1Result.setDisable(true);
+            btn2Result.setDisable(true);
+            btn3Result.setDisable(true);
+            btn4Result.setDisable(true);
+    
+    }
 }
