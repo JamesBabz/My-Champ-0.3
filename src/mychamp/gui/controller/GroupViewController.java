@@ -454,7 +454,7 @@ public class GroupViewController implements Initializable {
                         }
             });
         }
-    }
+    } 
 
     private void sortingListener()
     {

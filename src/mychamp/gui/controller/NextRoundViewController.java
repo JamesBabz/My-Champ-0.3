@@ -132,6 +132,9 @@ public class NextRoundViewController implements Initializable
         if (group.getCurrentRound() == 10)
         {
             lblRoundNumb.setText("Quarter-Final");
+        } else if (group.getCurrentRound() == 11)
+        {
+            lblRoundNumb.setText("Semi-Final");
         } else
         {
             lblRoundNumb.setText("Round: " + group.getCurrentRound());
@@ -218,8 +221,10 @@ public class NextRoundViewController implements Initializable
      */
     private void closeWindow()
     {
+      
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
+        
     }
 
     /**
