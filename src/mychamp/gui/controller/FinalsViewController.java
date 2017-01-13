@@ -34,8 +34,7 @@ import mychamp.gui.model.ChampModel;
  *
  * @author Jacob Enemark
  */
-public class FinalsViewController implements Initializable
-{
+public class FinalsViewController implements Initializable {
 
     private ArrayList<Team> quarterTeams;
     private ArrayList<Team> semiTeams;
@@ -282,19 +281,20 @@ public class FinalsViewController implements Initializable
     @FXML
     private void createSemiFinals()
     {
-
-        semiATeams.add(semiTeams.get(0));
-        semiATeams.add(semiTeams.get(1));
-
-        semiBTeams.add(semiTeams.get(2));
-        semiBTeams.add(semiTeams.get(3));
-
         SemiTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
         SemiScoreA.setCellValueFactory(new PropertyValueFactory<>("semiScore"));
         SemiTeamB.setCellValueFactory(new PropertyValueFactory<>("name"));
         SemiScoreB.setCellValueFactory(new PropertyValueFactory<>("semiScore"));
+        if (semiTeams.size() == 4)
+        {
+            semiATeams.add(semiTeams.get(0));
+            semiATeams.add(semiTeams.get(1));
 
-        disableAndAbleBtnSemi();
+            semiBTeams.add(semiTeams.get(2));
+            semiBTeams.add(semiTeams.get(3));
+
+            disableAndAbleBtnSemi();
+        }
 
     }
 
@@ -357,13 +357,16 @@ public class FinalsViewController implements Initializable
     @FXML
     private void createFinals()
     {
-        finalATeams.add(finalTeams.get(0));
-        finalATeams.add(finalTeams.get(1));
+        if (finalTeams.size() == 2)
+        {
+            finalATeams.add(finalTeams.get(0));
+            finalATeams.add(finalTeams.get(1));
+            disableAndAbleBtnFinal();
+        }
 
         FinalTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
         FinalScoreA.setCellValueFactory(new PropertyValueFactory<>("finalScore"));
-        
-        disableAndAbleBtnFinal();
+
     }
 
     private void resultFinal(int fFinal) throws IOException
@@ -396,6 +399,7 @@ public class FinalsViewController implements Initializable
         resultFinal(1);
 
     }
+
     private void disableAndAbleBtnFinal()
     {
         FinalA.setDisable(false);
