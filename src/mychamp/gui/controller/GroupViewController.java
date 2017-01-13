@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -28,11 +32,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.converter.DefaultStringConverter;
 import mychamp.be.Group;
 import mychamp.be.Match;
 import mychamp.be.Team;
 import mychamp.bll.PropertyValue;
+import mychamp.dal.RoundDAO;
 import mychamp.gui.model.ChampModel;
 
 /**
@@ -44,6 +48,7 @@ import mychamp.gui.model.ChampModel;
 public class GroupViewController implements Initializable {
 
     ChampModel model;
+    RoundDAO roundDAO;
 
 //    private final static String[] cellValues = new String[]{"name",""};
     private ArrayList<Team> teams;
@@ -162,11 +167,19 @@ public class GroupViewController implements Initializable {
     {
 
         setCellValues();
+        roundDAO = new RoundDAO("RoundData");
 
         model = ChampModel.getInstance();
         teams = model.getTeams();
         groups = new ArrayList<>();
-        groupInit();
+        try
+        {
+            groupInit();
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(GroupViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         setMatches();
         setTeamIds();
         sortingListener();
@@ -248,7 +261,7 @@ public class GroupViewController implements Initializable {
      * Initializes the groups, generating new collections that can be acted
      * upon.
      */
-    private void groupInit()
+    private void groupInit() throws IOException
     {
         groupATeams = FXCollections.observableArrayList();
         groupBTeams = FXCollections.observableArrayList();
@@ -260,6 +273,23 @@ public class GroupViewController implements Initializable {
         groupB = new Group("B", groupBTeams);
         groupC = new Group("C", groupCTeams);
         groupD = new Group("D", groupDTeams);
+
+        if (model.getResumed())
+        {
+            List<Integer> rounds = roundDAO.loadRoundData();
+            groupA.setCurrentRound(rounds.get(0));
+            groupB.setCurrentRound(rounds.get(1));
+            groupC.setCurrentRound(rounds.get(2));
+            groupD.setCurrentRound(rounds.get(3));
+            checkMaxRounds();
+        }
+        else
+        {
+            groupA.setCurrentRound(1);
+            groupB.setCurrentRound(1);
+            groupC.setCurrentRound(1);
+            groupD.setCurrentRound(1);
+        }
 
         groups.add(groupA);
         groups.add(groupB);
@@ -456,7 +486,7 @@ public class GroupViewController implements Initializable {
                         }
             });
         }
-    } 
+    }
 
     private void sortingListener()
     {
@@ -555,12 +585,12 @@ public class GroupViewController implements Initializable {
         model.setMatchesB(matchesB);
         model.setMatchesC(matchesC);
         model.setMatchesD(matchesD);
-        
+
         allMatches.addAll(matchesA);
         allMatches.addAll(matchesB);
         allMatches.addAll(matchesC);
         allMatches.addAll(matchesD);
-        
+
         model.setAllMatches(allMatches);
     }
 
@@ -653,13 +683,55 @@ public class GroupViewController implements Initializable {
 
     private void handleDelete(Team toDelete)
     {
-        toDelete.setName(toDelete.getName() + " (Deleted)");
-        toDelete.setIsDeleted(true);
+        if (toDelete != null)
+        {
+            if (!toDelete.getName().contains("Deleted") && removeAlert())
+            {
+                toDelete.setName(toDelete.getName() + " (Deleted)");
+                toDelete.setIsDeleted(true);
+
+            }
+        }
+
+    }
+
+    private boolean removeAlert()
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Remove team");
+        alert.setHeaderText("Do you want to remove this team?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
     }
 
     @FXML
     private void handleMatchScheduleView() throws IOException
     {
         model.openNewView(anchorPane, "MatchScheduleView", "Match Schedule");
+    }
+
+    private void checkMaxRounds()
+    {
+        if(groupA.isDone()){
+            btnNxtRndA.setDisable(true);
+        }
+        if(groupB.isDone()){
+            btnNxtRndB.setDisable(true);
+        }
+        if(groupC.isDone()){
+            btnNxtRndC.setDisable(true);
+        }
+        if(groupD.isDone()){
+            btnNxtRndD.setDisable(true);
+        }
     }
 }

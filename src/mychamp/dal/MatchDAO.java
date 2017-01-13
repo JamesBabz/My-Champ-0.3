@@ -31,13 +31,16 @@ public class MatchDAO
      *
      * @throws IOException
      */
-    public void writeObjectData(ArrayList<Match> matches) throws IOException
+    public void writeObjectData(ArrayList<Match> matches) 
     {
         try (FileOutputStream fos = new FileOutputStream(fileName))
         {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             oos.writeObject(matches);
+        }
+        catch(IOException ex){
+            
         }
     }
 
