@@ -341,7 +341,7 @@ public class GroupViewController implements Initializable {
                     groupDTeams.add(team);
                     break;
                 default:
-                    System.out.println("NOPE");
+                    System.out.println("ERROR");
             }
             if (currentGroup == 3)
             {
