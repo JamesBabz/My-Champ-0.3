@@ -62,6 +62,9 @@ public class Group {
     {
         switch (teams)
         {
+            case 2:
+                
+                break;
             case 3:
                 groupOf3();
                 break;
@@ -183,6 +186,10 @@ public class Group {
     public void setCurrentRound(int currentRound)
     {
         this.currentRound = currentRound;
+        if(currentRound > 6)
+        {
+            setDone(true);
+        }
     }
 
     /**

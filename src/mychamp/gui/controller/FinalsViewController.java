@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.ResourceBundle;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -33,9 +34,7 @@ import mychamp.gui.model.ChampModel;
  *
  * @author Jacob Enemark
  */
-public class FinalsViewController implements Initializable
-{
-    
+public class FinalsViewController implements Initializable {
 
     private ArrayList<Team> quarterTeams;
     private ArrayList<Team> semiTeams;
@@ -44,7 +43,7 @@ public class FinalsViewController implements Initializable
     private ObservableList<Team> quarterBTeams;
     private ObservableList<Team> quarterCTeams;
     private ObservableList<Team> quarterDTeams;
-    
+
     private ObservableList<Team> semiATeams;
     private ObservableList<Team> semiBTeams;
 
@@ -119,7 +118,7 @@ public class FinalsViewController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-     
+
         SemiFinalA.setDisable(true);
         SemiFinalB.setDisable(true);
         btn1ResultSemi.setDisable(true);
@@ -132,39 +131,34 @@ public class FinalsViewController implements Initializable
         populateTables();
 
         createQuarterFinals();
-       
-        
-    
-        
-       
-        
+
     }
 
     private void initArrays()
     {
         quarterTeams = new ArrayList<>();
         quarterTeams = model.getTeamsToQuarter();
-        
+
         semiTeams = new ArrayList<>();
         semiTeams = model.getSemiFinalTeams();
-        
+
         quarterATeams = FXCollections.observableArrayList();
         quarterBTeams = FXCollections.observableArrayList();
         quarterCTeams = FXCollections.observableArrayList();
         quarterDTeams = FXCollections.observableArrayList();
 
-        
         semiATeams = FXCollections.observableArrayList();
         semiBTeams = FXCollections.observableArrayList();
-        
+
     }
 
     private void createQuarterFinals()
     {
         quarterATeams.add(quarterTeams.get(0));
-       
+        quarterATeams.get(0).setQuarterScore(0);
         quarterATeams.add(quarterTeams.get(3));
-        
+        quarterATeams.get(1).setQuarterScore(0);
+
         quarterBTeams.add(quarterTeams.get(2));
         quarterBTeams.add(quarterTeams.get(1));
 
@@ -189,24 +183,24 @@ public class FinalsViewController implements Initializable
         populateQuarterTables();
         populateSemiTables();
     }
-    
+
     private void populateQuarterTables()
     {
-        
+
         quarterFinalA.setItems(quarterATeams);
         quarterFinalB.setItems(quarterBTeams);
         quarterFinalC.setItems(quarterCTeams);
         quarterFinalD.setItems(quarterDTeams);
-        
-        
+
     }
-    
+
     private void populateSemiTables()
     {
-        
+
         SemiFinalA.setItems(semiATeams);
         SemiFinalB.setItems(semiBTeams);
     }
+
     private void resultQuarterFinal(int qFinal) throws IOException
     {
         ObservableList<Team> qTeams;
@@ -230,12 +224,12 @@ public class FinalsViewController implements Initializable
 
             case 4:
                 qTeams = quarterDTeams;
-                
+
                 break;
-                
+
             default:
                 qTeams = null;
-                
+
         }
         Match match = new Match(qTeams.get(0), qTeams.get(1));
         Group group = new Group("", 2);
@@ -249,15 +243,19 @@ public class FinalsViewController implements Initializable
     @FXML
     private void firstQFinal(ActionEvent event) throws IOException
     {
+        if (quarterATeams != null)
+        {
+            System.out.println(quarterATeams.get(0).getQuarterScore());
+        }
         resultQuarterFinal(1);
-        
+
     }
 
     @FXML
     private void secondQFinal(ActionEvent event) throws IOException
     {
         resultQuarterFinal(2);
-        
+
     }
 
     @FXML
@@ -270,30 +268,29 @@ public class FinalsViewController implements Initializable
     private void fourthQFinal(ActionEvent event) throws IOException
     {
         resultQuarterFinal(4);
- 
-       
-        
+
     }
-    
+
     @FXML
     private void createSemiFinals()
     {
- 
+
         semiATeams.add(semiTeams.get(0));
         semiATeams.add(semiTeams.get(1));
-        
+
         semiBTeams.add(semiTeams.get(2));
         semiBTeams.add(semiTeams.get(3));
-        
+
         SemiTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
         SemiScoreA.setCellValueFactory(new PropertyValueFactory<>("semiScore"));
         SemiTeamB.setCellValueFactory(new PropertyValueFactory<>("name"));
         SemiScoreB.setCellValueFactory(new PropertyValueFactory<>("semiScore"));
-        
+
         disableAndAbleBtnSemi();
-        
+
     }
-     private void resultSemiFinal(int sFinal) throws IOException
+
+    private void resultSemiFinal(int sFinal) throws IOException
     {
         ObservableList<Team> sTeams;
         switch (sFinal)
@@ -308,10 +305,10 @@ public class FinalsViewController implements Initializable
                 sTeams = semiBTeams;
 
                 break;
-                
+
             default:
                 sTeams = null;
-                
+
         }
         Match match = new Match(sTeams.get(0), sTeams.get(1));
         Group group = new Group("", 2);
@@ -326,26 +323,26 @@ public class FinalsViewController implements Initializable
     private void firstSFinal() throws IOException
     {
         resultSemiFinal(1);
-        
+
     }
 
     @FXML
     private void secondSFinal() throws IOException
     {
         resultSemiFinal(2);
-        
+
     }
-  
+
     private void disableAndAbleBtnSemi()
     {
-      SemiFinalA.setDisable(false);
+        SemiFinalA.setDisable(false);
         SemiFinalB.setDisable(false);
         btn1ResultSemi.setDisable(false);
         btn1ResultSemi2.setDisable(false);
-            btn1Result.setDisable(true);
-            btn2Result.setDisable(true);
-            btn3Result.setDisable(true);
-            btn4Result.setDisable(true);
-    
+        btn1Result.setDisable(true);
+        btn2Result.setDisable(true);
+        btn3Result.setDisable(true);
+        btn4Result.setDisable(true);
+
     }
 }
