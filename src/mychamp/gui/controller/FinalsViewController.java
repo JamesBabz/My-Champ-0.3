@@ -129,11 +129,12 @@ public class FinalsViewController implements Initializable
 
         initArrays();
 
-        populateQuarterTables();
+        populateTables();
+
         createQuarterFinals();
        
         
-        populateSemiTables();
+    
         
        
         
@@ -161,35 +162,34 @@ public class FinalsViewController implements Initializable
     private void createQuarterFinals()
     {
         quarterATeams.add(quarterTeams.get(0));
-        quarterATeams.get(0).setGoalFor(0);
+       
         quarterATeams.add(quarterTeams.get(3));
-        quarterATeams.get(1).setGoalFor(0);
-
+        
         quarterBTeams.add(quarterTeams.get(2));
-        quarterBTeams.get(0).setGoalFor(0);
         quarterBTeams.add(quarterTeams.get(1));
-        quarterBTeams.get(1).setGoalFor(0);
 
         quarterCTeams.add(quarterTeams.get(4));
-        quarterCTeams.get(0).setGoalFor(0);
         quarterCTeams.add(quarterTeams.get(7));
-        quarterCTeams.get(1).setGoalFor(0);
 
         quarterDTeams.add(quarterTeams.get(6));
-        quarterDTeams.get(0).setGoalFor(0);
         quarterDTeams.add(quarterTeams.get(5));
-        quarterDTeams.get(1).setGoalFor(0);
 
         QuarterTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
-        QuarterScoreA.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
+        QuarterScoreA.setCellValueFactory(new PropertyValueFactory<>("quarterScore"));
         QuarterTeamB.setCellValueFactory(new PropertyValueFactory<>("name"));
-        QuarterScoreB.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
+        QuarterScoreB.setCellValueFactory(new PropertyValueFactory<>("quarterScore"));
         QuarterTeamC.setCellValueFactory(new PropertyValueFactory<>("name"));
-        QuarterScoreC.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
+        QuarterScoreC.setCellValueFactory(new PropertyValueFactory<>("quarterScore"));
         QuarterTeamD.setCellValueFactory(new PropertyValueFactory<>("name"));
-        QuarterScoreD.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
+        QuarterScoreD.setCellValueFactory(new PropertyValueFactory<>("quarterScore"));
     }
 
+    private void populateTables()
+    {
+        populateQuarterTables();
+        populateSemiTables();
+    }
+    
     private void populateQuarterTables()
     {
         
@@ -197,6 +197,7 @@ public class FinalsViewController implements Initializable
         quarterFinalB.setItems(quarterBTeams);
         quarterFinalC.setItems(quarterCTeams);
         quarterFinalD.setItems(quarterDTeams);
+        
         
     }
     
@@ -285,7 +286,9 @@ public class FinalsViewController implements Initializable
         semiBTeams.add(semiTeams.get(3));
         
         SemiTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
+        SemiScoreA.setCellValueFactory(new PropertyValueFactory<>("semiScore"));
         SemiTeamB.setCellValueFactory(new PropertyValueFactory<>("name"));
+        SemiScoreB.setCellValueFactory(new PropertyValueFactory<>("semiScore"));
         
         disableAndAbleBtnSemi();
         

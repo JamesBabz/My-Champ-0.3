@@ -132,6 +132,7 @@ public class NextRoundViewController implements Initializable
         int scoreAway = Integer.parseInt(txtAway1.getText());
         
         if(group.getCurrentRound() == 10)
+            
         {
             firstFinalist.setQuarterScore(scoreHome);
             secondFinalist.setQuarterScore(scoreAway);
@@ -147,6 +148,44 @@ public class NextRoundViewController implements Initializable
             {
                 
             }
+            
+        } 
+        
+        else if(group.getCurrentRound() == 11)
+        {
+            firstFinalist.setSemiScore(scoreHome);
+            secondFinalist.setSemiScore(scoreAway);
+            
+            if(firstFinalist.getSemiScore() > secondFinalist.getSemiScore())
+            {
+                 model.getFinalTeams().add(firstFinalist);
+            } else if (firstFinalist.getSemiScore() < secondFinalist.getSemiScore())
+            {
+                model.getFinalTeams().add(secondFinalist);
+            }
+            else
+            {
+                
+            }
+            
+        }
+          else if(group.getCurrentRound() == 12)
+        {
+            firstFinalist.setFinalScore(scoreHome);
+            secondFinalist.setFinalScore(scoreAway);
+            
+            if(firstFinalist.getFinalScore() > secondFinalist.getFinalScore())
+            {
+                 model.getFinalTeams().add(firstFinalist);
+            } else if (firstFinalist.getFinalScore() < secondFinalist.getFinalScore())
+            {
+                model.getFinalTeams().add(secondFinalist);
+            }
+            else
+            {
+                
+            }
+            
         }
         
     }
