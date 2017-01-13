@@ -5,11 +5,13 @@
  */
 package mychamp.gui.controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,6 +19,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import mychamp.be.Group;
+import mychamp.be.Match;
 import mychamp.be.Team;
 import mychamp.bll.PropertyValue;
 import mychamp.gui.model.ChampModel;
@@ -97,10 +101,9 @@ public class FinalsViewController implements Initializable
     {
 
         model = ChampModel.getInstance();
-         
+
         initArrays();
-        
-        
+
         populateTables();
         createQuarterFinals();
     }
@@ -109,7 +112,7 @@ public class FinalsViewController implements Initializable
     {
         quarterTeams = new ArrayList<>();
         quarterTeams = model.getTeamsToQuarter();
-        
+
         quarterATeams = FXCollections.observableArrayList();
         quarterBTeams = FXCollections.observableArrayList();
         quarterCTeams = FXCollections.observableArrayList();
@@ -119,23 +122,34 @@ public class FinalsViewController implements Initializable
     private void createQuarterFinals()
     {
         quarterATeams.add(quarterTeams.get(0));
+        quarterATeams.get(0).setGoalFor(0);
         quarterATeams.add(quarterTeams.get(3));
+        quarterATeams.get(1).setGoalFor(0);
 
         quarterBTeams.add(quarterTeams.get(2));
+        quarterBTeams.get(0).setGoalFor(0);
         quarterBTeams.add(quarterTeams.get(1));
+        quarterBTeams.get(1).setGoalFor(0);
 
         quarterCTeams.add(quarterTeams.get(4));
+        quarterCTeams.get(0).setGoalFor(0);
         quarterCTeams.add(quarterTeams.get(7));
+        quarterCTeams.get(1).setGoalFor(0);
 
         quarterDTeams.add(quarterTeams.get(6));
+        quarterDTeams.get(0).setGoalFor(0);
         quarterDTeams.add(quarterTeams.get(5));
+        quarterDTeams.get(1).setGoalFor(0);
 
         QuarterTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
+        QuarterScoreA.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
         QuarterTeamB.setCellValueFactory(new PropertyValueFactory<>("name"));
+        QuarterScoreB.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
         QuarterTeamC.setCellValueFactory(new PropertyValueFactory<>("name"));
+        QuarterScoreC.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
         QuarterTeamD.setCellValueFactory(new PropertyValueFactory<>("name"));
+        QuarterScoreD.setCellValueFactory(new PropertyValueFactory<>("goalFor"));
     }
-    
 
     private void populateTables()
     {
@@ -143,6 +157,67 @@ public class FinalsViewController implements Initializable
         quarterFinalB.setItems(quarterBTeams);
         quarterFinalC.setItems(quarterCTeams);
         quarterFinalD.setItems(quarterDTeams);
+    }
+
+    private void resultQuarterFinal(int qFinal) throws IOException
+    {
+        ObservableList<Team> qTeams;
+        switch (qFinal)
+        {
+            case 1:
+
+                qTeams = quarterATeams;
+
+                break;
+
+            case 2:
+                qTeams = quarterBTeams;
+
+                break;
+
+            case 3:
+                qTeams = quarterCTeams;
+
+                break;
+
+            case 4:
+                qTeams = quarterDTeams;
+                break;
+            default:
+                qTeams = null;
+        }
+        Match match = new Match(qTeams.get(0), qTeams.get(1));
+        Group group = new Group("1st QFinals", 2);
+        group.setCurrentRound(10);
+        model.setGroup(group);
+        model.setRoundMatches(match, null);
+        model.openNewView(anchorPane, "NextRoundView", "");
+
+    }
+
+    @FXML
+    private void firstQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(1);
+    }
+
+    @FXML
+    private void secondQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(2);
+        
+    }
+
+    @FXML
+    private void thirdQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(3);
+    }
+
+    @FXML
+    private void fourthQFinal(ActionEvent event) throws IOException
+    {
+        resultQuarterFinal(4);
     }
 
 }

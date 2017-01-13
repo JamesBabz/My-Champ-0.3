@@ -28,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.converter.DefaultStringConverter;
 import mychamp.be.Group;
 import mychamp.be.Match;
 import mychamp.be.Team;
@@ -263,6 +264,7 @@ public class GroupViewController implements Initializable {
         groups.add(groupB);
         groups.add(groupC);
         groups.add(groupD);
+        model.setGroups(groups);
     }
 
     /**
@@ -405,7 +407,6 @@ public class GroupViewController implements Initializable {
             clmn.setCellValueFactory(new PropertyValueFactory<>(PropertyValue.values()[x].toString()));
             if (x == 0)
             {
-
                 clmn.setCellFactory(TextFieldTableCell.forTableColumn());
             }
             x++;
@@ -547,6 +548,11 @@ public class GroupViewController implements Initializable {
         setMatchArray("B");
         setMatchArray("C");
         setMatchArray("D");
+
+        model.setMatchesA(matchesA);
+        model.setMatchesB(matchesB);
+        model.setMatchesC(matchesC);
+        model.setMatchesD(matchesD);
     }
 
     private void setMatchArray(String groupString)
@@ -590,10 +596,10 @@ public class GroupViewController implements Initializable {
             {
                 hTeam = teams.get(group.getHomeTeams1()[i] - 1);
                 aTeam = teams.get(group.getAwayTeams1()[i] - 1);
-                matchArray.add(new Match(i, hTeam, aTeam));
+                matchArray.add(new Match(hTeam, aTeam));
                 hTeam = teams.get(group.getHomeTeams2()[i] - 1);
                 aTeam = teams.get(group.getAwayTeams2()[i] - 1);
-                matchArray.add(new Match(i, hTeam, aTeam));
+                matchArray.add(new Match(hTeam, aTeam));
             }
         }
         else if (teams.size() == 3)
@@ -603,7 +609,7 @@ public class GroupViewController implements Initializable {
             {
                 hTeam = teams.get(group.getHomeTeams1()[i] - 1);
                 aTeam = teams.get(group.getAwayTeams1()[i] - 1);
-                matchArray.add(new Match(i, hTeam, aTeam));
+                matchArray.add(new Match(hTeam, aTeam));
             }
         }
     }
@@ -640,5 +646,11 @@ public class GroupViewController implements Initializable {
     {
         toDelete.setName(toDelete.getName() + " (Deleted)");
         toDelete.setIsDeleted(true);
+    }
+
+    @FXML
+    private void handleMatchScheduleView() throws IOException
+    {
+        model.openNewView(anchorPane, "MatchScheduleView", "Match Schedule");
     }
 }
