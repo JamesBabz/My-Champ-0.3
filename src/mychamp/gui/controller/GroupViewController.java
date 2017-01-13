@@ -381,11 +381,11 @@ public class GroupViewController implements Initializable {
 
         if (groupTeams.size() == 4)
         {
-            model.setRoundMatches(matches.get(currRound*2-2), matches.get(currRound*2-1));
+            model.setRoundMatches(matches.get(currRound * 2 - 2), matches.get(currRound * 2 - 1));
         }
         else if (groupTeams.size() == 3)
         {
-            model.setRoundMatches(matches.get(currRound-1), null);
+            model.setRoundMatches(matches.get(currRound - 1), null);
         }
 
     }
@@ -502,7 +502,7 @@ public class GroupViewController implements Initializable {
         }
     }
 
-    public void getQuarterFinalTeams()
+    public void setQuarterFinalTeams()
     {
 
         model.setQuarterFinalTeams(tableA.getItems().get(0));
@@ -522,6 +522,7 @@ public class GroupViewController implements Initializable {
     @FXML
     private void goToFinals(ActionEvent event)
     {
+        setQuarterFinalTeams();
         Stage primaryStage = (Stage) anchorPane.getScene().getWindow();
         primaryStage.close();
 
@@ -605,5 +606,39 @@ public class GroupViewController implements Initializable {
                 matchArray.add(new Match(i, hTeam, aTeam));
             }
         }
+    }
+
+    @FXML
+    private void handleDeleteA()
+    {
+        Team toDelete = tableA.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    @FXML
+    private void handleDeleteB()
+    {
+        Team toDelete = tableB.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    @FXML
+    private void handleDeleteC()
+    {
+        Team toDelete = tableC.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    @FXML
+    private void handleDeleteD()
+    {
+        Team toDelete = tableD.getSelectionModel().getSelectedItem();
+        handleDelete(toDelete);
+    }
+
+    private void handleDelete(Team toDelete)
+    {
+        toDelete.setName(toDelete.getName() + " (Deleted)");
+        toDelete.setIsDeleted(true);
     }
 }
