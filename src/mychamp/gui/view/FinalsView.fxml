@@ -56,13 +56,13 @@
       <Label layoutX="388.0" layoutY="221.0" text="Semi-Finals:" />
       <Label layoutX="24.0" layoutY="223.0" text="Quarter-Finals:" />
       <Button fx:id="btnSemi" layoutX="424.0" layoutY="380.0" mnemonicParsing="false" onAction="#createSemiFinals" prefHeight="27.0" prefWidth="147.0" text="Go to Semi-Finals" />
-      <Button fx:id="btnFinal" layoutX="775.0" layoutY="380.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="147.0" text="Go to Final" />
+      <Button fx:id="btnFinal" layoutX="775.0" layoutY="380.0" mnemonicParsing="false" onAction="#createFinals" prefHeight="27.0" prefWidth="147.0" text="Go to Final" />
       <Button fx:id="btn1Result" layoutX="244.0" layoutY="39.0" mnemonicParsing="false" onAction="#firstQFinal" text="Result" />
       <Button fx:id="btn2Result" layoutX="244.0" layoutY="125.0" mnemonicParsing="false" onAction="#secondQFinal" text="Result" />
       <Button fx:id="btn3Result" layoutX="244.0" layoutY="242.0" mnemonicParsing="false" onAction="#thirdQFinal" text="Result" />
       <Button fx:id="btn4Result" layoutX="244.0" layoutY="330.0" mnemonicParsing="false" onAction="#fourthQFinal" text="Result" />
       <Button fx:id="btn1ResultSemi" layoutX="608.0" layoutY="125.0" mnemonicParsing="false" onAction="#firstSFinal" text="Result" />
       <Button fx:id="btn1ResultSemi2" layoutX="608.0" layoutY="242.0" mnemonicParsing="false" onAction="#secondSFinal" text="Result" />
-      <Button fx:id="btn1ResultFinal" layoutX="959.0" layoutY="182.0" mnemonicParsing="false" onAction="#firstQFinal" text="Result" />
+      <Button fx:id="btn1ResultFinal" layoutX="959.0" layoutY="182.0" mnemonicParsing="false" onAction="#firstFinal" text="Result" />
    </children>
 </AnchorPane>
