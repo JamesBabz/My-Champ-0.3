@@ -30,6 +30,7 @@ public class ChampModel {
     private final ArrayList<Team> teamsToQuarter;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
+    private final ArrayList<Match> matches;
     private final ArrayList<Match> matchesA;
     private final ArrayList<Match> matchesB;
     private final ArrayList<Match> matchesC;
