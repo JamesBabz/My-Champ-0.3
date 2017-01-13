@@ -125,7 +125,7 @@ public class ChampModel {
      */
     public void addTeam(String name)
     {
-        Team team = new Team(1, name, 0, 0, 0, 0, 0, 0, 0);
+        Team team = new Team(1, name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         teams.add(team);
         setTeamNames();
     }
@@ -213,7 +213,7 @@ public class ChampModel {
     public void editTeam(String name)
     {
         int index = teams.indexOf(editTeam);
-        teams.set(index, new Team(1, name, 0, 0, 0, 0, 0, 0, 0));
+        teams.set(index, new Team(1, name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
         editTeam = null;
         setTeamNames();
     }
