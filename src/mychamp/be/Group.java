@@ -62,6 +62,9 @@ public class Group {
     {
         switch (teams)
         {
+            case 2:
+                 
+                break;
             case 3:
                 groupOf3();
                 break;
