@@ -25,10 +25,11 @@ public class Team implements Serializable {
     private final IntegerProperty goalAgainst;
     private final IntegerProperty point;
     private final BooleanProperty isDeleted;
-    
-    private final IntegerProperty quarterScore;
-    private final IntegerProperty semiScore; 
+
+    private final IntegerProperty semiScore;
     private final IntegerProperty finalScore;
+    private final IntegerProperty quarterScore;
+
     /**
      * The default constructor for generating a new team.
      *
@@ -42,9 +43,10 @@ public class Team implements Serializable {
      * @param goalFor
      * @param point
      */
-    public Team(int id, String name, int played, int wins, int draws, int losses, 
+    public Team(int id, String name, int played, int wins, int draws, int losses,
             int goalFor, int goalAgainst, int point, int quarterScore, int semiScore, int finalScore)
     {
+
         this.point = new SimpleIntegerProperty();
         this.goalAgainst = new SimpleIntegerProperty();
         this.goalFor = new SimpleIntegerProperty();
@@ -64,14 +66,13 @@ public class Team implements Serializable {
         this.goalAgainst.set(goalAgainst);
         this.point.set(point);
         this.isDeleted.set(false);
-        
+
         this.quarterScore = new SimpleIntegerProperty();
         this.semiScore = new SimpleIntegerProperty();
         this.finalScore = new SimpleIntegerProperty();
         this.quarterScore.set(quarterScore);
         this.semiScore.set(semiScore);
         this.finalScore.set(finalScore);
-        
 
     }
 
@@ -313,25 +314,34 @@ public class Team implements Serializable {
         this.isDeleted.set(deleted);
     }
 
-    public IntegerProperty quarterScore()
+    public int getQuarterScore()
+    {
+        return quarterScore.get();
+    }
+
+    public void setQuarterScore(int value)
+    {
+        quarterScore.set(value);
+    }
+
+    public IntegerProperty quarterScoreProperty()
     {
         return quarterScore;
     }
 
-    public IntegerProperty semiScore()
+    public int getFinalScore()
     {
-        return semiScore;
+        return finalScore.get();
     }
 
-    public IntegerProperty finalScore()
+    public void setFinalScore(int value)
+    {
+        finalScore.set(value);
+    }
+
+    public IntegerProperty finalScoreProperty()
     {
         return finalScore;
-    }
-    
-    
-    public int getQuarterScore()
-    {
-        return quarterScore.get();
     }
 
     public int getSemiScore()
@@ -339,24 +349,14 @@ public class Team implements Serializable {
         return semiScore.get();
     }
 
-    public int getFinalScore()
+    public void setSemiScore(int value)
     {
-        return finalScore.get();
+        semiScore.set(value);
     }
-    
-   public void setQuarterScore(int qScore)
-   {
-        this.quarterScore.set(qScore);
-   }
-     public void setSemiScore(int sScore)
-   {
-        this.semiScore.set(sScore);
-   }
-     
-          public void setFinalScore(int fScore)
-   {
-        this.finalScore.set(fScore);
-   }
 
-    
+    public IntegerProperty semiScoreProperty()
+    {
+        return semiScore;
+    }
+
 }
