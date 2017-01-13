@@ -119,7 +119,7 @@ public class TeamDAO
                         + "," + team.getGoalFor()
                         + "," + team.getGoalAgainst()
                         + "," + team.getPoint()
-                        + ";" + team.getQuarterScore()
+                        + "," + team.getQuarterScore()
                         + "," + team.getSemiScore()
                         + "," + team.getFinalScore());
                 bw.newLine();

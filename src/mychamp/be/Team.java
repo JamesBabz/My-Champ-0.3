@@ -313,19 +313,35 @@ public class Team implements Serializable {
         this.isDeleted.set(deleted);
     }
 
-    public IntegerProperty getQuarterScore()
+    public IntegerProperty quarterScore()
     {
         return quarterScore;
     }
 
-    public IntegerProperty getSemiScore()
+    public IntegerProperty semiScore()
     {
         return semiScore;
     }
 
-    public IntegerProperty getFinalScore()
+    public IntegerProperty finalScore()
     {
         return finalScore;
+    }
+    
+    
+    public int getQuarterScore()
+    {
+        return quarterScore.get();
+    }
+
+    public int getSemiScore()
+    {
+        return semiScore.get();
+    }
+
+    public int getFinalScore()
+    {
+        return finalScore.get();
     }
 
     
