@@ -51,7 +51,10 @@ public class TeamDAO
                     + "," + team.getLosses()
                     + "," + team.getGoalFor()
                     + "," + team.getGoalAgainst()
-                    + "," + team.getPoint());
+                    + "," + team.getPoint()
+                    + ";" + team.getQuarterScore()
+                    + "," + team.getSemiScore()
+                    + "," + team.getFinalScore());
             bw.newLine();
         }
     }
@@ -82,7 +85,10 @@ public class TeamDAO
                                 Integer.parseInt(fields[5].trim()),
                                 Integer.parseInt(fields[6].trim()),
                                 Integer.parseInt(fields[7].trim()),
-                                Integer.parseInt(fields[8].trim())
+                                Integer.parseInt(fields[8].trim()),
+                                Integer.parseInt(fields[9].trim()),
+                                Integer.parseInt(fields[10].trim()),
+                                Integer.parseInt(fields[11].trim())
                         ));
             }
         }
@@ -112,7 +118,10 @@ public class TeamDAO
                         + "," + team.getLosses()
                         + "," + team.getGoalFor()
                         + "," + team.getGoalAgainst()
-                        + "," + team.getPoint());
+                        + "," + team.getPoint()
+                        + "," + team.getQuarterScore()
+                        + "," + team.getSemiScore()
+                        + "," + team.getFinalScore());
                 bw.newLine();
             }
         }
