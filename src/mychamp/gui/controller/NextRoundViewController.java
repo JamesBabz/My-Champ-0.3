@@ -69,6 +69,7 @@ public class NextRoundViewController implements Initializable
         setLabelRound();
 
         processAllowedTextInputs();
+          
 
     }
 
@@ -103,11 +104,13 @@ public class NextRoundViewController implements Initializable
 
         int homeScore = 0;
         int awayScore = 0;
+        
         if (!"".equals(txtHome1.getText()) && !"".equals(txtAway1.getText()))
         {
             homeScore = Integer.parseInt(txtHome1.getText());
             awayScore = Integer.parseInt(txtAway1.getText());
             setMatch(firstMatch, homeScore, awayScore);
+            checkIfFinals();
         }
         if (!"".equals(txtHome2.getText()) && !"".equals(txtAway2.getText()))
         {
@@ -115,7 +118,37 @@ public class NextRoundViewController implements Initializable
             awayScore = Integer.parseInt(txtAway2.getText());
             setMatch(secondMatch, homeScore, awayScore);
         }
+   
         closeWindow();
+      
+    }
+    
+    private void checkIfFinals()
+    {
+        Team firstFinalist = firstMatch.getHomeTeam();
+        Team secondFinalist = firstMatch.getAwayTeam();
+        
+        int scoreHome = Integer.parseInt(txtHome1.getText());
+        int scoreAway = Integer.parseInt(txtAway1.getText());
+        
+        if(group.getCurrentRound() == 10)
+        {
+            firstFinalist.setQuarterScore(scoreHome);
+            secondFinalist.setQuarterScore(scoreAway);
+            
+            if(firstFinalist.getQuarterScore() > secondFinalist.getQuarterScore())
+            {
+                 model.getSemiFinalTeams().add(firstFinalist);
+            } else if (firstFinalist.getQuarterScore() < secondFinalist.getQuarterScore())
+            {
+                model.getSemiFinalTeams().add(secondFinalist);
+            }
+            else
+            {
+                
+            }
+        }
+        
     }
 
     @FXML
@@ -245,7 +278,7 @@ public class NextRoundViewController implements Initializable
 
         homeTeam.setPlayed(homeTeam.getPlayed() + 1);
         awayTeam.setPlayed(awayTeam.getPlayed() + 1);
-
+        
         if (homeScore > awayScore)
         {
             homeTeam.setWins(homeTeam.getWins() + 1);
