@@ -58,6 +58,7 @@ public class GroupViewController implements Initializable {
     private Group groupC;
     private Group groupD;
 
+    private ArrayList<Match> allMatches;
     private ArrayList<Match> matchesA;
     private ArrayList<Match> matchesB;
     private ArrayList<Match> matchesC;
@@ -539,6 +540,7 @@ public class GroupViewController implements Initializable {
 
     private void setMatches()
     {
+        allMatches = new ArrayList<>();
         matchesA = new ArrayList<>();
         matchesB = new ArrayList<>();
         matchesC = new ArrayList<>();
@@ -553,6 +555,13 @@ public class GroupViewController implements Initializable {
         model.setMatchesB(matchesB);
         model.setMatchesC(matchesC);
         model.setMatchesD(matchesD);
+        
+        allMatches.addAll(matchesA);
+        allMatches.addAll(matchesB);
+        allMatches.addAll(matchesC);
+        allMatches.addAll(matchesD);
+        
+        model.setAllMatches(allMatches);
     }
 
     private void setMatchArray(String groupString)
