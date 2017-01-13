@@ -34,7 +34,8 @@ import mychamp.gui.model.ChampModel;
  *
  * @author Jacob Enemark
  */
-public class FinalsViewController implements Initializable {
+public class FinalsViewController implements Initializable
+{
 
     private ArrayList<Team> quarterTeams;
     private ArrayList<Team> semiTeams;
@@ -47,7 +48,7 @@ public class FinalsViewController implements Initializable {
 
     private ObservableList<Team> semiATeams;
     private ObservableList<Team> semiBTeams;
-    
+
     private ObservableList<Team> finalATeams;
 
     ChampModel model;
@@ -97,10 +98,6 @@ public class FinalsViewController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button btnSemi;
-    @FXML
-    private Button btnFinal;
-    @FXML
     private Button btn1Result;
     @FXML
     private Button btn2Result;
@@ -126,6 +123,8 @@ public class FinalsViewController implements Initializable {
         SemiFinalB.setDisable(true);
         btn1ResultSemi.setDisable(true);
         btn1ResultSemi2.setDisable(true);
+        FinalA.setDisable(true);
+        btn1ResultFinal.setDisable(true);
 
         model = ChampModel.getInstance();
 
@@ -144,11 +143,9 @@ public class FinalsViewController implements Initializable {
 
         semiTeams = new ArrayList<>();
         semiTeams = model.getSemiFinalTeams();
-        
+
         finalTeams = new ArrayList<>();
         finalTeams = model.getFinalTeams();
-        
-       
 
         quarterATeams = FXCollections.observableArrayList();
         quarterBTeams = FXCollections.observableArrayList();
@@ -157,7 +154,7 @@ public class FinalsViewController implements Initializable {
 
         semiATeams = FXCollections.observableArrayList();
         semiBTeams = FXCollections.observableArrayList();
-        
+
         finalATeams = FXCollections.observableArrayList();
 
     }
@@ -209,10 +206,12 @@ public class FinalsViewController implements Initializable {
         SemiFinalA.setItems(semiATeams);
         SemiFinalB.setItems(semiBTeams);
     }
-private void populateFinalTables()
-{
-    FinalA.setItems(semiATeams);
-}
+
+    private void populateFinalTables()
+    {
+        FinalA.setItems(finalATeams);
+    }
+
     private void resultQuarterFinal(int qFinal) throws IOException
     {
         ObservableList<Team> qTeams;
@@ -255,10 +254,7 @@ private void populateFinalTables()
     @FXML
     private void firstQFinal(ActionEvent event) throws IOException
     {
-        if (quarterATeams != null)
-        {
-            System.out.println(quarterATeams.get(0).getQuarterScore());
-        }
+
         resultQuarterFinal(1);
 
     }
@@ -286,7 +282,6 @@ private void populateFinalTables()
     @FXML
     private void createSemiFinals()
     {
-        
 
         semiATeams.add(semiTeams.get(0));
         semiATeams.add(semiTeams.get(1));
@@ -358,16 +353,20 @@ private void populateFinalTables()
         btn4Result.setDisable(true);
 
     }
+
     @FXML
     private void createFinals()
     {
         finalATeams.add(finalTeams.get(0));
         finalATeams.add(finalTeams.get(1));
-        
+
         FinalTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
         FinalScoreA.setCellValueFactory(new PropertyValueFactory<>("finalScore"));
+        
+        disableAndAbleBtnFinal();
     }
-      private void resultFinal(int fFinal) throws IOException
+
+    private void resultFinal(int fFinal) throws IOException
     {
         ObservableList<Team> fTeams;
         switch (fFinal)
@@ -377,7 +376,6 @@ private void populateFinalTables()
                 fTeams = finalATeams;
 
                 break;
-
 
             default:
                 fTeams = null;
@@ -391,11 +389,16 @@ private void populateFinalTables()
         model.openNewView(anchorPane, "NextRoundView", "");
 
     }
-      
-        @FXML
+
+    @FXML
     private void firstFinal() throws IOException
     {
         resultFinal(1);
 
+    }
+    private void disableAndAbleBtnFinal()
+    {
+        FinalA.setDisable(false);
+        btn1ResultFinal.setDisable(false);
     }
 }
