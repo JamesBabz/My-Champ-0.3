@@ -1,28 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mychamp.be;
+
+import java.io.Serializable;
 
 /**
  *
  * @author James
  */
-public class Match
+public class Match implements Serializable
 {
-
     Team homeTeam;
     Team awayTeam;
     int homeScore;
-    int awayScre;
+    int awayScore;
 
-    public Match(Team homeTeam, Team awayTeam, int homeScore, int awayScore)
+    /**
+     * 
+     * @param round
+     * @param homeTeam
+     * @param awayTeam 
+     */
+    public Match(Team homeTeam, Team awayTeam)
     {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        this.homeScore = homeScore;
-        this.awayScre = awayScore;
     }
 
     public Team getHomeTeam()
@@ -57,12 +57,12 @@ public class Match
 
     public int getAwayScre()
     {
-        return awayScre;
+        return awayScore;
     }
 
-    public void setAwayScre(int awayScre)
+    public void setAwayScore(int awayScore)
     {
-        this.awayScre = awayScre;
+        this.awayScore = awayScore;
     }
 
 }

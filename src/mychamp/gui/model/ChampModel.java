@@ -16,25 +16,31 @@ import mychamp.be.Group;
 import mychamp.be.Team;
 import mychamp.dal.TeamDAO;
 import mychamp.be.Match;
-
+import mychamp.dal.RoundDAO;
 
 /**
  *
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class ChampModel
-{
+public class ChampModel {
+
     private final ArrayList<Team> teams;
+    private ArrayList<Group> groups;
     private final ArrayList<Team> teamsToQuarter;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
     private final ArrayList<Match> matches;
+    private final ArrayList<Match> matchesA;
+    private final ArrayList<Match> matchesB;
+    private final ArrayList<Match> matchesC;
+    private final ArrayList<Match> matchesD;
     private final TeamDAO teamDAO;
+    private final RoundDAO roundDAO;
     private Team editTeam;
     private Group group;
-    private int[] firstMatch;
-    private int[] secondMatch;
+    private Match firstMatch;
+    private Match secondMatch;
     private boolean isResumed;
 
     private static ChampModel instance;
@@ -58,15 +64,20 @@ public class ChampModel
      */
     private ChampModel()
     {
-      
+
         this.isResumed = false;
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
         matches = new ArrayList<>();
+        groups = new ArrayList<>();
+        matchesA = new ArrayList<>();
+        matchesB = new ArrayList<>();
+        matchesC = new ArrayList<>();
+        matchesD = new ArrayList<>();
         teamDAO = new TeamDAO("TeamData");
+        roundDAO = new RoundDAO("RoundData");
         teamsToQuarter = new ArrayList<>();
-        
 
     }
 
@@ -93,11 +104,12 @@ public class ChampModel
         newStage.setTitle(title);
 
         newStage.show();
-        newStage.setOnCloseRequest(value ->
+        newStage.setOnCloseRequest(value -> 
         {
             try
             {
                 teamDAO.saveTeamData(teams);
+                roundDAO.saveRoundData(groups);
             }
             catch (IOException ex)
             {
@@ -206,39 +218,18 @@ public class ChampModel
         setTeamNames();
     }
 
-    /**
-     *
-     * @param home1Id
-     * @param away1Id
-     * @param home2Id
-     * @param away2Id
-     */
-    public void setRoundTeams(int home1Id, int away1Id, int home2Id, int away2Id)
+    public void setRoundMatches(Match fMatch, Match sMatch)
     {
-        firstMatch = new int[]
-        {
-            home1Id, away1Id
-        };
-        secondMatch = new int[]
-        {
-            home2Id, away2Id
-        };
+        this.firstMatch = fMatch;
+        this.secondMatch = sMatch;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int[] getFirstMatch()
+    public Match getFirstMatch()
     {
         return firstMatch;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int[] getSecondMatch()
+    public Match getSecondMatch()
     {
         return secondMatch;
     }
@@ -260,37 +251,76 @@ public class ChampModel
     {
         return group;
     }
-
+    
+    public ArrayList<Group> getGroups()
+    {
+        return this.groups;
+    }
+    
+    public void setGroups(ArrayList<Group> groups)
+    {
+        this.groups = groups;
+    }
 
     public boolean getResumed()
     {
         return isResumed;
     }
-    
+
     public void setResumed(boolean resume)
     {
         isResumed = resume;
-    }
-    
-    public void addMatch(Team ht, Team at, int hs, int as)
-    {
-        Match match = new Match(ht, at, hs, as);
-        matches.add(match);
     }
 
     public ArrayList<Team> getTeamsToQuarter()
     {
         return teamsToQuarter;
     }
-    
-
-    
 
     public void setQuarterFinalTeams(Team team)
     {
         teamsToQuarter.add(team);
-        
+
     }
- 
+
+    public ArrayList<Match> getMatchesA()
+    {
+        return matchesA;
+    }
+
+    public ArrayList<Match> getMatchesB()
+    {
+        return matchesB;
+    }
+
+    public ArrayList<Match> getMatchesC()
+    {
+        return matchesC;
+    }
+
+    public ArrayList<Match> getMatchesD()
+    {
+        return matchesD;
+    }
+
+    public void setMatchesA(ArrayList matches)
+    {
+        this.matchesA.addAll(matches);
+    }
+
+    public void setMatchesB(ArrayList matches)
+    {
+        this.matchesB.addAll(matches);
+    }
+
+    public void setMatchesC(ArrayList matches)
+    {
+        this.matchesC.addAll(matches);
+    }
+
+    public void setMatchesD(ArrayList matches)
+    {
+        this.matchesD.addAll(matches);
+    }
 
 }

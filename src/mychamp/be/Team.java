@@ -1,7 +1,9 @@
 package mychamp.be;
 
 import java.io.Serializable;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -12,6 +14,7 @@ import javafx.beans.property.StringProperty;
  * Enemark
  */
 public class Team implements Serializable {
+
     private final IntegerProperty id;
     private final StringProperty name;
     private final IntegerProperty played;
@@ -21,7 +24,7 @@ public class Team implements Serializable {
     private final IntegerProperty goalFor;
     private final IntegerProperty goalAgainst;
     private final IntegerProperty point;
-
+    private final BooleanProperty isDeleted;
 
     /**
      * The default constructor for generating a new team.
@@ -47,6 +50,7 @@ public class Team implements Serializable {
         this.played = new SimpleIntegerProperty();
         this.name = new SimpleStringProperty();
         this.id = new SimpleIntegerProperty();
+        this.isDeleted = new SimpleBooleanProperty();
         this.name.set(name);
         this.played.set(played);
         this.wins.set(wins);
@@ -55,9 +59,9 @@ public class Team implements Serializable {
         this.goalFor.set(goalFor);
         this.goalAgainst.set(goalAgainst);
         this.point.set(point);
+        this.isDeleted.set(false);
 
     }
-
 
     /**
      * Sets the team's Id.
@@ -70,8 +74,7 @@ public class Team implements Serializable {
 //    {
 //        this.id = id;
 //    }
-
-        /**
+    /**
      * Gets the team's Id represented by an integer.
      *
      * @return Returns the id.
@@ -85,8 +88,8 @@ public class Team implements Serializable {
     {
         id.set(value);
     }
-    
-        /**
+
+    /**
      *
      * @return
      */
@@ -95,7 +98,7 @@ public class Team implements Serializable {
         return goalAgainst.get();
     }
 
-        /**
+    /**
      *
      * @param goalAgainst
      */
@@ -114,7 +117,7 @@ public class Team implements Serializable {
         return goalFor.get();
     }
 
-        /**
+    /**
      *
      * @param goalFor
      */
@@ -128,7 +131,6 @@ public class Team implements Serializable {
         return goalFor;
     }
 
-    
     /**
      * Gets the amount of losses rounds this team has.
      *
@@ -140,7 +142,7 @@ public class Team implements Serializable {
         return losses.get();
     }
 
-        /**
+    /**
      * Sets the amount of losses this team has.
      *
      * @param losses The amount of losses.
@@ -166,7 +168,6 @@ public class Team implements Serializable {
         return draws.get();
     }
 
-    
     /**
      * Sets the amount of draws this team has.
      *
@@ -275,12 +276,29 @@ public class Team implements Serializable {
      */
     public void setPoint()
     {
-        point.set(wins.get()*3+draws.get());
+        if (isDeleted.get())
+        {
+            point.set(0);
+        }
+        else
+        {
+            point.set(wins.get() * 3 + draws.get());
+        }
     }
 
     public IntegerProperty pointProperty()
     {
         return point;
+    }
+
+    public BooleanProperty getIsDeleted()
+    {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean deleted)
+    {
+        this.isDeleted.set(deleted);
     }
 
 }
