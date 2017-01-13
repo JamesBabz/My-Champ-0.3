@@ -38,6 +38,7 @@ public class FinalsViewController implements Initializable {
 
     private ArrayList<Team> quarterTeams;
     private ArrayList<Team> semiTeams;
+    private ArrayList<Team> finalTeams;
 
     private ObservableList<Team> quarterATeams;
     private ObservableList<Team> quarterBTeams;
@@ -46,6 +47,8 @@ public class FinalsViewController implements Initializable {
 
     private ObservableList<Team> semiATeams;
     private ObservableList<Team> semiBTeams;
+    
+    private ObservableList<Team> finalATeams;
 
     ChampModel model;
 
@@ -141,6 +144,11 @@ public class FinalsViewController implements Initializable {
 
         semiTeams = new ArrayList<>();
         semiTeams = model.getSemiFinalTeams();
+        
+        finalTeams = new ArrayList<>();
+        finalTeams = model.getFinalTeams();
+        
+       
 
         quarterATeams = FXCollections.observableArrayList();
         quarterBTeams = FXCollections.observableArrayList();
@@ -149,15 +157,15 @@ public class FinalsViewController implements Initializable {
 
         semiATeams = FXCollections.observableArrayList();
         semiBTeams = FXCollections.observableArrayList();
+        
+        finalATeams = FXCollections.observableArrayList();
 
     }
 
     private void createQuarterFinals()
     {
         quarterATeams.add(quarterTeams.get(0));
-        quarterATeams.get(0).setQuarterScore(0);
         quarterATeams.add(quarterTeams.get(3));
-        quarterATeams.get(1).setQuarterScore(0);
 
         quarterBTeams.add(quarterTeams.get(2));
         quarterBTeams.add(quarterTeams.get(1));
@@ -182,6 +190,7 @@ public class FinalsViewController implements Initializable {
     {
         populateQuarterTables();
         populateSemiTables();
+        populateFinalTables();
     }
 
     private void populateQuarterTables()
@@ -200,7 +209,10 @@ public class FinalsViewController implements Initializable {
         SemiFinalA.setItems(semiATeams);
         SemiFinalB.setItems(semiBTeams);
     }
-
+private void populateFinalTables()
+{
+    FinalA.setItems(semiATeams);
+}
     private void resultQuarterFinal(int qFinal) throws IOException
     {
         ObservableList<Team> qTeams;
@@ -274,6 +286,7 @@ public class FinalsViewController implements Initializable {
     @FXML
     private void createSemiFinals()
     {
+        
 
         semiATeams.add(semiTeams.get(0));
         semiATeams.add(semiTeams.get(1));
@@ -343,6 +356,46 @@ public class FinalsViewController implements Initializable {
         btn2Result.setDisable(true);
         btn3Result.setDisable(true);
         btn4Result.setDisable(true);
+
+    }
+    @FXML
+    private void createFinals()
+    {
+        finalATeams.add(finalTeams.get(0));
+        finalATeams.add(finalTeams.get(1));
+        
+        FinalTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
+        FinalScoreA.setCellValueFactory(new PropertyValueFactory<>("finalScore"));
+    }
+      private void resultFinal(int fFinal) throws IOException
+    {
+        ObservableList<Team> fTeams;
+        switch (fFinal)
+        {
+            case 1:
+
+                fTeams = finalATeams;
+
+                break;
+
+
+            default:
+                fTeams = null;
+
+        }
+        Match match = new Match(fTeams.get(0), fTeams.get(1));
+        Group group = new Group("", 2);
+        group.setCurrentRound(12);
+        model.setGroup(group);
+        model.setRoundMatches(match, null);
+        model.openNewView(anchorPane, "NextRoundView", "");
+
+    }
+      
+        @FXML
+    private void firstFinal() throws IOException
+    {
+        resultFinal(1);
 
     }
 }
