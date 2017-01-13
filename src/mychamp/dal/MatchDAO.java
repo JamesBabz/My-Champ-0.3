@@ -18,14 +18,20 @@ import mychamp.be.Match;
  */
 public class MatchDAO
 {
+    private final String fileName;
+    
+    public MatchDAO(String fileName)
+    {
+        this.fileName = fileName + ".dat";
+    }
+    
     /**
      * Writes an object to a file, in this case the object must be an arraylist
      * of Matches.
      *
-     * @param fileName The name of the file to save the matches in.
      * @throws IOException
      */
-    public void writeObjectData(ArrayList<Match> matches, String fileName) throws IOException
+    public void writeObjectData(ArrayList<Match> matches) throws IOException
     {
         try (FileOutputStream fos = new FileOutputStream(fileName))
         {
@@ -38,12 +44,11 @@ public class MatchDAO
     /**
      * Reads an object from a file, the object must be an arraylist of matches.
      *
-     * @param fileName The fileName to read the information from.
      * @return Returns a new array containing all the stored data.
      * @throws FileNotFoundException
      * @throws java.lang.ClassNotFoundException
      */
-    public ArrayList<Match> readObjectData(String fileName) throws FileNotFoundException, IOException, ClassNotFoundException
+    public ArrayList<Match> readObjectData() throws FileNotFoundException, IOException, ClassNotFoundException
     {
         ArrayList<Match> matchList = new ArrayList<Match>();
 
