@@ -16,6 +16,7 @@ import mychamp.be.Group;
 import mychamp.be.Team;
 import mychamp.dal.TeamDAO;
 import mychamp.be.Match;
+import mychamp.dal.MatchDAO;
 import mychamp.dal.RoundDAO;
 
 /**
@@ -30,13 +31,14 @@ public class ChampModel {
     private final ArrayList<Team> teamsToQuarter;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
-    private final ArrayList<Match> matches;
+    private ArrayList<Match> matches;
     private final ArrayList<Match> matchesA;
     private final ArrayList<Match> matchesB;
     private final ArrayList<Match> matchesC;
     private final ArrayList<Match> matchesD;
     private final TeamDAO teamDAO;
     private final RoundDAO roundDAO;
+    private final MatchDAO matchDAO;
     private Team editTeam;
     private Group group;
     private Match firstMatch;
@@ -44,6 +46,7 @@ public class ChampModel {
     private boolean isResumed;
 
     private static ChampModel instance;
+    
 
     /**
      * A singleton pattern to retrieve model data.
@@ -69,16 +72,16 @@ public class ChampModel {
         this.teamNames = FXCollections.observableArrayList();
         this.test = FXCollections.observableArrayList();
         teams = new ArrayList<>();
-        matches = new ArrayList<>();
         groups = new ArrayList<>();
+        matches = new ArrayList<>();
         matchesA = new ArrayList<>();
         matchesB = new ArrayList<>();
         matchesC = new ArrayList<>();
         matchesD = new ArrayList<>();
         teamDAO = new TeamDAO("TeamData");
         roundDAO = new RoundDAO("RoundData");
+        matchDAO = new MatchDAO("MatchData");
         teamsToQuarter = new ArrayList<>();
-
     }
 
     /**
@@ -110,6 +113,7 @@ public class ChampModel {
             {
                 teamDAO.saveTeamData(teams);
                 roundDAO.saveRoundData(groups);
+                matchDAO.writeObjectData(matches);
             }
             catch (IOException ex)
             {
@@ -302,6 +306,18 @@ public class ChampModel {
     {
         return matchesD;
     }
+    
+    public ArrayList<Match> getAllMatches()
+    {        
+        return matches;
+    }
+    
+    public void setAllMatches(ArrayList<Match> matches)
+    {
+        this.matches = matches;
+    }
+    
+    
 
     public void setMatchesA(ArrayList matches)
     {
