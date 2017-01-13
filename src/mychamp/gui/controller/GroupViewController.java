@@ -264,6 +264,7 @@ public class GroupViewController implements Initializable {
         groups.add(groupB);
         groups.add(groupC);
         groups.add(groupD);
+        model.setGroups(groups);
     }
 
     /**
