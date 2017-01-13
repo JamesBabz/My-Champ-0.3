@@ -183,6 +183,10 @@ public class Group {
     public void setCurrentRound(int currentRound)
     {
         this.currentRound = currentRound;
+        if(currentRound > 6)
+        {
+            setDone(true);
+        }
     }
 
     /**
