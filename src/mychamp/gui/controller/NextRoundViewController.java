@@ -218,6 +218,9 @@ public class NextRoundViewController implements Initializable {
             case 11:
                 lblRoundNumb.setText("Semi-Final");
                 break;
+            case 12:
+                lblRoundNumb.setText("Final");
+                break;
             default:
                 lblRoundNumb.setText("Round: " + group.getCurrentRound());
                 break;
