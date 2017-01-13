@@ -34,10 +34,12 @@ import mychamp.gui.model.ChampModel;
  *
  * @author Jacob Enemark
  */
-public class FinalsViewController implements Initializable {
+public class FinalsViewController implements Initializable
+{
 
     private ArrayList<Team> quarterTeams;
     private ArrayList<Team> semiTeams;
+    private ArrayList<Team> finalTeams;
 
     private ObservableList<Team> quarterATeams;
     private ObservableList<Team> quarterBTeams;
@@ -46,6 +48,8 @@ public class FinalsViewController implements Initializable {
 
     private ObservableList<Team> semiATeams;
     private ObservableList<Team> semiBTeams;
+
+    private ObservableList<Team> finalATeams;
 
     ChampModel model;
 
@@ -94,10 +98,6 @@ public class FinalsViewController implements Initializable {
     @FXML
     private AnchorPane anchorPane;
     @FXML
-    private Button btnSemi;
-    @FXML
-    private Button btnFinal;
-    @FXML
     private Button btn1Result;
     @FXML
     private Button btn2Result;
@@ -123,6 +123,8 @@ public class FinalsViewController implements Initializable {
         SemiFinalB.setDisable(true);
         btn1ResultSemi.setDisable(true);
         btn1ResultSemi2.setDisable(true);
+        FinalA.setDisable(true);
+        btn1ResultFinal.setDisable(true);
 
         model = ChampModel.getInstance();
 
@@ -142,6 +144,9 @@ public class FinalsViewController implements Initializable {
         semiTeams = new ArrayList<>();
         semiTeams = model.getSemiFinalTeams();
 
+        finalTeams = new ArrayList<>();
+        finalTeams = model.getFinalTeams();
+
         quarterATeams = FXCollections.observableArrayList();
         quarterBTeams = FXCollections.observableArrayList();
         quarterCTeams = FXCollections.observableArrayList();
@@ -150,14 +155,14 @@ public class FinalsViewController implements Initializable {
         semiATeams = FXCollections.observableArrayList();
         semiBTeams = FXCollections.observableArrayList();
 
+        finalATeams = FXCollections.observableArrayList();
+
     }
 
     private void createQuarterFinals()
     {
         quarterATeams.add(quarterTeams.get(0));
-        quarterATeams.get(0).setQuarterScore(0);
         quarterATeams.add(quarterTeams.get(3));
-        quarterATeams.get(1).setQuarterScore(0);
 
         quarterBTeams.add(quarterTeams.get(2));
         quarterBTeams.add(quarterTeams.get(1));
@@ -182,6 +187,7 @@ public class FinalsViewController implements Initializable {
     {
         populateQuarterTables();
         populateSemiTables();
+        populateFinalTables();
     }
 
     private void populateQuarterTables()
@@ -199,6 +205,11 @@ public class FinalsViewController implements Initializable {
 
         SemiFinalA.setItems(semiATeams);
         SemiFinalB.setItems(semiBTeams);
+    }
+
+    private void populateFinalTables()
+    {
+        FinalA.setItems(finalATeams);
     }
 
     private void resultQuarterFinal(int qFinal) throws IOException
@@ -243,10 +254,7 @@ public class FinalsViewController implements Initializable {
     @FXML
     private void firstQFinal(ActionEvent event) throws IOException
     {
-        if (quarterATeams != null)
-        {
-            System.out.println(quarterATeams.get(0).getQuarterScore());
-        }
+
         resultQuarterFinal(1);
 
     }
@@ -344,5 +352,53 @@ public class FinalsViewController implements Initializable {
         btn3Result.setDisable(true);
         btn4Result.setDisable(true);
 
+    }
+
+    @FXML
+    private void createFinals()
+    {
+        finalATeams.add(finalTeams.get(0));
+        finalATeams.add(finalTeams.get(1));
+
+        FinalTeamA.setCellValueFactory(new PropertyValueFactory<>("name"));
+        FinalScoreA.setCellValueFactory(new PropertyValueFactory<>("finalScore"));
+        
+        disableAndAbleBtnFinal();
+    }
+
+    private void resultFinal(int fFinal) throws IOException
+    {
+        ObservableList<Team> fTeams;
+        switch (fFinal)
+        {
+            case 1:
+
+                fTeams = finalATeams;
+
+                break;
+
+            default:
+                fTeams = null;
+
+        }
+        Match match = new Match(fTeams.get(0), fTeams.get(1));
+        Group group = new Group("", 2);
+        group.setCurrentRound(12);
+        model.setGroup(group);
+        model.setRoundMatches(match, null);
+        model.openNewView(anchorPane, "NextRoundView", "");
+
+    }
+
+    @FXML
+    private void firstFinal() throws IOException
+    {
+        resultFinal(1);
+
+    }
+    private void disableAndAbleBtnFinal()
+    {
+        FinalA.setDisable(false);
+        btn1ResultFinal.setDisable(false);
     }
 }

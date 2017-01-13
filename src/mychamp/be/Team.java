@@ -26,11 +26,9 @@ public class Team implements Serializable {
     private final IntegerProperty point;
     private final BooleanProperty isDeleted;
 
-    private final IntegerProperty quarterScore;
-//    private final IntegerProperty semiScore; 
-//    private final IntegerProperty finalScore;
     private final IntegerProperty semiScore;
     private final IntegerProperty finalScore;
+    private final IntegerProperty quarterScore;
 
     /**
      * The default constructor for generating a new team.
