@@ -29,6 +29,8 @@ public class ChampModel {
     private final ArrayList<Team> teams;
     private ArrayList<Group> groups;
     private final ArrayList<Team> teamsToQuarter;
+    private final ArrayList<Team> teamsToSemi;
+     private final ArrayList<Team> teamsToFinal;
     private final ObservableList<String> teamNames;
     private final ObservableList<String> test;
     private ArrayList<Match> matches;
@@ -82,6 +84,8 @@ public class ChampModel {
         roundDAO = new RoundDAO("RoundData");
         matchDAO = new MatchDAO("MatchData");
         teamsToQuarter = new ArrayList<>();
+        teamsToSemi = new ArrayList<>();
+         teamsToFinal = new ArrayList<>();
     }
 
     /**
@@ -286,6 +290,29 @@ public class ChampModel {
         teamsToQuarter.add(team);
 
     }
+    
+        public ArrayList<Team> getSemiFinalTeams()
+    {
+        return teamsToSemi;
+    }
+
+    public void setSemiFinalTeams(Team team)
+    {
+        teamsToSemi.add(team);
+
+    }
+    
+          public ArrayList<Team> getFinalTeams()
+    {
+        return teamsToFinal;
+    }
+
+    public void setFinalTeams(Team team)
+    {
+        teamsToFinal.add(team);
+
+    }
+    
 
     public ArrayList<Match> getMatchesA()
     {
@@ -338,5 +365,7 @@ public class ChampModel {
     {
         this.matchesD.addAll(matches);
     }
+
+   
 
 }

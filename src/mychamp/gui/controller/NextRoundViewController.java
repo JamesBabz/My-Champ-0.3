@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,8 +26,7 @@ import mychamp.gui.model.ChampModel;
  * @author Thomas Meyer Hansen, Simon Juhl Birkedal, Stephan Fuhlendorff & Jacob
  * Enemark
  */
-public class NextRoundViewController implements Initializable
-{
+public class NextRoundViewController implements Initializable {
 
     Match firstMatch;
     Match secondMatch;
@@ -86,7 +86,8 @@ public class NextRoundViewController implements Initializable
                                 if (oldVal != null && !newVal.isEmpty())
                                 {
                                     ((TextField) node).setText(oldVal);
-                                } else
+                                }
+                                else
                                 {
                                     ((TextField) node).setText("");
                                 }
@@ -103,19 +104,99 @@ public class NextRoundViewController implements Initializable
 
         int homeScore = 0;
         int awayScore = 0;
-        if (!"".equals(txtHome1.getText()) && !"".equals(txtAway1.getText()))
+        boolean error = false;
+
+        if (txtHome2.isDisabled())
         {
-            homeScore = Integer.parseInt(txtHome1.getText());
-            awayScore = Integer.parseInt(txtAway1.getText());
-            setMatch(firstMatch, homeScore, awayScore);
+            if ("".equals(txtHome1.getText()) || "".equals(txtAway1.getText()))
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Please fill in the required fields");
+                alert.showAndWait();
+                error = true;
+            }
         }
-        if (!"".equals(txtHome2.getText()) && !"".equals(txtAway2.getText()))
+        else if ("".equals(txtHome1.getText()) || "".equals(txtAway1.getText()) || "".equals(txtHome2.getText()) || "".equals(txtAway2.getText()))
         {
-            homeScore = Integer.parseInt(txtHome2.getText());
-            awayScore = Integer.parseInt(txtAway2.getText());
-            setMatch(secondMatch, homeScore, awayScore);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Please fill in the required fields");
+            alert.showAndWait();
+            error = true;
         }
-        closeWindow();
+        if (!error)
+        {
+            if (!"".equals(txtHome1.getText()) && !"".equals(txtAway1.getText()))
+            {
+                homeScore = Integer.parseInt(txtHome1.getText());
+                awayScore = Integer.parseInt(txtAway1.getText());
+                setMatch(firstMatch, homeScore, awayScore);
+                checkIfFinals();
+            }
+
+            if (!"".equals(txtHome2.getText()) && !"".equals(txtAway2.getText()))
+            {
+
+                homeScore = Integer.parseInt(txtHome2.getText());
+                awayScore = Integer.parseInt(txtAway2.getText());
+                setMatch(secondMatch, homeScore, awayScore);
+            }
+
+            closeWindow();
+        }
+    }
+
+    private void checkIfFinals()
+    {
+        Team firstFinalist = firstMatch.getHomeTeam();
+        Team secondFinalist = firstMatch.getAwayTeam();
+
+        int scoreHome = Integer.parseInt(txtHome1.getText());
+        int scoreAway = Integer.parseInt(txtAway1.getText());
+
+        switch (group.getCurrentRound())
+        {
+            case 10:
+                firstFinalist.setQuarterScore(scoreHome);
+                secondFinalist.setQuarterScore(scoreAway);
+                if (firstFinalist.getQuarterScore() > secondFinalist.getQuarterScore())
+                {
+                    model.getSemiFinalTeams().add(firstFinalist);
+                }
+                else if (firstFinalist.getQuarterScore() < secondFinalist.getQuarterScore())
+                {
+                    model.getSemiFinalTeams().add(secondFinalist);
+                }
+                break;
+            case 11:
+                firstFinalist.setSemiScore(scoreHome);
+                secondFinalist.setSemiScore(scoreAway);
+                if (firstFinalist.getSemiScore() > secondFinalist.getSemiScore())
+                {
+                    model.getFinalTeams().add(firstFinalist);
+                }
+                else if (firstFinalist.getSemiScore() < secondFinalist.getSemiScore())
+                {
+                    model.getFinalTeams().add(secondFinalist);
+                }
+                break;
+            case 12:
+                firstFinalist.setFinalScore(scoreHome);
+                secondFinalist.setFinalScore(scoreAway);
+                if (firstFinalist.getFinalScore() > secondFinalist.getFinalScore())
+                {
+                    model.getFinalTeams().add(firstFinalist);
+                }
+                else if (firstFinalist.getFinalScore() < secondFinalist.getFinalScore())
+                {
+                    model.getFinalTeams().add(secondFinalist);
+                }
+                break;
+            default:
+                break;
+        }
+
     }
 
     @FXML
@@ -129,15 +210,20 @@ public class NextRoundViewController implements Initializable
      */
     private void setLabelRound()
     {
-        if (group.getCurrentRound() == 10)
+        switch (group.getCurrentRound())
         {
-            lblRoundNumb.setText("Quarter-Final");
-        } else if (group.getCurrentRound() == 11)
-        {
-            lblRoundNumb.setText("Semi-Final");
-        } else
-        {
-            lblRoundNumb.setText("Round: " + group.getCurrentRound());
+            case 10:
+                lblRoundNumb.setText("Quarter-Final");
+                break;
+            case 11:
+                lblRoundNumb.setText("Semi-Final");
+                break;
+            case 12:
+                lblRoundNumb.setText("Final");
+                break;
+            default:
+                lblRoundNumb.setText("Round: " + group.getCurrentRound());
+                break;
         }
     }
 
@@ -158,7 +244,8 @@ public class NextRoundViewController implements Initializable
         {
             secondHomeTeam = secondMatch.getHomeTeam();
             secondAwayTeam = secondMatch.getAwayTeam();
-        } else
+        }
+        else
         {
             secondHomeTeam = null;
             secondAwayTeam = null;
@@ -170,7 +257,8 @@ public class NextRoundViewController implements Initializable
         {
             lblHome2.setText(secondHomeTeam.getName());
             lblAway2.setText(secondAwayTeam.getName());
-        } else
+        }
+        else
         {
             lblHome2.setDisable(true);
             lblAway2.setDisable(true);
@@ -189,7 +277,8 @@ public class NextRoundViewController implements Initializable
         {
             txtHome1.setText("0");
             txtAway1.setText("3");
-        } else if (firstAwayTeam.getIsDeleted().get())
+        }
+        else if (firstAwayTeam.getIsDeleted().get())
         {
             txtHome1.setText("3");
             txtAway1.setText("0");
@@ -208,7 +297,8 @@ public class NextRoundViewController implements Initializable
             {
                 txtHome2.setText("0");
                 txtAway2.setText("3");
-            } else if (secondAwayTeam.getIsDeleted().get())
+            }
+            else if (secondAwayTeam.getIsDeleted().get())
             {
                 txtHome2.setText("3");
                 txtAway2.setText("0");
@@ -221,10 +311,10 @@ public class NextRoundViewController implements Initializable
      */
     private void closeWindow()
     {
-      
+
         Stage stage = (Stage) btnCancel.getScene().getWindow();
         stage.close();
-        
+
     }
 
     /**
@@ -250,11 +340,13 @@ public class NextRoundViewController implements Initializable
         {
             homeTeam.setWins(homeTeam.getWins() + 1);
             awayTeam.setLosses(awayTeam.getLosses() + 1);
-        } else if (homeScore < awayScore)
+        }
+        else if (homeScore < awayScore)
         {
             awayTeam.setWins(awayTeam.getWins() + 1);
             homeTeam.setLosses(homeTeam.getLosses() + 1);
-        } else
+        }
+        else
         {
             homeTeam.setDraws(homeTeam.getDraws() + 1);
             awayTeam.setDraws(awayTeam.getDraws() + 1);
@@ -284,7 +376,8 @@ public class NextRoundViewController implements Initializable
             {
                 group.setCurrentRound(group.getCurrentRound() + 1);
             }
-        } else if (group.getTeamsInGroup() == 3)
+        }
+        else if (group.getTeamsInGroup() == 3)
         {
 
             for (Team team : teamsInGroup)
@@ -295,7 +388,9 @@ public class NextRoundViewController implements Initializable
             {
                 group.setCurrentRound(group.getCurrentRound() + 1);
             }
-        } else if (group.getTeamsInGroup() != 2)
+        }
+
+        if (group.getTeamsInGroup() != 2)
         {
             if (group.getCurrentRound() == group.getHomeTeams1().length + 1)
             {
